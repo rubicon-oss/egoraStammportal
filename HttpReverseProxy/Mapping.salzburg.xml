@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PathMap xmlns="http://www.egora.at/Stammportal/PathMap/1.0" >
+  <Directories>
+    <!-- ZMR Zentrales Melderegister WebClient -->
+    <ApplicationDirectory
+      Name="zmr"
+      RootUrl="https://portalv.bmi.gv.at/portal/zmr-gw/"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\ZMR\gw1005555-50101_OhnePrivateKey.cer" />
+
+    <!-- ZMR2 Zentrales Melderegister SOAPService -->
+    <ApplicationDirectory
+      Name="ZMRService"
+      RootUrl="https://pvawp.bmi.gv.at/bmi.gv.at/zmrtest/soap/ZMRService/"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\PVP-Zertifikat\portal-magsbg_ohnePrivateKey.cer"/>
+
+    <!-- ZMR Zentrales Melderegister Webclient (pvawp) -->
+    <ApplicationDirectory
+      Name="zmr2"
+      RootUrl="https://pvawp.bmi.gv.at/bmi.gv.at/zmr/"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\PVP-Zertifikat\portal-magsbg_ohnePrivateKey.cer"/>
+
+    <!-- IDR Identitätsdokumentenregister -->
+    <ApplicationDirectory
+      Name="idr"
+      RootUrl="https://pvawp.bmi.gv.at/bmi.gv.at/bmiprpa-p/"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\PVP-Zertifikat\portal-magsbg_ohnePrivateKey.cer"/>
+
+    <ApplicationDirectory
+      Name="rpa"
+      RootUrl="http://bmirpa-p.bmi.intra.gv.at/rpa/"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\PVP-Zertifikat\portal-magsbg_ohnePrivateKey.cer"/>
+
+    <!-- ZVR Zentrales Vereinsregister -->
+    <ApplicationDirectory
+      Name="zvr"
+      RootUrl="https://pvawp.bmi.gv.at/bmi.gv.at/bmizvr-p/"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\PVP-Zertifikat\portal-magsbg_ohnePrivateKey.cer"/>
+
+    <!-- EKIS -->
+    <ApplicationDirectory
+      Name="ekis"
+      RootUrl="https://pvawp.bmi.gv.at/bmi.gv.at/bmieka-p/"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\PVP-Zertifikat\portal-magsbg_ohnePrivateKey.cer"/>
+
+    <!-- Fremdenkartenbeauftragung -->
+    <ApplicationDirectory
+      Name="fkb"
+      RootUrl="https://pvawp.bmi.gv.at/bmi.gv.at/fkb-p/"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\PVP-Zertifikat\portal-magsbg_ohnePrivateKey.cer" />
+
+    <!-- Zentrale Wählerevidenz -->
+    <ApplicationDirectory
+      Name="zwe"
+      RootUrl="https://pvawp.bmi.gv.at/bmi.gv.at/ZWEDUE-T/action/Start"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\PVP-Zertifikat\portal-magsbg_ohnePrivateKey.cer" />
+
+    <!-- Firmenbuch -->
+    <ApplicationDirectory
+      Name="fbw"
+      RootUrl="https://pamgate2.portal.at/fbw/"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\PVP-Zertifikat\portal-magsbg_ohnePrivateKey.cer" />
+
+    <!-- Informationen und Verwaltungsvorschriften -->
+    <ApplicationDirectory
+      Name="ivs"
+      RootUrl="https://pvawp.bmi.gv.at/bmi.gv.at/IVS-P/"
+      AuthorizationWebService="http://ntspvp.magsbg.gv.at/authorization.asmx"
+      CertificateFile="C:\Certificates\PVP-Zertifikat\portal-magsbg_ohnePrivateKey.cer" />
+
+  </Directories>
+</PathMap>

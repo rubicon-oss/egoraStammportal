@@ -1,0 +1,6 @@
+D:\Development\egora\stammportal\trunk\TestPvpService\bin\TestPvpService.dll
+D:\Development\egora\stammportal\trunk\TestPvpService\bin\TestPvpService.pdb
+D:\Development\egora\stammportal\trunk\TestPvpService\obj\Release\TestPvpService.dll
+D:\Development\egora\stammportal\trunk\TestPvpService\obj\Release\TestPvpService.pdb
+D:\Development\egora\stammportal\trunk\TestPvpService\obj\Release\TestPvpService.csprojResolveAssemblyReference.cache
+D:\Development\egora\stammportal\trunk\TestPvpService\bin\TestPvpService.dll.config

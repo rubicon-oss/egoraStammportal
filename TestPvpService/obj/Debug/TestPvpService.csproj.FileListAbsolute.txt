@@ -1,0 +1,17 @@
+C:\Development\egora\stammportal\trunk\TestPvpService\bin\TestPvpService.dll
+C:\Development\egora\stammportal\trunk\TestPvpService\bin\TestPvpService.pdb
+C:\Development\egora\stammportal\trunk\TestPvpService\obj\Debug\ResolveAssemblyReference.cache
+C:\Development\egora\stammportal\trunk\TestPvpService\obj\Debug\TestPvpService.dll
+C:\Development\egora\stammportal\trunk\TestPvpService\obj\Debug\TestPvpService.pdb
+D:\Development\egora\stammportal\trunk\TestPvpService\bin\TestPvpService.dll
+D:\Development\egora\stammportal\trunk\TestPvpService\bin\TestPvpService.pdb
+D:\Development\egora\stammportal\trunk\TestPvpService\obj\Debug\TestPvpService.dll
+D:\Development\egora\stammportal\trunk\TestPvpService\obj\Debug\TestPvpService.pdb
+D:\Development\egora\stammportal\trunk\TestPvpService\bin\TestPvpService.dll.config
+D:\Development\egora\stammportal\trunk\TestPvpService\obj\Debug\TestPvpService.csprojResolveAssemblyReference.cache
+C:\Development\products\egoraStammportal\TestPvpService\bin\TestPvpService.dll.config
+C:\Development\products\egoraStammportal\TestPvpService\bin\TestPvpService.dll
+C:\Development\products\egoraStammportal\TestPvpService\bin\TestPvpService.pdb
+C:\Development\products\egoraStammportal\TestPvpService\obj\Debug\TestPvpService.csprojResolveAssemblyReference.cache
+C:\Development\products\egoraStammportal\TestPvpService\obj\Debug\TestPvpService.dll
+C:\Development\products\egoraStammportal\TestPvpService\obj\Debug\TestPvpService.pdb

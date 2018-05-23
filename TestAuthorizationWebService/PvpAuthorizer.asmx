@@ -1,0 +1,1 @@
+<%@ WebService Language="C#" CodeBehind="PvpAuthorizer.asmx.cs" Class="Egora.Stammportal.TestAuthorizationWebService.PvpAuthorizer" %>

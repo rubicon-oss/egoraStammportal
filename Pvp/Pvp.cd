@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Egora.Pvp.PvpToken">
+    <Position X="4.5" Y="0.75" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>aAgCBAEACghAIBACLAABgIgQAAABQACECsAQIQBCCQE=</HashCode>
+      <FileName>PvpToken.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RoleAttribute" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Attributes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Egora.Pvp.Attributes.PvpAttributeRoles">
+    <Position X="12.5" Y="0.75" Width="3" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ACAAAAEAAAAAAgAAAAAAAAAAAgAAAQAEBAAjAAAAAAA=</HashCode>
+      <FileName>Attributes\PvpAttributeRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Egora.Pvp.Attributes.PvpAttribute">
+    <Position X="8.5" Y="3" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ADgkgAAAAAAgJgAAAAAgAgAACAAAgAgEAAEyAAAkAAA=</HashCode>
+      <FileName>Attributes\PvpAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Egora.Pvp.IPvpIdentity">
+    <Position X="1.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAABAAAAIgAAAAAAAAAAIAAIQAAAQA=</HashCode>
+      <FileName>IPvpIdentity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Egora.Pvp.IPvpPrincipal">
+    <Position X="1.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAEACAAAAAAAAAAAgIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IPvpPrincipal.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="System.Security.Principal.IIdentity">
+    <Position X="1.25" Y="4" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="System.Security.Principal.IPrincipal">
+    <Position X="1.25" Y="9" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

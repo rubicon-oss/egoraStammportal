@@ -1,0 +1,16 @@
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\Configuration.xml
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\LdapAuthorizationServiceTest.dll.config
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\LdapAuthorizationServiceTest.dll
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\LdapAuthorizationServiceTest.pdb
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\Egora.Pvp.dll
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\LdapAuthorizationService.dll
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\nunit.framework.dll
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\Egora.Stammportal.dll
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\LdapAuthorizationService.pdb
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\Egora.Pvp.pdb
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\nunit.framework.xml
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\Egora.Stammportal.pdb
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\bin\Release\Egora.Stammportal.xml
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\obj\Release\LdapAuthorizationServiceTest.csprojResolveAssemblyReference.cache
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\obj\Release\LdapAuthorizationServiceTest.dll
+D:\Development\egora\stammportal\trunk\LdapAuthorizationServiceTest\obj\Release\LdapAuthorizationServiceTest.pdb

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Egora.Stammportal</name>
+    </assembly>
+    <members>
+        <member name="T:Egora.Stammportal.CustomAuthorization">
+            <summary>
+            Holds the information the ReverseProxy adds to the right side request.
+            </summary>
+        </member>
+        <member name="P:Egora.Stammportal.CustomAuthorization.HttpHeaders">
+            <summary>
+            If tha application is a webapplication, this collection holds the http-headers.
+            </summary>
+        </member>
+        <member name="P:Egora.Stammportal.CustomAuthorization.SoapHeaderXmlFragment">
+            <summary>
+            If the application is a SOAP Service, this XmlFragment holds the Pvp-Soap-Header.
+            </summary>
+        </member>
+        <member name="P:Egora.Stammportal.CustomAuthorization.TimeToLive">
+            <summary>
+            Time in seconds the Reverse Proxy may cache this information.
+            </summary>
+        </member>
+        <member name="P:Egora.Stammportal.CustomAuthorization.PvpVersion">
+            <summary>
+            Time in seconds the Reverse Proxy may cache this information.
+            </summary>
+        </member>
+        <member name="T:Egora.Stammportal.HttpHeader">
+            <summary>
+            Holds Information for HttpHeaders.
+            </summary>
+        </member>
+        <member name="M:Egora.Stammportal.HttpHeader.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new Instance with given name and value.
+            </summary>
+            <param name="name">Name of the header</param>
+            <param name="value">Value of the header</param>
+        </member>
+        <member name="P:Egora.Stammportal.HttpHeader.Name">
+            <summary>
+            Gets or sets the name of the header.
+            </summary>
+        </member>
+        <member name="P:Egora.Stammportal.HttpHeader.Value">
+            <summary>
+            Gets or sets the value of the header
+            </summary>
+        </member>
+        <member name="T:Egora.Stammportal.IAuthorizationContract">
+            <summary>
+            The Reverse Proxy uses this interface.
+            An implementation of this interface needs access to user specific data.
+            </summary>
+        </member>
+        <member name="M:Egora.Stammportal.IAuthorizationContract.GetAuthorization(System.String,System.String)">
+            <summary>
+            Get the authorization for the given application, user and context.
+            </summary>
+            <param name="rootUrl">The root URL of the Application</param>
+            <param name="userId">The UserId of the user initiating the request. Depends on the authentication method.</param>
+            <returns>The Authorization for given application and user.</returns>
+        </member>
+    </members>
+</doc>

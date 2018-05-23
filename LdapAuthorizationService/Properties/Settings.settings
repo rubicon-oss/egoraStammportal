@@ -1,0 +1,32 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Egora.Stammportal.LdapAuthorizationService.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ConfigFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Configuration.xml</Value>
+    </Setting>
+    <Setting Name="CacheGroupResolution" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="UserFilter" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">samAccountName={0}</Value>
+    </Setting>
+    <Setting Name="GroupFilter" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">(distinguishedName={0}) </Value>
+    </Setting>
+    <Setting Name="ApplicationGroupFilter" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">(&amp;(objectCategory=group)(member={0}))</Value>
+    </Setting>
+    <Setting Name="PvpTokenFormat" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">&lt;pvpToken version="{0}" xmlns="http://egov.gv.at/pvp1.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;authenticate&gt;
+    &lt;participantId&gt;{1}&lt;/participantId&gt;
+    {2}
+  &lt;/authenticate&gt;
+  &lt;authorize&gt;
+    {3}
+  &lt;/authorize&gt;
+&lt;/pvpToken&gt;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

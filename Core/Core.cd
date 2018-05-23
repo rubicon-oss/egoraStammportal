@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="Egora.Stammportal.HttpAuthorization">
+    <Position X="0.5" Y="2" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>HttpAuthorization.cs</FileName>
+      <HashCode>AAAAAAAQAIAAAAAAAAAAAABAAAAAAAAAABAAAABABAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="HttpHeaders" />
+    </ShowAsAssociation>
+    <Members>
+      <Field Name="_httpHeaders" Hidden="true" />
+      <Field Name="_soapHeaderXmlFragment" Hidden="true" />
+      <Field Name="_timeToLive" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="Egora.Stammportal.HttpHeader">
+    <Position X="4.25" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>HttpHeader.cs</FileName>
+      <HashCode>ABAAIAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAgAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_name" Hidden="true" />
+      <Field Name="_value" Hidden="true" />
+    </Members>
+  </Class>
+  <Interface Name="Egora.Stammportal.IAuthorizationContract">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>IAuthorizationContract.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+</ClassDiagram>

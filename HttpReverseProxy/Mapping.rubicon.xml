@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PathMap xmlns="http://www.egora.at/Stammportal/PathMap/1.0" >
+  <Directories>
+    <ApplicationDirectory 
+      AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpAuthorizer.asmx"
+      RootUrl="https://portals2.bmi.gv.at/bmi.gv.at/soapv2/soaphttpengine/soapv2%23pvp1?dest=ZMR&amp;opzone=produktion"
+      CertificateFile="~/Certificates/RubiconZmrCertificateProd.cer" 
+      Name="zmrsoap" />
+    <ApplicationDirectory 
+      AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpAuthorizer.asmx"
+      CertificateFile="~/Certificates/RubiconZmrCertificate.cer" 
+      Name="zmrweb" 
+      RootUrl="https://portal.bmi.gv.at/portal/zmr-gw/" >
+    </ApplicationDirectory>
+    <ApplicationDirectory 
+      AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpTestAuthorizer.asmx"
+      Name="localtest" 
+      RootUrl="http://egoratest/PvpTestApplication">
+    </ApplicationDirectory>
+    <ApplicationDirectory 
+      AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpTestAuthorizer.asmx"
+      Name="localsoap" 
+      RootUrl="http://egoratest/PvpTestService">
+    </ApplicationDirectory>
+
+	  <ApplicationDirectory 
+      AuthorizationWebService="http://egoratest/TestAuthorizationWebService/GondorFake.asmx"
+      RootUrl="https://www.fundamt.gv.at/fundamt/"
+      CertificateFile="~/Certificates/at-vie-dev-23.int.cer" 
+      Name="fundamt">
+    </ApplicationDirectory>
+	  
+    <ApplicationDirectory 
+      AuthorizationWebService="http://egoratest/LdapAuthorizer/LdapAuthorizer.asmx"
+      Name="zmr2UnitTest" 
+      CertificateFile="~/Certificates/RubiconZmrCertificateProd.cer" 
+      RootUrl="https://portals-test.bmi.gv.at/bmi.gv.at/soapv2/soaphttpengine/soapv2%23pvp1?dest=zmr&amp;opzone=test">
+    </ApplicationDirectory>
+	  
+    <ApplicationDirectory 
+      AuthorizationWebService="http://egoratest/ZmrAuthorizationAD/Svc_PVPProvider.asmx"
+      Name="zmr2ad" 
+      CertificateFile="~/Certificates/RubiconZmrCertificate.cer" 
+      RootUrl="https://portals-test.bmi.gv.at/bmi.gv.at/soapv2/soaphttpengine/soapv2%23pvp1?dest=zmr&amp;opzone=test">
+    </ApplicationDirectory>
+
+    <ApplicationDirectory 
+      AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpTestAuthorizer.asmx"
+      Name="pvpintegratedtest" 
+      CertificateFile="~/Certificates/RubiconZmrCertificate.cer" 
+      RootUrl="http://egoratest/PvpIntegrated/">
+    </ApplicationDirectory>
+
+  </Directories>
+</PathMap>

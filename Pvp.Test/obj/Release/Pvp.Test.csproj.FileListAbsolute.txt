@@ -1,0 +1,12 @@
+D:\Development\egora\stammportal\trunk\Pvp.Test\bin\Release\Egora.Pvp.Test.dll
+D:\Development\egora\stammportal\trunk\Pvp.Test\bin\Release\Egora.Pvp.Test.pdb
+D:\Development\egora\stammportal\trunk\Pvp.Test\bin\Release\Egora.Pvp.dll
+D:\Development\egora\stammportal\trunk\Pvp.Test\bin\Release\Egora.Stammportal.dll
+D:\Development\egora\stammportal\trunk\Pvp.Test\bin\Release\nunit.framework.dll
+D:\Development\egora\stammportal\trunk\Pvp.Test\bin\Release\Egora.Stammportal.pdb
+D:\Development\egora\stammportal\trunk\Pvp.Test\bin\Release\Egora.Stammportal.xml
+D:\Development\egora\stammportal\trunk\Pvp.Test\bin\Release\Egora.Pvp.pdb
+D:\Development\egora\stammportal\trunk\Pvp.Test\bin\Release\nunit.framework.xml
+D:\Development\egora\stammportal\trunk\Pvp.Test\obj\Release\Pvp.Test.csprojResolveAssemblyReference.cache
+D:\Development\egora\stammportal\trunk\Pvp.Test\obj\Release\Egora.Pvp.Test.dll
+D:\Development\egora\stammportal\trunk\Pvp.Test\obj\Release\Egora.Pvp.Test.pdb

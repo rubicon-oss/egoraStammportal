@@ -1,0 +1,355 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Egora.Stammportal.HttpReverseProxy</name>
+    </assembly>
+    <members>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.Administration.Applications">
+            <summary>
+            Applications class.
+            </summary>
+            <remarks>
+            Auto-generated class.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Applications.form1">
+            <summary>
+            form1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Applications.ApplicationLink">
+            <summary>
+            ApplicationLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Applications.AuthorizationLink">
+            <summary>
+            AuthorizationLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Applications.ConnectionLink">
+            <summary>
+            ConnectionLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Applications.ResetLink">
+            <summary>
+            ResetLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Applications.AppTable">
+            <summary>
+            AppTable control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Applications.ApplicationsGridView">
+            <summary>
+            ApplicationsGridView control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Applications.InfoDetailsView">
+            <summary>
+            InfoDetailsView control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Applications.HistoryGridView">
+            <summary>
+            HistoryGridView control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.Administration.Authorization">
+            <summary>
+            Authorization class.
+            </summary>
+            <remarks>
+            Auto-generated class.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Authorization.form1">
+            <summary>
+            form1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Authorization.ApplicationLink">
+            <summary>
+            ApplicationLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Authorization.AuthorizationLink">
+            <summary>
+            AuthorizationLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Authorization.ConnectionLink">
+            <summary>
+            ConnectionLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Authorization.ResetLink">
+            <summary>
+            ResetLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Authorization.AuthorizationGridView">
+            <summary>
+            AuthorizationGridView control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.Administration.Connection">
+            <summary>
+            Connection class.
+            </summary>
+            <remarks>
+            Auto-generated class.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Connection.form1">
+            <summary>
+            form1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Connection.ApplicationLink">
+            <summary>
+            ApplicationLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Connection.AuthorizationLink">
+            <summary>
+            AuthorizationLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Connection.ConnectionLink">
+            <summary>
+            ConnectionLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Connection.ResetLink">
+            <summary>
+            ResetLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Connection.ConnectionGridView">
+            <summary>
+            ConnectionGridView control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.Administration.Reset">
+            <summary>
+            Reset class.
+            </summary>
+            <remarks>
+            Auto-generated class.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Reset.form1">
+            <summary>
+            form1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Reset.ApplicationLink">
+            <summary>
+            ApplicationLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Reset.AuthorizationLink">
+            <summary>
+            AuthorizationLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Administration.Reset.ResetLink">
+            <summary>
+            ResetLink control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.Mapping.PvpTokenHandling">
+            <summary>
+            PvpTokenHandling bestimmt, wie mit vorhandenen Pvp Informationen umgegangen wird
+            </summary>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Mapping.PvpTokenHandling.useConfigSetting">
+            <summary>
+            Config Switch RemoveLeftSideAuthorization zieht
+            </summary>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Mapping.PvpTokenHandling.remove">
+            <summary>
+            Pvp Informationen werden entfernt
+            </summary>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Mapping.PvpTokenHandling.preserve">
+            <summary>
+            Pvp Informationen bleiben erhalten, im XML sind dann mehrere pvpToken enthalten
+            </summary>
+        </member>
+        <member name="F:Egora.Stammportal.HttpReverseProxy.Mapping.PvpTokenHandling.chain">
+            <summary>
+            vorhandene Pvp Informationen werden zu chained Pvp Informationen
+            </summary>
+        </member>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.PvpAuthorizer">
+            <remarks/>
+        </member>
+        <member name="M:Egora.Stammportal.HttpReverseProxy.PvpAuthorizer.#ctor">
+            <remarks/>
+        </member>
+        <member name="M:Egora.Stammportal.HttpReverseProxy.PvpAuthorizer.GetAuthorization(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="P:Egora.Stammportal.HttpReverseProxy.Authentication.UseFromHeader">
+            <summary>
+             If true, UserId comes from HttpHeader From. Default value set by config.
+            </summary>
+        </member>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.PvpAuthorizer">
+            <remarks/>
+        </member>
+        <member name="M:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.PvpAuthorizer.#ctor">
+            <remarks/>
+        </member>
+        <member name="E:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.PvpAuthorizer.GetAuthorizationCompleted">
+            <remarks/>
+        </member>
+        <member name="M:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.PvpAuthorizer.GetAuthorization(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.PvpAuthorizer.GetAuthorizationAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.PvpAuthorizer.GetAuthorizationAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.PvpAuthorizer.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.CustomAuthorization">
+            <remarks/>
+        </member>
+        <member name="P:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.CustomAuthorization.HttpHeaders">
+            <remarks/>
+        </member>
+        <member name="P:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.CustomAuthorization.SoapHeaderXmlFragment">
+            <remarks/>
+        </member>
+        <member name="P:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.CustomAuthorization.TimeToLive">
+            <remarks/>
+        </member>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.HttpHeader">
+            <remarks/>
+        </member>
+        <member name="P:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.HttpHeader.Name">
+            <remarks/>
+        </member>
+        <member name="P:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.HttpHeader.Value">
+            <remarks/>
+        </member>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.GetAuthorizationCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.GetAuthorizationCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Egora.Stammportal.HttpReverseProxy.AuthorizationWebService.GetAuthorizationCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+    </members>
+</doc>

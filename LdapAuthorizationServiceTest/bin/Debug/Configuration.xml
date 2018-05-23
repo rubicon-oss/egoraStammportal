@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration xmlns="http://www.egora.at/Stammportal/LdapConfiguration/1.1">
+  
+<Application 
+    name="Global"  
+    ldapRoot="LDAP://OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com" 
+    authorizationTimeToLive="600"
+    domainPrefix="rubicon" 
+    soapPrincipal="
+    &lt;userPrincipal>
+      &lt;userId>{0}&lt;/userId>
+      &lt;cn>{1}&lt;/cn>
+      &lt;gvOuId>{2}&lt;/gvOuId>
+      &lt;ou>{3}&lt;/ou>
+      &lt;mail>{4}&lt;/mail>
+      &lt;tel>{5}&lt;/tel>
+      &lt;gvSecClass>{6}&lt;/gvSecClass>
+      &lt;gvGid>{7}&lt;/gvGid>
+      &lt;gvFunction>{8}&lt;/gvFunction>
+    &lt;/userPrincipal>">
+    <PvpAttribute name="X-Version" default="1.9" />
+  <PvpAttribute name="X-AUTHENTICATE-cn" ldapAttribute="cn" />
+  <PvpAttribute name="X-AUTHENTICATE-participantId" default="Max.Mustermann" />
+    <PvpAttribute name="X-AUTHENTICATE-mail" ldapAttribute="MAIL" />
+    <PvpAttribute name="X-AUTHENTICATE-tel" ldapAttribute="PHONE" />
+    <PvpAttribute name="X-AUTHORIZE-roles" ldapAttribute="description" source="Group"/>
+  <PvpAttribute key="USERID" ldapAttribute="MAIL" />
+</Application>
+
+
+  <Application
+    name="Rubicon"
+    ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
+    groupContainer="LDAP://OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
+    webUrls="http://test.rubicon-it.com https://projects.rubicon-it.com" >
+    <PvpAttribute name="X-Version" default="1.8" />
+    <PvpAttribute name="X-AUTHENTICATE-mail" default="default@rubicon-it.com" />
+    <PvpAttribute name="X-AUTHENTICATE-tel" default="Wien, DW 0815"/>
+    <PvpAttribute name="X-AUTHENTICATE-cn" ldapAttribute="cn" formatter="LdapAuthorizationServiceTest.ValueFormatter,LdapAuthorizationServiceTest"/>
+    <PvpAttribute name="X-ACCOUNTING-CostCenterId" source="OuPath" ldapAttribute="l"/>
+    <PvpAttribute name="X-ACCOUNTING-ChargeCode" ldapAttribute="distinguishedName" formatter="Egora.Stammportal.LdapAuthorizationService.OuPathFormatter,LdapAuthorizationService"/>
+  </Application>
+
+  <Application
+    name="RubiconMustHaveRole"
+    ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
+    groupContainer="LDAP://OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
+    mustHaveRole="true"
+    webUrls="http://testrole.rubicon-it.com" >
+    <PvpAttribute name="X-AUTHENTICATE-mail" default="default@rubicon-it.com" />
+    <PvpAttribute name="X-AUTHENTICATE-tel" default="Wien, DW 0815"/>
+    <PvpAttribute name="X-AUTHENTICATE-cn" ldapAttribute="cn" formatter="LdapAuthorizationServiceTest.ValueFormatter,LdapAuthorizationServiceTest"/>
+  </Application>
+
+  <Application
+    name="TestRecursive"
+    ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
+    groupContainer="LDAP://OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
+    webUrls="http://testr.rubicon-it.com" 
+    authorizationTimeToLive="500"
+    recurseGroupMembership="true"
+    userProperties="canonicalName">
+    <PvpAttribute name="X-AUTHENTICATE-mail" default="default@rubicon-it.com" />
+    <PvpAttribute name="X-AUTHENTICATE-tel" default="Wien, DW 0815"/>
+    <PvpAttribute name="X-AUTHENTICATE-Ou" ldapAttribute="canonicalName" default="Test" format="canonical {0}" />
+    <!-- <PvpAttribute name="X-AUTHORIZE-roles" ldapAttribute="canonicalName" format="SomeRole(Par={0})" source="User"/> -->
+  </Application>
+
+  <Application
+    name="TestNoRecursive"
+    ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
+    groupContainer="LDAP://OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
+    webUrls="http://testnr.rubicon-it.com" 
+    recurseGroupMembership="false">
+    <PvpAttribute name="X-AUTHENTICATE-mail" default="default@rubicon-it.com" />
+    <PvpAttribute name="X-AUTHENTICATE-tel" default="Wien, DW 0815"/>
+    <PvpAttribute name="X-AUTHENTICATE-Ou" default="Test" />
+  </Application>
+
+  <Application
+    name="NoAttribute"
+    ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
+    groupContainer="LDAP://OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
+    webUrls="http://noattribute.test"
+    recurseGroupMembership="false">
+  </Application>
+
+</Configuration>

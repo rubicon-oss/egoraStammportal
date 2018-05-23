@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://www.egora.at/Stammportal/PathMap/1.0" elementFormDefault="qualified" targetNamespace="http://www.egora.at/Stammportal/PathMap/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="PathMap" nillable="true" type="tns:PathMap" />
+  <xs:complexType name="PathMap">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Directories" type="tns:ArrayOfChoice1" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfChoice1">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="1" maxOccurs="1" name="ApplicationDirectory" nillable="true" type="tns:ApplicationDirectory" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Directory" nillable="true" type="tns:Directory" />
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="ApplicationDirectory">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Directory">
+        <xs:attribute name="AuthorizationWebService" type="xs:string" />
+        <xs:attribute name="CertificateFile" type="xs:string" />
+        <xs:attribute name="RootUrl" type="xs:string" />
+        <xs:attribute name="LogTraffic" type="xs:boolean" use="optional"/>
+        <xs:attribute name="IsolateCookies" type="xs:boolean" use="optional"/>
+        <xs:attribute name="PvpInformationHandling" type="tns:pvpTokenHandling" use="optional"/>
+        <xs:attribute name="ByPassExpression" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="pvpTokenHandling">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="useConfigSetting"/>
+      <xs:enumeration value="remove"/>
+      <xs:enumeration value="preserve"/>
+      <xs:enumeration value="chain"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Directory">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Directories" type="tns:ArrayOfChoice1" />
+    </xs:sequence>
+    <xs:attribute name="Name" type="xs:string" />
+    <xs:attribute name="TargetPath" type="xs:string" />
+    <xs:attribute name="IgnoreCase" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+</xs:schema>

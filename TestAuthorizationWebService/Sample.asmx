@@ -1,0 +1,1 @@
+<%@ WebService Language="C#" CodeBehind="Sample.asmx.cs" Class="Egora.Stammportal.TestAuthorizationWebService.SampleAuthorizer" %>

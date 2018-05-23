@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\Development\products\Stammportal\trunk\HttpReverseProxy.UnitTests\HttpReverseProxy.UnitTests.nunit</TopNode>
+  <SelectedNode>[0-1000]C:\Development\products\Stammportal\trunk\HttpReverseProxy.UnitTests\HttpReverseProxy.UnitTests.nunit</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\Development\products\Stammportal\trunk\HttpReverseProxy.UnitTests\HttpReverseProxy.UnitTests.nunit" Expanded="true">
+      <Nodes>
+        <Node UniqueName="[0-1043]C:\Development\products\Stammportal\trunk\HttpReverseProxy.UnitTests\bin\Debug\HttpReverseProxy.UnitTests.dll" Expanded="true">
+          <Nodes>
+            <Node UniqueName="[0-1044]Egora" Expanded="true">
+              <Nodes>
+                <Node UniqueName="[0-1045]Egora.Stammportal" Expanded="true">
+                  <Nodes>
+                    <Node UniqueName="[0-1046]Egora.Stammportal.HttpReverseProxy" Expanded="true">
+                      <Nodes>
+                        <Node UniqueName="[0-1047]Egora.Stammportal.HttpReverseProxy.UnitTests" Expanded="true">
+                          <Nodes>
+                            <Node UniqueName="[0-1036]Egora.Stammportal.HttpReverseProxy.UnitTests.CookieTransformerTest">
+                              <Nodes>
+                                <Node UniqueName="[0-1038]Egora.Stammportal.HttpReverseProxy.UnitTests.CookieTransformerTest.LeftSideCookie_FromRightSideCookieWithDomainAndPath" />
+                                <Node UniqueName="[0-1037]Egora.Stammportal.HttpReverseProxy.UnitTests.CookieTransformerTest.LeftSideCookie_FromRightSideCookieWithNoDomainAndNoPath" />
+                                <Node UniqueName="[0-1041]Egora.Stammportal.HttpReverseProxy.UnitTests.CookieTransformerTest.RightSideCookie_FromInvalidFormatLeftSideCookie" />
+                                <Node UniqueName="[0-1040]Egora.Stammportal.HttpReverseProxy.UnitTests.CookieTransformerTest.RightSideCookie_FromInvalidSignatureLeftSideCookie" />
+                                <Node UniqueName="[0-1039]Egora.Stammportal.HttpReverseProxy.UnitTests.CookieTransformerTest.RightSideCookie_FromLeftSideCookieWithDomainAndPath" />
+                                <Node UniqueName="[0-1042]Egora.Stammportal.HttpReverseProxy.UnitTests.CookieTransformerTest.RightSideCookie_FromLeftSideCookieWithNoDomainAndNoPath" />
+                              </Nodes>
+                            </Node>
+                            <Node UniqueName="[0-1034]Egora.Stammportal.HttpReverseProxy.UnitTests.HeaderTransformerTest">
+                              <Nodes>
+                                <Node UniqueName="[0-1035]Egora.Stammportal.HttpReverseProxy.UnitTests.HeaderTransformerTest.RightSideHeader_FromCustomLeftSideHeader" />
+                              </Nodes>
+                            </Node>
+                            <Node UniqueName="[0-1048]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest" Expanded="true">
+                              <Nodes>
+                                <Node UniqueName="[0-1029]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.CookieTest">
+                                  <Nodes>
+                                    <Node UniqueName="[0-1030]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.CookieTest.SetCookie" />
+                                  </Nodes>
+                                </Node>
+                                <Node UniqueName="[0-1012]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.HeaderTest">
+                                  <Nodes>
+                                    <Node UniqueName="[0-1013]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.HeaderTest.CustomHeader" />
+                                  </Nodes>
+                                </Node>
+                                <Node UniqueName="[0-1020]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.RetryTest">
+                                  <Nodes>
+                                    <Node UniqueName="[0-1023]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.RetryTest.CloseConnectionPage" />
+                                    <Node UniqueName="[0-1021]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.RetryTest.CloseConnectionPageDirect" />
+                                    <Node UniqueName="[0-1024]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.RetryTest.Error500Page" />
+                                    <Node UniqueName="[0-1022]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.RetryTest.Error500PageDirect" />
+                                  </Nodes>
+                                </Node>
+                                <Node UniqueName="[0-1001]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.SoapTest">
+                                  <Nodes>
+                                    <Node UniqueName="[0-1003]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.SoapTest.SoapErrorDirect" />
+                                    <Node UniqueName="[0-1004]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.SoapTest.SoapErrorViaPortal" />
+                                    <Node UniqueName="[0-1002]Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest.SoapTest.SoapHeader" />
+                                  </Nodes>
+                                </Node>
+                              </Nodes>
+                            </Node>
+                            <Node UniqueName="[0-1049]Egora.Stammportal.HttpReverseProxy.UnitTests.MappingTest" Expanded="true">
+                              <Nodes>
+                                <Node UniqueName="[0-1031]Egora.Stammportal.HttpReverseProxy.UnitTests.MappingTest.MappingTest">
+                                  <Nodes>
+                                    <Node UniqueName="[0-1032]Egora.Stammportal.HttpReverseProxy.UnitTests.MappingTest.MappingTest.CreateMapping" />
+                                    <Node UniqueName="[0-1033]Egora.Stammportal.HttpReverseProxy.UnitTests.MappingTest.MappingTest.RightSideUrl" />
+                                  </Nodes>
+                                </Node>
+                              </Nodes>
+                            </Node>
+                            <Node UniqueName="[0-1005]Egora.Stammportal.HttpReverseProxy.UnitTests.PathTransformerTest">
+                              <Nodes>
+                                <Node UniqueName="[0-1009]Egora.Stammportal.HttpReverseProxy.UnitTests.PathTransformerTest.LeftSidePath_FromRightAbsolutPath" />
+                                <Node UniqueName="[0-1011]Egora.Stammportal.HttpReverseProxy.UnitTests.PathTransformerTest.LeftSidePath_FromRightAbsolutPathAndApplicationAsSubdir" />
+                                <Node UniqueName="[0-1010]Egora.Stammportal.HttpReverseProxy.UnitTests.PathTransformerTest.LeftSidePath_FromRightAbsolutPathAndNoRootProxyPath" />
+                                <Node UniqueName="[0-1008]Egora.Stammportal.HttpReverseProxy.UnitTests.PathTransformerTest.LeftSidePath_FromRightRelativPath" />
+                                <Node UniqueName="[0-1006]Egora.Stammportal.HttpReverseProxy.UnitTests.PathTransformerTest.LeftSidePath_FromRightSideFullPath" />
+                                <Node UniqueName="[0-1007]Egora.Stammportal.HttpReverseProxy.UnitTests.PathTransformerTest.LeftSidePath_FromRightSideSecureFullPath" />
+                              </Nodes>
+                            </Node>
+                            <Node UniqueName="[0-1025]Egora.Stammportal.HttpReverseProxy.UnitTests.RemoteApplicationTest">
+                              <Nodes>
+                                <Node UniqueName="[0-1028]Egora.Stammportal.HttpReverseProxy.UnitTests.RemoteApplicationTest.RemoteApplication_GetRemoteApplication" />
+                                <Node UniqueName="[0-1026]Egora.Stammportal.HttpReverseProxy.UnitTests.RemoteApplicationTest.RemoteApplication_GetRequest" />
+                                <Node UniqueName="[0-1027]Egora.Stammportal.HttpReverseProxy.UnitTests.RemoteApplicationTest.RemoteApplication_PostRequest" />
+                              </Nodes>
+                            </Node>
+                            <Node UniqueName="[0-1014]Egora.Stammportal.HttpReverseProxy.UnitTests.SoapFilterTest">
+                              <Nodes>
+                                <Node UniqueName="[0-1016]Egora.Stammportal.HttpReverseProxy.UnitTests.SoapFilterTest.HeaderForSoapWithHeaderElement" />
+                                <Node UniqueName="[0-1015]Egora.Stammportal.HttpReverseProxy.UnitTests.SoapFilterTest.HeaderForSoapWithoutHeaderElement" />
+                                <Node UniqueName="[0-1019]Egora.Stammportal.HttpReverseProxy.UnitTests.SoapFilterTest.PvpTokenForSoapWithHeaderElement" />
+                                <Node UniqueName="[0-1018]Egora.Stammportal.HttpReverseProxy.UnitTests.SoapFilterTest.SecurityForSoapWithHeaderElement" />
+                                <Node UniqueName="[0-1017]Egora.Stammportal.HttpReverseProxy.UnitTests.SoapFilterTest.SecurityForSoapWithoutHeaderElement" />
+                              </Nodes>
+                            </Node>
+                          </Nodes>
+                        </Node>
+                      </Nodes>
+                    </Node>
+                  </Nodes>
+                </Node>
+              </Nodes>
+            </Node>
+          </Nodes>
+        </Node>
+      </Nodes>
+    </Node>
+  </Nodes>
+</VisualState>

@@ -1,0 +1,9 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="bin\Debug\HttpReverseProxy.UnitTests.dll" />
+    <assembly path="..\LdapAuthorizationServiceTest\bin\Debug\LdapAuthorizationServiceTest.dll" />
+    <assembly path="..\LdapAuthorizationServiceTest\bin\Debug\LdapAuthorizationServiceTest.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto" />
+</NUnitProject>

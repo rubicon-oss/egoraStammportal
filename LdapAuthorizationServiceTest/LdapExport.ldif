@@ -1,0 +1,255 @@
+dn: OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+objectClass: top
+objectClass: organizationalUnit
+ou: egora
+distinguishedName: OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+instanceType: 4
+whenCreated: 20061020054245.0Z
+whenChanged: 20090528124110.0Z
+uSNCreated: 16693
+uSNChanged: 256520
+name: egora
+objectGUID:: DW8OKjB250yILGiQro+DpA==
+objectCategory: CN=Organizational-Unit,CN=Schema,CN=Configuration,DC=int,DC=rubi
+ con-it,DC=com
+dSCorePropagationData: 20090415150347.0Z
+dSCorePropagationData: 16010101000001.0Z
+
+
+dn: OU=Stammportal,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+objectClass: top
+objectClass: organizationalUnit
+ou: Stammportal
+distinguishedName: OU=Stammportal,OU=egora,OU=Development,DC=int,DC=rubicon-it,D
+ C=com
+instanceType: 4
+whenCreated: 20090427083043.0Z
+whenChanged: 20090528124126.0Z
+uSNCreated: 148653
+uSNChanged: 256528
+name: Stammportal
+objectGUID:: fpi3lUhyekSt37NL9Wrmnw==
+objectCategory: CN=Organizational-Unit,CN=Schema,CN=Configuration,DC=int,DC=rubi
+ con-it,DC=com
+dSCorePropagationData: 16010101000000.0Z
+
+dn: CN=HeaderTest,OU=Stammportal,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC
+ =com
+objectClass: top
+objectClass: group
+cn: HeaderTest
+description: EineRolle
+member: CN=S0034,CN=Computers,DC=int,DC=rubicon-it,DC=com
+member: CN=Consultants,OU=rubicon,DC=int,DC=rubicon-it,DC=com
+distinguishedName: CN=HeaderTest,OU=Stammportal,OU=egora,OU=Development,DC=int,D
+ C=rubicon-it,DC=com
+instanceType: 4
+whenCreated: 20090505112036.0Z
+whenChanged: 20090505130953.0Z
+uSNCreated: 174475
+uSNChanged: 174804
+name: HeaderTest
+objectGUID:: 0jFYzh9c30qmsqtxJEJGZg==
+objectSid:: AQUAAAAAAAUVAAAAfii4rjnyKySTpNBPoSEAAA==
+sAMAccountName: HeaderTest
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=int,DC=rubicon-it,DC=com
+dSCorePropagationData: 16010101000000.0Z
+
+dn: OU=EKIS,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+objectClass: top
+objectClass: organizationalUnit
+ou: EKIS
+distinguishedName: OU=EKIS,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+instanceType: 4
+whenCreated: 20090528130442.0Z
+whenChanged: 20090528130443.0Z
+uSNCreated: 256654
+uSNChanged: 256655
+name: EKIS
+objectGUID:: y7Bo+3uKuUmVeStgmviHqQ==
+objectCategory: CN=Organizational-Unit,CN=Schema,CN=Configuration,DC=int,DC=rubi
+ con-it,DC=com
+dSCorePropagationData: 16010101000000.0Z
+
+
+dn: CN=egora Drei,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: egora Drei
+sn: Drei
+givenName: egora
+distinguishedName: CN=egora Drei,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC
+ =com
+instanceType: 4
+whenCreated: 20090529144638.0Z
+whenChanged: 20090529145201.0Z
+displayName: egora Drei
+uSNCreated: 260039
+memberOf: CN=Egora Users,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+uSNChanged: 260063
+name: egora Drei
+objectGUID:: yyFReU1e6ky79kiEycab8Q==
+userAccountControl: 66050
+badPwdCount: 0
+codePage: 0
+countryCode: 0
+badPasswordTime: 0
+lastLogoff: 0
+lastLogon: 0
+pwdLastSet: 128880819989312163
+primaryGroupID: 513
+objectSid:: AQUAAAAAAAUVAAAAfii4rjnyKySTpNBPtB8AAA==
+accountExpires: 9223372036854775807
+logonCount: 0
+sAMAccountName: egora.drei
+sAMAccountType: 805306368
+userPrincipalName: egora3@egora.at
+objectCategory: CN=Person,CN=Schema,CN=Configuration,DC=int,DC=rubicon-it,DC=com
+dSCorePropagationData: 16010101000000.0Z
+mail: egora.drei@egora.at
+
+dn: CN=egora Eins,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: egora Eins
+sn: Eins
+givenName: egora
+distinguishedName: CN=egora Eins,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC
+ =com
+instanceType: 4
+whenCreated: 20081028154251.0Z
+whenChanged: 20090319084243.0Z
+displayName: egora Eins
+uSNCreated: 18358
+memberOf: CN=ZMR,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+uSNChanged: 18358
+name: egora Eins
+objectGUID:: qLkilvS9u0WiT23eqUG/pQ==
+userAccountControl: 66050
+codePage: 0
+countryCode: 0
+pwdLastSet: 128696821714229617
+primaryGroupID: 513
+objectSid:: AQUAAAAAAAUVAAAAfii4rjnyKySTpNBP8hUAAA==
+accountExpires: 9223372036854775807
+sAMAccountName: egora1
+sAMAccountType: 805306368
+userPrincipalName: egora1@int.rubicon-it.com
+objectCategory: CN=Person,CN=Schema,CN=Configuration,DC=int,DC=rubicon-it,DC=com
+dSCorePropagationData: 20090415150347.0Z
+dSCorePropagationData: 16010101000001.0Z
+mail: egora.eins@egora.at
+
+dn: CN=egora Zwei,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: user
+cn: egora Zwei
+sn: Zwei
+givenName: egora
+distinguishedName: CN=egora Zwei,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC
+ =com
+instanceType: 4
+whenCreated: 20081028154329.0Z
+whenChanged: 20090319084243.0Z
+displayName: egora Zwei
+uSNCreated: 18359
+memberOf: CN=Egora Users,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+uSNChanged: 18359
+name: egora Zwei
+objectGUID:: jt57XngF2kWAD/A2+RrxjQ==
+userAccountControl: 66050
+codePage: 0
+countryCode: 0
+pwdLastSet: 128696822095013304
+primaryGroupID: 513
+objectSid:: AQUAAAAAAAUVAAAAfii4rjnyKySTpNBP8xUAAA==
+accountExpires: 9223372036854775807
+sAMAccountName: egora2
+sAMAccountType: 805306368
+userPrincipalName: egora2@int.rubicon-it.com
+objectCategory: CN=Person,CN=Schema,CN=Configuration,DC=int,DC=rubicon-it,DC=com
+dSCorePropagationData: 20090415150347.0Z
+dSCorePropagationData: 16010101000001.0Z
+mail: egora.zwei@egora.at
+
+dn: CN=Egora Users,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+objectClass: top
+objectClass: group
+cn: Egora Users
+member: CN=egora Drei,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+member: CN=egora Zwei,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+distinguishedName: CN=Egora Users,OU=egora,OU=Development,DC=int,DC=rubicon-it,D
+ C=com
+instanceType: 4
+whenCreated: 20081028155704.0Z
+whenChanged: 20090529144639.0Z
+uSNCreated: 18360
+memberOf: CN=Test,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+uSNChanged: 260046
+name: Egora Users
+objectGUID:: NfWynW9Fa0iBw8mkv6qiwg==
+objectSid:: AQUAAAAAAAUVAAAAfii4rjnyKySTpNBP9BUAAA==
+sAMAccountName: Egora Users
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=int,DC=rubicon-it,DC=com
+dSCorePropagationData: 20090415150347.0Z
+dSCorePropagationData: 16010101000001.0Z
+
+dn: CN=ZMR,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+objectClass: top
+objectClass: group
+cn: ZMR
+description: &<>"'ZMR-Behoerdenabfrage_(&GKZ=&1234);
+member: CN=egora Eins,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+member: CN=Klaus\, Michael,OU=rubicon informationstechnologie gmbh,OU=rubicon,DC
+ =int,DC=rubicon-it,DC=com
+member: CN=Kugler\, Werner,OU=rubicon informationstechnologie gmbh,OU=rubicon,DC
+ =int,DC=rubicon-it,DC=com
+distinguishedName: CN=ZMR,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+instanceType: 4
+whenCreated: 20061020054405.0Z
+whenChanged: 20090319084247.0Z
+uSNCreated: 17069
+uSNChanged: 19680
+name: ZMR
+objectGUID:: 5FFrgh7u+k6//uda/fl9TQ==
+objectSid:: AQUAAAAAAAUVAAAAfii4rjnyKySTpNBP5wUAAA==
+sAMAccountName: ZMR
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=int,DC=rubicon-it,DC=com
+dSCorePropagationData: 20090415150347.0Z
+dSCorePropagationData: 16010101000001.0Z
+
+dn: CN=Test,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+objectClass: top
+objectClass: group
+cn: Test
+description: TestRolle
+member: CN=Egora Users,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+member: CN=Consultants,OU=rubicon,DC=int,DC=rubicon-it,DC=com
+distinguishedName: CN=Test,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com
+instanceType: 4
+whenCreated: 20070620081137.0Z
+whenChanged: 20090319084247.0Z
+uSNCreated: 17071
+uSNChanged: 19683
+name: Test
+objectGUID:: 6H+8mD2wnUaya7rf+MiWZg==
+objectSid:: AQUAAAAAAAUVAAAAfii4rjnyKySTpNBPGwYAAA==
+sAMAccountName: Test
+sAMAccountType: 268435456
+groupType: -2147483646
+objectCategory: CN=Group,CN=Schema,CN=Configuration,DC=int,DC=rubicon-it,DC=com
+dSCorePropagationData: 20090415150347.0Z
+dSCorePropagationData: 16010101000001.0Z
+
