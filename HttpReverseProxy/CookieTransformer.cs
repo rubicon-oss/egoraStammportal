@@ -22,6 +22,16 @@ namespace Egora.Stammportal.HttpReverseProxy
     public const string c_CookieSignature = "CD9C0F68-2099-4f51-A585-E9758EF0A020";
     private string _cookieNamePrefix;
     private Uri _targetUri;
+    private string _defaultCookiePath;
+
+    public CookieTransformer(bool isolateCookies, string targetRootUrl, Uri rightSideUrl)
+      : this(isolateCookies, targetRootUrl)
+    {
+      var indexOfLastSlash = rightSideUrl.AbsolutePath.LastIndexOf("/");
+      if (indexOfLastSlash == 0)
+        indexOfLastSlash = 1;
+      _defaultCookiePath = rightSideUrl.AbsolutePath.Substring(0, indexOfLastSlash);
+    }
 
     public CookieTransformer(bool isolateCookies, string targetRootUrl)
     {
@@ -34,13 +44,14 @@ namespace Egora.Stammportal.HttpReverseProxy
 
       _cookieNamePrefix = _targetUri.Host + (_targetUri.IsDefaultPort ? String.Empty : ":" + _targetUri.Port) + (isolateCookies ? _targetUri.AbsolutePath : "/");
     }
-
-    public virtual HttpCookie[] GetLeftSideResponseCookies(CookieCollection rightSideResponseCookies)
+    public virtual HttpCookie[] GetLeftSideResponseCookies(CookieCollection rightSideResponseCookies, List<string> cookiesWithEmptyPath)
     {
       List<HttpCookie> leftSideResponseCookies = new List<HttpCookie>();
 
       foreach (Cookie rightSideResponseCookie in rightSideResponseCookies)
-        leftSideResponseCookies.Add(CreateLeftSideResponseCookie(rightSideResponseCookie));
+      {
+        leftSideResponseCookies.Add(CreateLeftSideResponseCookie(rightSideResponseCookie, cookiesWithEmptyPath.Contains(rightSideResponseCookie.Name)));
+      }
 
       return leftSideResponseCookies.ToArray();
     }
@@ -50,10 +61,11 @@ namespace Egora.Stammportal.HttpReverseProxy
       get { return _cookieNamePrefix; }
     }
 
-    public virtual HttpCookie CreateLeftSideResponseCookie(Cookie rightSideResponseCookie)
+    public virtual HttpCookie CreateLeftSideResponseCookie(Cookie rightSideResponseCookie, bool useRequestPath)
     {
+      var path = useRequestPath ? _defaultCookiePath : rightSideResponseCookie.Path;
       string value = String.Format("{0}|{1}|{2}|{3}", c_CookieSignature, rightSideResponseCookie.Domain,
-                                   rightSideResponseCookie.Path, rightSideResponseCookie.Value);
+                                   path, rightSideResponseCookie.Value);
       HttpCookie newCookie = new HttpCookie(CookieNamePrefix + rightSideResponseCookie.Name, value);
       newCookie.Expires = rightSideResponseCookie.Expires;
       newCookie.HttpOnly = rightSideResponseCookie.HttpOnly;

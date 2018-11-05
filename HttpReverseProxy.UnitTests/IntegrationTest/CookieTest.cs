@@ -59,6 +59,50 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
     }
 
     [Test]
+    public void SetCookieWithoutPath()
+    {
+      HttpWebRequest request1 = (HttpWebRequest)WebRequest.Create(
+                                                   "http://egoratest/stammportal/localtest1/IntegrationTestPage.aspx?CookieName=cname&CookieValue=cval&CookiePath=&HttpOnly=true");
+      CookieContainer cookieContainer = new CookieContainer();
+      request1.CookieContainer = cookieContainer;
+      request1.UseDefaultCredentials = true;
+      HttpWebResponse response1 = (HttpWebResponse)request1.GetResponse();
+
+      Assert.IsNotNull(response1, "Response");
+      Assert.IsNotNull(response1.Cookies);
+      Assert.AreEqual(1, response1.Cookies.Count);
+
+      Cookie responseCookie = response1.Cookies[0];
+      Assert.IsNotNull(responseCookie);
+      Assert.AreEqual("egoratest/PvpTestApplication/1/cname", responseCookie.Name);
+      Assert.AreEqual(
+        CookieTransformer.c_CookieSignature + "|egoratest|/PvpTestApplication/1|cval",
+        responseCookie.Value);
+      Assert.AreEqual("/stammportal", responseCookie.Path);
+      Assert.IsTrue(responseCookie.HttpOnly, "Cookie is not HttpOnly.");
+
+
+      HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(
+                                                   "http://egoratest/stammportal/localtest1/IntegrationTestPage.aspx");
+      request2.CookieContainer = cookieContainer;
+      request2.UseDefaultCredentials = true;
+      HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
+
+      Assert.IsNotNull(response2, "Response");
+
+      XmlSerializer serializer = new XmlSerializer(typeof(RequestInformation));
+      RequestInformation info = (RequestInformation)serializer.Deserialize(response2.GetResponseStream());
+
+      Assert.IsNotNull(info, "RequestInformation");
+      Assert.IsNotNull(info.Cookies, "Cookies");
+
+      CookieInformation cookie = info.GetCookie("cname");
+
+      Assert.IsNotNull(cookie, "Cookie");
+      Assert.AreEqual("cval", cookie.Value);
+    }
+
+    [Test]
     public void SetCookie_NoIsolation()
     {
       HttpWebRequest request1 = (HttpWebRequest)WebRequest.Create(
