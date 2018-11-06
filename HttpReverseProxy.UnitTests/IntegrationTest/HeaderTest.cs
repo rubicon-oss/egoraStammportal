@@ -7,7 +7,10 @@ You may use this code according to the conditions of the Microsoft Public Licens
 *************************/
 
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Net;
+using System.Text;
 using System.Xml.Serialization;
 using NUnit.Framework;
 
@@ -62,20 +65,29 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
     [Explicit]
     public void SecureConnect()
     {
-        HttpWebRequest request =
-            (HttpWebRequest)WebRequest.Create("http://egoratest/Stammportal/localtestsecure/IntegrationTestPage.aspx");
-        request.UseDefaultCredentials = true;
+      HttpWebRequest request =
+          (HttpWebRequest)WebRequest.Create("http://egoratest/Stammportal/localtestsecure/IntegrationTestPage.aspx");
+      request.UseDefaultCredentials = true;
 
-        request.Headers.Add("X-Custom", "SomeValue");
-        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+      request.Headers.Add("X-Custom", "SomeValue");
+      HttpWebResponse response = null;
+      try
+      {
+        response = (HttpWebResponse) request.GetResponse();
+      }
+      catch (WebException e)
+      {
+        var errorResponse = e.Response;
+        using (var reader = new StreamReader(errorResponse.GetResponseStream(), Encoding.UTF8))
+          Debug.WriteLine(reader.ReadToEnd());
+      }
+      Assert.IsNotNull(response, "Response");
 
-        Assert.IsNotNull(response, "Response");
+      XmlSerializer serializer = new XmlSerializer(typeof(RequestInformation));
+      RequestInformation info = (RequestInformation)serializer.Deserialize(response.GetResponseStream());
 
-        XmlSerializer serializer = new XmlSerializer(typeof(RequestInformation));
-        RequestInformation info = (RequestInformation)serializer.Deserialize(response.GetResponseStream());
-
-        Assert.IsNotNull(info, "RequestInformation");
-        Assert.AreEqual("SomeValue", info.GetHeader("X-Custom"));
+      Assert.IsNotNull(info, "RequestInformation");
+      Assert.AreEqual("SomeValue", info.GetHeader("X-Custom"));
     }
 
     [Test]
