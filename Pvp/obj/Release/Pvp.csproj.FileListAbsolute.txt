@@ -1,8 +1,0 @@
-D:\Development\egora\stammportal\trunk\Pvp\bin\Release\Egora.Pvp.dll
-D:\Development\egora\stammportal\trunk\Pvp\bin\Release\Egora.Pvp.pdb
-D:\Development\egora\stammportal\trunk\Pvp\bin\Release\Egora.Stammportal.dll
-D:\Development\egora\stammportal\trunk\Pvp\bin\Release\Egora.Stammportal.pdb
-D:\Development\egora\stammportal\trunk\Pvp\bin\Release\Egora.Stammportal.xml
-D:\Development\egora\stammportal\trunk\Pvp\obj\Release\Pvp.csprojResolveAssemblyReference.cache
-D:\Development\egora\stammportal\trunk\Pvp\obj\Release\Egora.Pvp.dll
-D:\Development\egora\stammportal\trunk\Pvp\obj\Release\Egora.Pvp.pdb
