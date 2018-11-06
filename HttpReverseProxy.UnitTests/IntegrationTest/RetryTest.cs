@@ -23,7 +23,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
     public void CloseConnectionPageDirect()
     {
       HttpWebRequest request1 = (HttpWebRequest) WebRequest.Create(
-                                                   "http://egoratest/PvpTestApplication/CloseConnection.aspx?reset=true");
+                                                   "http://egoratest/PvpTestApplication/1/CloseConnection.aspx?reset=true");
       request1.UseDefaultCredentials = true;
       HttpWebResponse response1 = (HttpWebResponse) request1.GetResponse();
 
@@ -31,7 +31,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
       Assert.AreEqual(HttpStatusCode.OK, response1.StatusCode);
 
       HttpWebRequest request2 = (HttpWebRequest) WebRequest.Create(
-                                                   "http://egoratest/PvpTestApplication/CloseConnection.aspx");
+                                                   "http://egoratest/PvpTestApplication/1/CloseConnection.aspx");
       request2.UseDefaultCredentials = true;
       bool exceptionThrown = false;
       try

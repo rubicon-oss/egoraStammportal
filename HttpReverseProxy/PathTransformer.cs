@@ -32,6 +32,9 @@ namespace Egora.Stammportal.HttpReverseProxy
 
     public virtual string AdjustPath(string rightSidePath)
     {
+      if (rightSidePath == null)
+        return null;
+
       string leftSidePath = rightSidePath;
 
       if (leftSidePath.StartsWith("/") || leftSidePath.StartsWith("http://") ||

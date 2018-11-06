@@ -202,54 +202,88 @@ namespace Egora.Stammportal.HttpReverseProxy
 
     protected virtual void TransformResponseHeaders()
     {
-      foreach (string headerName in _rightSideResponse.Headers)
+      var cookiesWithEmptyPath = new List<string>();
+      for (int i = 0; i < _rightSideResponse.Headers.Count; i++)
+      //foreach (string headerName in _rightSideResponse.Headers)
       {
-        switch (headerName.ToLowerInvariant())
+        var headerName = _rightSideResponse.Headers.GetKey(i);
+        var headerValues = _rightSideResponse.Headers.GetValues(i);
+        foreach (var headerValue in headerValues.Length > 0 ? headerValues : new string[] {null})
         {
+          switch (headerName.ToLowerInvariant())
+          {
             // Do nothing
-          case "keep-alive":
-          case "transfer-encoding":
-          case "content-length":
-          case "range":
-            TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
-                                         (int) Event.TransformResponse,
-                                         "Ignoring Header {0} with value {1}.", headerName,
-                                         _rightSideResponse.Headers[headerName]);
-            break;
+            case "keep-alive":
+            case "transfer-encoding":
+            case "content-length":
+            case "range":
+              TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
+                (int) Event.TransformResponse,
+                "Ignoring Header {0} with value {1}.", headerName,
+                headerValue);
+              break;
 
             // Cookies
-          case "set-cookie":
-          case "set-cookie2":
-            TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
-                                         (int) Event.TransformResponse,
-                                         "Transforming Cookies.");
-            CookieTransformer cookieTransformer = new CookieTransformer(_isolateCookies, _targetRootUrl);
-            foreach (
-              HttpCookie cookie in cookieTransformer.GetLeftSideResponseCookies(_rightSideResponse.Cookies))
-              _leftSideResponse.Cookies.Add(cookie);
-            break;
+            case "set-cookie":
+            case "set-cookie2":
+              TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
+                (int) Event.TransformResponse,
+                "Transforming Cookies.");
+              var cookieName = GetCookieName(headerValue);
+              if (cookieName == null)
+                break;
+              var hasPath = headerValue.IndexOf("path=", StringComparison.InvariantCultureIgnoreCase);
+              if (hasPath == -1)
+              {
+                cookiesWithEmptyPath.Add(cookieName);
+              }
+              break;
 
             //Location
-          case "location":
-            string location = LocationTransformer.AdjustPath(_rightSideResponse.Headers[headerName]);
-            TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
-                                         (int) Event.TransformResponse,
-                                         "Transforming Location Header from {0} to {1}.",
-                                         _rightSideResponse.Headers[headerName], location);
-            _leftSideResponse.AddHeader(headerName, location);
-            break;
+            case "location":
+              string location = LocationTransformer.AdjustPath(headerValue);
+              TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
+                (int) Event.TransformResponse,
+                "Transforming Location Header from {0} to {1}.",
+                headerValue, location);
+              _leftSideResponse.AddHeader(headerName, location);
+              break;
 
             // all other Headers not handled yet are copied 1:1
-          default:
-            TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
-                                         (int) Event.TransformResponse,
-                                         "Copy Header {0} with value {1}.", headerName,
-                                         _rightSideResponse.Headers[headerName]);
-            _leftSideResponse.AddHeader(headerName, _rightSideResponse.Headers[headerName]);
-            break;
+            default:
+              TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
+                (int) Event.TransformResponse,
+                "Copy Header {0} with value {1}.", headerName,
+                headerValue);
+              _leftSideResponse.AddHeader(headerName, headerValue);
+              break;
+          }
         }
       }
+      CookieTransformer cookieTransformer = new CookieTransformer(_isolateCookies, _targetRootUrl, _rightSideResponse.ResponseUri);
+      // https://github.com/dotnet/corefx/issues/19166
+      // wenn Cookie Path empty, dann sollte current Path herangezogen werden.
+      // Beispiel Url = https://pamgate2.portal.at/at.gv.bmvit.uhs_p/uhs_c/f?p=blablabla
+      // Path sollte sein https://pamgate2.portal.at/at.gv.bmvit.uhs_p/uhs_c
+      // Path ist aber https://pamgate2.portal.at/at.gv.bmvit.uhs_p/uhs_c/f
+      // daher wird Cookie nicht zurückgeliefert
+      foreach (HttpCookie cookie in cookieTransformer.GetLeftSideResponseCookies(_rightSideResponse.Cookies, cookiesWithEmptyPath))
+        _leftSideResponse.Cookies.Add(cookie);
     }
+
+    private string GetCookieName(string headerValue)
+    {
+      if (headerValue == null)
+        return null;
+
+      var indexOfEquals = headerValue.IndexOf("=");
+      if (indexOfEquals < 1)
+        return null;
+
+      var cookieName = headerValue.Substring(0, indexOfEquals);
+      return cookieName;
+    }
+
     protected virtual void TransformRequestHeaders(NameValueCollection leftSideHeaders, WebHeaderCollection rightSideHeaders)
     {
 

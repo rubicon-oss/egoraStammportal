@@ -25,7 +25,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       rightSideCookie.Secure = true;
       rightSideCookie.HttpOnly = true;
 
-      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie);
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false);
 
       Assert.IsNotNull(leftSideCookie);
       Assert.AreEqual("somehost/somepath/TestName", leftSideCookie.Name);
@@ -47,7 +47,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       rightSideCookie.Secure = true;
       rightSideCookie.HttpOnly = true;
 
-      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie);
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false);
 
       Assert.IsNotNull(leftSideCookie);
       Assert.AreEqual("somehost/somepath/_pk_id.1.4515", leftSideCookie.Name);
@@ -71,7 +71,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       rightSideCookie.Secure = false;
       rightSideCookie.HttpOnly = false;
 
-      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie);
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false);
 
       Assert.IsNotNull(leftSideCookie);
       Assert.AreEqual("somehost:8443/somepath/TestName", leftSideCookie.Name);
@@ -96,7 +96,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       rightSideCookie.Secure = false;
       rightSideCookie.HttpOnly = false;
 
-      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie);
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false);
 
       Assert.IsNotNull(leftSideCookie);
       Assert.AreEqual("somehost/TestName", leftSideCookie.Name);
