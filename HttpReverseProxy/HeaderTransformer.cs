@@ -259,17 +259,16 @@ namespace Egora.Stammportal.HttpReverseProxy
               break;
           }
         }
-
-        CookieTransformer cookieTransformer = new CookieTransformer(_isolateCookies, _targetRootUrl, _rightSideResponse.ResponseUri); 
-        // https://github.com/dotnet/corefx/issues/19166
-        // wenn Cookie Path empty, dann sollte current Path herangezogen werden.
-        // Beispiel Url = https://pamgate2.portal.at/at.gv.bmvit.uhs_p/uhs_c/f?p=blablabla
-        // Path sollte sein https://pamgate2.portal.at/at.gv.bmvit.uhs_p/uhs_c
-        // Path ist aber https://pamgate2.portal.at/at.gv.bmvit.uhs_p/uhs_c/f
-        // daher wird Cookie nicht zurückgeliefert
-        foreach (HttpCookie cookie in cookieTransformer.GetLeftSideResponseCookies(_rightSideResponse.Cookies, cookiesWithEmptyPath))
-          _leftSideResponse.Cookies.Add(cookie);
       }
+      CookieTransformer cookieTransformer = new CookieTransformer(_isolateCookies, _targetRootUrl, _rightSideResponse.ResponseUri);
+      // https://github.com/dotnet/corefx/issues/19166
+      // wenn Cookie Path empty, dann sollte current Path herangezogen werden.
+      // Beispiel Url = https://pamgate2.portal.at/at.gv.bmvit.uhs_p/uhs_c/f?p=blablabla
+      // Path sollte sein https://pamgate2.portal.at/at.gv.bmvit.uhs_p/uhs_c
+      // Path ist aber https://pamgate2.portal.at/at.gv.bmvit.uhs_p/uhs_c/f
+      // daher wird Cookie nicht zurückgeliefert
+      foreach (HttpCookie cookie in cookieTransformer.GetLeftSideResponseCookies(_rightSideResponse.Cookies, cookiesWithEmptyPath))
+        _leftSideResponse.Cookies.Add(cookie);
     }
 
     private string GetCookieName(string headerValue)
