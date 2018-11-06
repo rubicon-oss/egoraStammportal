@@ -1,5 +1,0 @@
-D:\Development\egora\stammportal\trunk\Core\bin\Release\Egora.Stammportal.XML
-D:\Development\egora\stammportal\trunk\Core\bin\Release\Egora.Stammportal.dll
-D:\Development\egora\stammportal\trunk\Core\bin\Release\Egora.Stammportal.pdb
-D:\Development\egora\stammportal\trunk\Core\obj\Release\Egora.Stammportal.dll
-D:\Development\egora\stammportal\trunk\Core\obj\Release\Egora.Stammportal.pdb

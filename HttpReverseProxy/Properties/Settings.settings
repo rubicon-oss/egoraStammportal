@@ -80,5 +80,8 @@
     <Setting Name="SecurityProtocol" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">3840</Value>
     </Setting>
+    <Setting Name="WorkaroundCookieWithEmptyPath" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

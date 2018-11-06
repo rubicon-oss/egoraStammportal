@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web;
+using Egora.Stammportal.HttpReverseProxy.Properties;
 
 namespace Egora.Stammportal.HttpReverseProxy
 {
@@ -63,7 +64,7 @@ namespace Egora.Stammportal.HttpReverseProxy
 
     public virtual HttpCookie CreateLeftSideResponseCookie(Cookie rightSideResponseCookie, bool useRequestPath)
     {
-      var path = useRequestPath ? _defaultCookiePath : rightSideResponseCookie.Path;
+      var path = Settings.Default.WorkaroundCookieWithEmptyPath && useRequestPath ? _defaultCookiePath : rightSideResponseCookie.Path;
       string value = String.Format("{0}|{1}|{2}|{3}", c_CookieSignature, rightSideResponseCookie.Domain,
                                    path, rightSideResponseCookie.Value);
       HttpCookie newCookie = new HttpCookie(CookieNamePrefix + rightSideResponseCookie.Name, value);
