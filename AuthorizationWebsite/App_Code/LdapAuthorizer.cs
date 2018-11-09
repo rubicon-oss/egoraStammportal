@@ -51,7 +51,7 @@ public class LdapAuthorizer : WebService, IAuthorizationContract
     }
     else if (authorizer.IsSoap)
     {
-      auth.SoapHeaderXmlFragment = authorizer.PvpSoapFragment;
+      auth.SoapHeaderXmlFragment = authorizer.UserPrincipalSoapFragment;
     }
     else
     {

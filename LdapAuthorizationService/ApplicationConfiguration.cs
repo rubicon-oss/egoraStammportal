@@ -76,7 +76,7 @@ namespace Egora.Stammportal.LdapAuthorizationService
         foreach (PvpConfigAttribute attrXml in _pvpConfigAttributesXml)
         {
           ApplicationConfiguration global = LdapConfiguration.GetConfiguration().GlobalApplication;
-          if (this == global)
+          if (this == global || attrXml.BlockGlobal)
           {
             attrXml.GlobalConfigAttribute = null;
           }

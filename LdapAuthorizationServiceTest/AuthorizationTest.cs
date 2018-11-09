@@ -92,7 +92,7 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
 
       Assert.AreEqual(500, authorizer.AuthorizationTimeToLive, "TimeToLive");
 
-      string outerXml = authorizer.PvpSoapFragment.OuterXml;
+      string outerXml = authorizer.UserPrincipalSoapFragment.OuterXml;
       Assert.IsTrue(outerXml.StartsWith("<pvpToken version=\"1.9\" xmlns=\"http://egov.gv.at/pvp1.xsd\"><authenticate><participantId>Max.Mustermann</participantId>"));
       
       string userPrincipal = outerXml.Substring(outerXml.IndexOf("<userPrincipal>"));
@@ -117,6 +117,21 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
       Assert.AreEqual("egora.drei@egora.at", authorizer.Mail, "MailAddress");
       Assert.IsNull(authorizer.Roles, "Roles");
       Assert.AreEqual("Test", authorizer.Ou, "OU");
+    }
+
+    [Test]
+    public void FixedRoleAttribute()
+    {
+      PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer("https://dummy.com/fixedrole/", "egora2");
+      Assert.IsNotNull(authorizer);
+      Assert.AreEqual("egora.zwei@egora.at", authorizer.Mail);
+      Assert.IsTrue(authorizer.IsValid);
+      Assert.IsFalse(authorizer.IsWeb);
+      Assert.IsTrue(authorizer.IsSoap);
+      Assert.That(authorizer.Roles, Is.EqualTo("FixedRole(param=val)"));
+
+      var chainedToken = authorizer.GetPvpToken().GetChainedSoapFragment();
+
     }
 
     [Test]

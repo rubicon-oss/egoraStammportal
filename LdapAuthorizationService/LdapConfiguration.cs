@@ -7,6 +7,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 *************************/
 using System.IO;
 using System.Xml.Serialization;
+using Egora.Stammportal.LdapAuthorizationService.Properties;
 
 namespace Egora.Stammportal.LdapAuthorizationService
 {
@@ -18,13 +19,13 @@ namespace Egora.Stammportal.LdapAuthorizationService
     private static LdapConfiguration s_configuration = null;
     private static object s_configurationLock = new object();
 
-    public static LdapConfiguration GetConfiguration(bool reload)
+    public static LdapConfiguration GetConfiguration(string configFileName, bool reload)
     {
       if (s_configuration == null || reload)
       {
         lock (s_configurationLock)
         {
-          string configurationFileName = Properties.Settings.Default.ConfigFile;
+          string configurationFileName = configFileName;
           XmlSerializer serializer = new XmlSerializer(typeof (LdapConfiguration));
           using (StreamReader f = File.OpenText(configurationFileName))
           {
@@ -37,10 +38,21 @@ namespace Egora.Stammportal.LdapAuthorizationService
 
     public static LdapConfiguration GetConfiguration()
     {
-      return GetConfiguration(false);
+      return GetConfiguration(Properties.Settings.Default.ConfigFile, false);
+    }
+    public static LdapConfiguration GetConfiguration(string configFileName)
+    {
+      return GetConfiguration(configFileName, false);
+    }
+    public static LdapConfiguration GetConfiguration(bool reload)
+    {
+      return GetConfiguration(Properties.Settings.Default.ConfigFile, reload);
     }
 
-
+    public static string DefaultConfigFile
+    {
+      get { return Settings.Default.ConfigFile; }
+    }
     public LdapConfiguration()
     {
     }
