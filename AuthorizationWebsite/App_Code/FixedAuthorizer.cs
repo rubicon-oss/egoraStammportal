@@ -35,11 +35,14 @@ public class FixedAuthorizer : System.Web.Services.WebService
   [WebMethod]
   public CustomAuthorization GetAuthorization(string rootUrl, string userId)
   {
-    var file = Path.Combine(HttpContext.Current.Request.ApplicationPath, LdapConfiguration.DefaultConfigFile);
-    LdapConfiguration configuration = LdapConfiguration.GetConfiguration("C:\\Development\\products\\egoraStammportal\\AuthorizationWebsite\\Configuration.xml");
+    var file = Path.Combine(Server.MapPath("~"), "ConfigurationFixed.xml");
+    LdapConfiguration configuration = LdapConfiguration.GetConfiguration(file);
 
     rootUrl = rootUrl.ToLowerInvariant();
     PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer(rootUrl, userId, configuration);
+
+    if (!authorizer.IsValid)
+      return  CustomAuthorization.NoAuthorization;
 
     CustomAuthorization auth = new CustomAuthorization();
     auth.TimeToLive = authorizer.AuthorizationTimeToLive;

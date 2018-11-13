@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Configuration xmlns="http://www.egora.at/Stammportal/LdapConfiguration/1.1">
+
+  <Application
+    name="Global"
+    ldapRoot="LDAP://OU=Stammportal,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
+    authorizationTimeToLive="600"
+    domainPrefix="rubicon"
+    soapPrincipal="
+    &lt;userPrincipal>
+      &lt;userId>{0}&lt;/userId>
+      &lt;cn>{1}&lt;/cn>
+      &lt;gvOuId>{2}&lt;/gvOuId>
+      &lt;ou>{3}&lt;/ou>
+      &lt;mail>{4}&lt;/mail>
+      &lt;tel>{5}&lt;/tel>
+      &lt;gvSecClass>{6}&lt;/gvSecClass>
+      &lt;gvGid>{7}&lt;/gvGid>
+      &lt;gvFunction>{8}&lt;/gvFunction>
+    &lt;/userPrincipal>">
+    <PvpAttribute name="X-Version" default="1.9" />
+    <PvpAttribute name="X-AUTHENTICATE-cn" ldapAttribute="cn" />
+    <PvpAttribute name="X-AUTHENTICATE-participantId" default="AT:VKZ:XFN-216900x" />
+    <PvpAttribute name="X-AUTHENTICATE-gvGid" ldapAttribute="mail" default="office@rubicon.eu" />
+    <PvpAttribute name="X-AUTHENTICATE-gvOuId" default="rubicon" />
+    <PvpAttribute name="X-AUTHENTICATE-mail" ldapAttribute="MAIL" />
+    <PvpAttribute name="X-AUTHENTICATE-tel" ldapAttribute="PHONE" />
+    <PvpAttribute name="X-AUTHORIZE-roles" ldapAttribute="description" source="Group"/>
+    <PvpAttribute name="X-AUTHENTICATE-gvSecClass" default="2" />
+  </Application>
+
+  <Application
+    name="FixedRole"
+    ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
+    groupContainer="LDAP://DC=int,DC=rubicon-it,DC=com"
+    soapUrls="https://dummy.com/fixedrole/"
+    recurseGroupMembership="false"
+    mustHaveRole="false">
+    <PvpAttribute name="X-Version" default="1.9" />
+    <PvpAttribute key="ROLES" default="FixedRole(param=val)" blockGlobal="true"/>
+    <PvpAttribute name="X-AUTHENTICATE-mail" default="default@rubicon-it.com" />
+    <PvpAttribute name="X-AUTHENTICATE-tel" default="+43 1 5332555-0"/>
+    <PvpAttribute name="X-AUTHENTICATE-Ou" default="Test" />
+  </Application>
+
+</Configuration>

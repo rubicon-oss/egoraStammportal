@@ -9,6 +9,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using Egora.Stammportal.LdapAuthorizationService.Properties;
 
@@ -31,7 +32,14 @@ namespace Egora.Stammportal.LdapAuthorizationService
           XmlSerializer serializer = new XmlSerializer(typeof (LdapConfiguration));
           using (StreamReader f = File.OpenText(configFileName))
           {
-            s_configuration.Add(configFileName,  (LdapConfiguration) serializer.Deserialize(f));
+            var ldapConfiguration = (LdapConfiguration) serializer.Deserialize(f);
+            var global = ldapConfiguration.GlobalApplication;
+            foreach (var application in ldapConfiguration.Applications)
+            {
+              application.GlobalApplication = global;
+            }
+
+            s_configuration.Add(configFileName,  ldapConfiguration);
           }
         }
       }
