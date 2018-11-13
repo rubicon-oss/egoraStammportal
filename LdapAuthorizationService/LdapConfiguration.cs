@@ -5,6 +5,9 @@ Die Verwendung des Codes ist unter den Bedingungen der Microsoft Public License 
 This software is sample code and is subject to the Microsoft Public License. 
 You may use this code according to the conditions of the Microsoft Public License.
 *************************/
+
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using Egora.Stammportal.LdapAuthorizationService.Properties;
@@ -16,24 +19,23 @@ namespace Egora.Stammportal.LdapAuthorizationService
   {
     public const string Namespace = "http://www.egora.at/Stammportal/LdapConfiguration/1.1";
 
-    private static LdapConfiguration s_configuration = null;
+    private static Dictionary<string, LdapConfiguration> s_configuration = new Dictionary<string, LdapConfiguration>(StringComparer.InvariantCultureIgnoreCase);
     private static object s_configurationLock = new object();
 
     public static LdapConfiguration GetConfiguration(string configFileName, bool reload)
     {
-      if (s_configuration == null || reload)
+      if (!s_configuration.ContainsKey(configFileName) || reload)
       {
         lock (s_configurationLock)
         {
-          string configurationFileName = configFileName;
           XmlSerializer serializer = new XmlSerializer(typeof (LdapConfiguration));
-          using (StreamReader f = File.OpenText(configurationFileName))
+          using (StreamReader f = File.OpenText(configFileName))
           {
-            s_configuration = (LdapConfiguration) serializer.Deserialize(f);
+            s_configuration.Add(configFileName,  (LdapConfiguration) serializer.Deserialize(f));
           }
         }
       }
-      return s_configuration;
+      return s_configuration[configFileName];
     }
 
     public static LdapConfiguration GetConfiguration()
