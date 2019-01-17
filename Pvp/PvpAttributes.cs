@@ -12,36 +12,112 @@ using System.Text;
 
 namespace Egora.Pvp
 {
+
+  /// <summary>
+  /// Enum for Pvp Attributes for general access (saml, http, soap)
+  /// </summary>
   public enum PvpAttributes
   {
+    /// <summary>
+    /// Http Header 1.x 'X-Version'
+    /// </summary>
     VERSION = 1,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHENTICATE-gvSecClass'
+    /// </summary>
     SECCLASS,
     PRINCIPAL_NAME,
     GIVEN_NAME,
     BIRTHDATE,
+    /// <summary>
+    /// Http Heaader 1.x 'X-AUTHENTICATE-USERID'
+    /// </summary>
     USERID,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHENTICATE-GVGID'
+    /// </summary>
     GID,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHENTICATE-GVBPK'
+    /// </summary>
     BPK,
     ENC_BPK_LIST,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHENTICATE-MAIL'
+    /// </summary>
     MAIL,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHENTICATE-TEL'
+    /// </summary>
     TEL,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHENTICATE-PARTICIPANTID'
+    /// </summary>
     PARTICIPANT_ID,
     PARTICIPANT_OKZ,
+    /// <summary>
+    /// Http Header 1.9.2 'X-AUTHENTICATE-GVOUOKZ'
+    /// </summary>
     OU_OKZ,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHENTICATE-GVOUID'
+    /// </summary>
     OU_GV_OU_ID,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHENTICATE-OU'
+    /// </summary>
     OU,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHENTICATE-GVFUNCTION'
+    /// </summary>
     FUNCTION,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHORIZE-ROLES'
+    /// </summary>
     ROLES,
+    /// <summary>
+    /// Http Header 1.x 'X-ACCOUNTING-INVOICERECPTID'
+    /// </summary>
     INVOICE_RECPT_ID,
+    /// <summary>
+    /// Http Header 1.x 'X-ACCOUNTING-COSTCENTERID'
+    /// </summary>
     COST_CENTER_ID,
+    /// <summary>
+    /// Http Header 1.x 'X-ACCOUNTING-CHARGECODE'
+    /// </summary>
     CHARGE_CODE,
+    /// <summary>
+    /// Http Header 1.9 'X-TXID'
+    /// </summary>
     TXID,
+    /// <summary>
+    /// Http Header 1.9 'X-ORIG-SCHEME'
+    /// </summary>
     ORIG_SCHEME,
+    /// <summary>
+    /// Http Header 1.9 'X-ORIG-HOSTINFO'
+    /// </summary>
     ORIG_HOST,
+    /// <summary>
+    /// Http Header 1.9 'X-ORIG-URI'
+    /// </summary>
     ORIG_URI,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHENTICATE-cn'
+    /// </summary>
     X_AUTHENTICATE_cn,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHORIZE-gvOuId'
+    /// </summary>
     X_AUTHORIZE_gvOuId,
+    /// <summary>
+    /// Http Header 1.x 'X-AUTHORIZE-Ou'
+    /// </summary>
     X_AUTHORIZE_Ou,
+    /// <summary>
+    /// Http Header 1.9 'X-AUTHORIZE-gvOuOKZ'
+    /// </summary>
     X_AUTHORIZE_GvOuOkz,
     Generic,
   };
