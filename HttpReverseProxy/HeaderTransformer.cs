@@ -468,7 +468,7 @@ namespace Egora.Stammportal.HttpReverseProxy
           break;
       }
 
-      if (!isPvpHeader && h.StartsWith("x-pvp-"))
+      if (!isPvpHeader && h.StartsWith("x-pvp-") && !h.Equals("x-pvp-txid") && !h.Equals("x-txid")) //txid wird nicht gechained
         isPvpHeader = true;
 
       // ToDo Chaining over 2 or more hops
