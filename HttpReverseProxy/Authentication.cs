@@ -11,6 +11,7 @@ using System.IO;
 using System.Net;
 using System.Security.Principal;
 using System.Web;
+using System.Web.Security;
 using Egora.Stammportal.HttpReverseProxy.Properties;
 
 namespace Egora.Stammportal.HttpReverseProxy
@@ -60,6 +61,10 @@ namespace Egora.Stammportal.HttpReverseProxy
           string from = _leftSideRequest.Headers["From"];
           if (!String.IsNullOrEmpty(from))
             return from;
+        }
+        else if (HttpContext.Current.User.Identity is FormsIdentity)
+        {
+          return HttpContext.Current.User.Identity.Name;
         }
 
         return GetIdentity().Name;

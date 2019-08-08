@@ -190,7 +190,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
     private HttpWebRequest CreateRequest(string query)
     {
       HttpWebRequest request =
-        (HttpWebRequest)WebRequest.Create("http://egoratest/Stammportal/localtest1/IntegrationTestPage.aspx" + (String.IsNullOrEmpty(query)?"":"?"+query));
+        (HttpWebRequest)WebRequest.Create("http://egoratest/Stammportal/localtest1/IntegrationTestPage.aspx" + (String.IsNullOrEmpty(query) ? "" : "?"+query));
       request.UseDefaultCredentials = true;
       return request;
     }
