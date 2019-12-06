@@ -5,6 +5,8 @@ Die Verwendung des Codes ist unter den Bedingungen der Microsoft Public License 
 This software is sample code and is subject to the Microsoft Public License. 
 You may use this code according to the conditions of the Microsoft Public License.
 *************************/
+
+using System;
 using System.Collections.Generic;
 using System.Web;
 using System.Xml.Serialization;
@@ -42,7 +44,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
     {
       foreach (HeaderInformation header in Headers)
       {
-        if (header.Name == headerName)
+        if (header.Name.Equals(headerName, StringComparison.InvariantCultureIgnoreCase))
           return header.Value;
       }
 

@@ -214,7 +214,6 @@ namespace Egora.Stammportal.HttpReverseProxy
           {
             // Do nothing
             case "keep-alive":
-            case "transfer-encoding":
             case "content-length":
             case "range":
               TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
@@ -223,8 +222,14 @@ namespace Egora.Stammportal.HttpReverseProxy
                 headerValue);
               break;
 
+            case "transfer-encoding":
+                //if (String.Equals(headerValue, "chunked", StringComparison.InvariantCultureIgnoreCase))
+                //    _leftSideResponse.SendChunked = true;
+                // else if (String.Equals(headerValue, "compress, deflate, gzip, identity", StringComparison.InvariantCultureIgnoreCase))
+                // else do nothing
+                break;
             // Cookies
-            case "set-cookie":
+                        case "set-cookie":
             case "set-cookie2":
               TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
                 (int) Event.TransformResponse,
@@ -341,7 +346,10 @@ namespace Egora.Stammportal.HttpReverseProxy
             break;
 
           case "transfer-encoding":
-            _rightSideRequest.TransferEncoding = headerValue;
+              if (String.Equals(headerValue, "chunked", StringComparison.InvariantCultureIgnoreCase))
+                _rightSideRequest.SendChunked = true;
+              else
+                _rightSideRequest.TransferEncoding = headerValue;
             break;
 
           case "content-length":

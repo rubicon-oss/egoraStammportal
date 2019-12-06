@@ -2,3 +2,13 @@
 Output/
 [Oo]bj/
 [Bb]in/
+/_lib/ComponentSpace/ComponentSpace.SAML2.dll
+/References/ComponentSpace.SAML2.dll
+/References/nunit.framework.dll
+/References/private/ComponentSpace.SAML2.dll
+/StammportalForms/Administration/Applications.aspx
+/StammportalForms/Administration/Authorization.aspx
+/StammportalForms/Administration/Connection.aspx
+/StammportalForms/Administration/Reset.aspx
+/StammportalForms/Mapping.Beispiel.xml
+/StammportalForms/Mapping.xml

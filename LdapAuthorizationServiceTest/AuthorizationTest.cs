@@ -7,6 +7,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 *************************/
 
 using System;
+using System.Xml;
 using Egora.Pvp;
 using Egora.Stammportal.LdapAuthorizationService;
 using NUnit.Framework;
@@ -43,6 +44,11 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
                                                                                  @"egora1");
       Assert.IsNotNull(authorizer);
       Assert.IsTrue(authorizer.IsValid);
+      var fragment = authorizer.UserPrincipalSoapFragment;
+      var ns = new XmlNamespaceManager(new NameTable());
+      ns.AddNamespace("pvp", PvpToken.PvpTokenNamespace );
+      var userId = fragment.SelectSingleNode("//pvp:userId", ns);
+      Assert.AreEqual("egora.eins@egora.at", userId.InnerText);
       Assert.AreEqual("egora.eins@egora.at", authorizer.Mail, "MailAddress");
       Assert.AreEqual("&<>\"'ZMR-Behoerdenabfrage_(&GKZ=&1234)", authorizer.Roles, "Roles");
       Assert.AreEqual("Vienna", authorizer.CostCenterId);

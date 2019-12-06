@@ -142,7 +142,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
       string[] txParts = txid.Split("$@".ToCharArray());
       Assert.AreEqual(3, txParts.Length);
       Assert.AreEqual(DateTime.Now.ToString("yyyyMMdd_HH"), txParts[0].Substring(0,11));
-      Assert.AreEqual("000", txParts[1].Substring(0,3));
+      Assert.AreEqual("00", txParts[1].Substring(0,2)); //letzte stelle könnte mehr als 0 sein, wenn mehr als 1 request zur gleichen zeit kommt
       Assert.AreEqual("egoratest", txParts[2]);
     }
 
@@ -164,6 +164,31 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
 
       Assert.IsNotNull(info.GetHeader("PVP-Header1"), "PVP-Header1");
       Assert.AreEqual("PVP-Value1", info.GetHeader("PVP-Header1"));
+    }
+
+    [Test]
+    public void Chunked()
+    {
+        HttpWebRequest request = CreateRequest();
+        request.SendChunked = true;
+        request.Method = "POST";
+        using (var s = request.GetRequestStream())
+        {
+            byte[] someText = Encoding.UTF8.GetBytes("SomeText");
+            s.Write(someText, 0, someText.Length);
+        } 
+        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+        Assert.IsNotNull(response, "Response");
+
+        XmlSerializer serializer = new XmlSerializer(typeof(RequestInformation));
+        RequestInformation info = (RequestInformation)serializer.Deserialize(response.GetResponseStream());
+
+        Assert.IsNotNull(info, "RequestInformation");
+        Assert.AreEqual("chunked", info.GetHeader("Transfer-Encoding")); 
+
+        Assert.IsNotNull(info.GetHeader("PVP-Header1"), "PVP-Header1");
+        Assert.AreEqual("PVP-Value1", info.GetHeader("PVP-Header1"));
     }
 
     [Test]
