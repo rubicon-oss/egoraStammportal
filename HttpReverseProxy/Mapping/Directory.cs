@@ -112,7 +112,7 @@ namespace Egora.Stammportal.HttpReverseProxy.Mapping
       set
       {
         if (!HasUniqueNames(value))
-          throw new ApplicationException("Directories mus have unique names.");
+          throw new ApplicationException("Directories must have unique names.");
 
         _directories = value;
         foreach (Directory subDir in _directories)

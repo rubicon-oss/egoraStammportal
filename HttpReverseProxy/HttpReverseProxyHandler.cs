@@ -136,7 +136,7 @@ namespace Egora.Stammportal.HttpReverseProxy
                 catch (AuthorizationException e)
                 {
                   traceScope.TraceEvent(TraceEventType.Verbose, (int) Event.NotAuthorized, e.Message);
-                  context.Response.StatusCode = 406;
+                  context.Response.StatusCode = 403;
                   context.Response.End();
                 }
               }

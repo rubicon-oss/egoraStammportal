@@ -29,6 +29,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -235,6 +236,12 @@ xcopy $(ProjectDir)Administration\*.aspx $(SolutionDir)Output\$(ConfigurationNam
 
 if Exist $(SolutionDir)Output\$(ConfigurationName)\Authorizer del $(SolutionDir)Output\$(ConfigurationName)\Authorizer\*.* /s /q
 xcopy $(SolutionDir)AuthorizationWebsite\*.* $(SolutionDir)Output\$(ConfigurationName)\Authorizer\ /s
+
+if Exist $(SolutionDir)StammportalForms\bin del $(SolutionDir)StammportalForms\bin\*.* /s /q
+xcopy $(TargetDir)*.* $(SolutionDir)StammportalForms\bin
+
+if Exist $(SolutionDir)StammportalForms\Administration del $(SolutionDir)StammportalForms\Administration\*.* /s /q
+xcopy $(ProjectDir)Administration\*.aspx $(SolutionDir)StammportalForms\Administration
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

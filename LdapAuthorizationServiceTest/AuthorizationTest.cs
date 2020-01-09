@@ -7,6 +7,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 *************************/
 
 using System;
+using System.Xml;
 using Egora.Pvp;
 using Egora.Stammportal.LdapAuthorizationService;
 using NUnit.Framework;
@@ -43,6 +44,11 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
                                                                                  @"egora1");
       Assert.IsNotNull(authorizer);
       Assert.IsTrue(authorizer.IsValid);
+      var fragment = authorizer.UserPrincipalSoapFragment;
+      var ns = new XmlNamespaceManager(new NameTable());
+      ns.AddNamespace("pvp", PvpToken.PvpTokenNamespace );
+      var userId = fragment.SelectSingleNode("//pvp:userId", ns);
+      Assert.AreEqual("egora.eins@egora.at", userId.InnerText);
       Assert.AreEqual("egora.eins@egora.at", authorizer.Mail, "MailAddress");
       Assert.AreEqual("&<>\"'ZMR-Behoerdenabfrage_(&GKZ=&1234)", authorizer.Roles, "Roles");
       Assert.AreEqual("Vienna", authorizer.CostCenterId);
@@ -92,7 +98,7 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
 
       Assert.AreEqual(500, authorizer.AuthorizationTimeToLive, "TimeToLive");
 
-      string outerXml = authorizer.PvpSoapFragment.OuterXml;
+      string outerXml = authorizer.UserPrincipalSoapFragment.OuterXml;
       Assert.IsTrue(outerXml.StartsWith("<pvpToken version=\"1.9\" xmlns=\"http://egov.gv.at/pvp1.xsd\"><authenticate><participantId>Max.Mustermann</participantId>"));
       
       string userPrincipal = outerXml.Substring(outerXml.IndexOf("<userPrincipal>"));
@@ -117,6 +123,21 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
       Assert.AreEqual("egora.drei@egora.at", authorizer.Mail, "MailAddress");
       Assert.IsNull(authorizer.Roles, "Roles");
       Assert.AreEqual("Test", authorizer.Ou, "OU");
+    }
+
+    [Test]
+    public void FixedRoleAttribute()
+    {
+      PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer("https://dummy.com/fixedrole/", "egora2");
+      Assert.IsNotNull(authorizer);
+      Assert.AreEqual("egora.zwei@egora.at", authorizer.Mail);
+      Assert.IsTrue(authorizer.IsValid);
+      Assert.IsFalse(authorizer.IsWeb);
+      Assert.IsTrue(authorizer.IsSoap);
+      Assert.That(authorizer.Roles, Is.EqualTo("FixedRole(param=val)"));
+
+      var chainedToken = authorizer.GetPvpToken().GetChainedSoapFragment();
+
     }
 
     [Test]

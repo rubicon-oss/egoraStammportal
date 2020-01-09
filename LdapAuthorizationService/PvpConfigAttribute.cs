@@ -135,6 +135,13 @@ namespace Egora.Stammportal.LdapAuthorizationService
       set { _source = value; }
     }
 
+    private bool _blockGlobal;
+    [XmlAttribute("blockGlobal")]
+    public bool BlockGlobal
+    {
+      get { return _blockGlobal; }
+      set { _blockGlobal = value; }
+    }
     private PvpConfigAttribute _globalConfigAttribute;
 
     [XmlIgnore]

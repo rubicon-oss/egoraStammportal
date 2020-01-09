@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DF9D0C4F-687E-4232-8DCB-D00CC52083F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPvpService", "TestPvpService\TestPvpService.csproj", "{1D6EB19A-4D47-4250-B13F-59835330179F}"
@@ -15,13 +17,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpReverseProxy.UnitTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPvpApplication", "TestPvpApplication\TestPvpApplication.csproj", "{1FA4C906-2A19-4583-8222-0A256F76F317}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AuthorizationWebsite", "AuthorizationWebsite", "{DA5EB9D6-4795-46AA-9679-FD2713931465}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AuthorizationWebsite", "AuthorizationWebsite\", "{DA5EB9D6-4795-46AA-9679-FD2713931465}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = "SAK"
 		SccAuxPath = "SAK"
 		SccLocalPath = "SAK"
 		SccProvider = "SAK"
-		Frontpage = "false"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		ProjectReferences = "{0D58FF71-F334-41DE-BA90-7042AF6CE33F}|LdapAuthorizationService.dll;{FBF8007D-C65A-4CC8-BE05-ADDD01DACF13}|Egora.Stammportal.dll;{BD0C3EB6-0E27-44B5-AFA4-DCE729D15985}|Egora.Pvp.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/AuthorizationWebsite"
@@ -39,6 +40,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AuthorizationWebsite", "Aut
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "1500"
+		SlnRelativePath = "AuthorizationWebsite\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
@@ -52,51 +54,28 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pvp.Test", "Pvp.Test\Pvp.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PvpIdentityProvider", "PvpIdentityProvider\PvpIdentityProvider.csproj", "{7C5D7C8E-65DC-43CC-B3ED-A5F68F9140B3}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "StammportalForms", "StammportalForms\", "{0EF16DCC-605A-4B6E-961A-C769605C6B5C}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_52073"
+		Debug.AspNetCompiler.PhysicalPath = "StammportalForms\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52073\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_52073"
+		Release.AspNetCompiler.PhysicalPath = "StammportalForms\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52073\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "52073"
+		SlnRelativePath = "StammportalForms\"
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 13
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs01
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = TestPvpService\\TestPvpService.csproj
-		SccProjectName1 = TestPvpService
-		SccLocalPath1 = TestPvpService
-		SccProjectUniqueName2 = LdapAuthorizationService\\LdapAuthorizationService.csproj
-		SccProjectName2 = LdapAuthorizationService
-		SccLocalPath2 = LdapAuthorizationService
-		SccProjectUniqueName3 = HttpReverseProxy\\HttpReverseProxy.csproj
-		SccProjectName3 = HttpReverseProxy
-		SccLocalPath3 = HttpReverseProxy
-		SccProjectUniqueName4 = Core\\Core.csproj
-		SccProjectName4 = Core
-		SccLocalPath4 = Core
-		SccProjectUniqueName5 = HttpReverseProxy.UnitTests\\HttpReverseProxy.UnitTests.csproj
-		SccProjectName5 = HttpReverseProxy.UnitTests
-		SccLocalPath5 = HttpReverseProxy.UnitTests
-		SccProjectUniqueName6 = TestPvpApplication\\TestPvpApplication.csproj
-		SccProjectName6 = TestPvpApplication
-		SccLocalPath6 = TestPvpApplication
-		SccWebProject7 = true
-		SccProjectUniqueName7 = AuthorizationWebsite
-		SccProjectName7 = AuthorizationWebsite
-		SccLocalPath7 = AuthorizationWebsite
-		SccProjectEnlistmentChoice7 = 2
-		SccProjectUniqueName8 = TestAuthorizationWebService\\TestAuthorizationWebService.csproj
-		SccProjectName8 = TestAuthorizationWebService
-		SccLocalPath8 = TestAuthorizationWebService
-		SccProjectUniqueName9 = LdapAuthorizationServiceTest\\LdapAuthorizationServiceTest.csproj
-		SccProjectName9 = LdapAuthorizationServiceTest
-		SccLocalPath9 = LdapAuthorizationServiceTest
-		SccProjectUniqueName10 = Pvp\\Pvp.csproj
-		SccProjectName10 = Pvp
-		SccLocalPath10 = Pvp
-		SccProjectUniqueName11 = Pvp.Test\\Pvp.Test.csproj
-		SccProjectName11 = Pvp.Test
-		SccLocalPath11 = Pvp.Test
-		SccProjectUniqueName12 = PvpIdentityProvider\\PvpIdentityProvider.csproj
-		SccProjectName12 = PvpIdentityProvider
-		SccLocalPath12 = PvpIdentityProvider
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
 		Debug|Any CPU = Debug|Any CPU
@@ -226,8 +205,23 @@ Global
 		{7C5D7C8E-65DC-43CC-B3ED-A5F68F9140B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C5D7C8E-65DC-43CC-B3ED-A5F68F9140B3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7C5D7C8E-65DC-43CC-B3ED-A5F68F9140B3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Debug|.NET.Build.0 = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Release|.NET.ActiveCfg = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Release|.NET.Build.0 = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2CD0D264-D3AC-4EBB-A152-05251A3E482A}
 	EndGlobalSection
 EndGlobal

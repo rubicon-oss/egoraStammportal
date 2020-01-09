@@ -128,7 +128,7 @@
             <asp:BoundColumn DataField="CostCenterId" HeaderText="CostCenterId"></asp:BoundColumn>
             <asp:TemplateColumn HeaderText="Soap">
               <ItemTemplate>
-                <asp:Label runat="server" Text="Xml" ToolTip='<%#DataBinder.Eval(Container, "DataItem.PvpSoapFragment.OuterXml")%>'></asp:Label>
+                <asp:Label runat="server" Text="Xml" ToolTip='<%#DataBinder.Eval(Container, "DataItem.UserPrincipalSoapFragment.OuterXml")%>'></asp:Label>
               </ItemTemplate>
             </asp:TemplateColumn>
           </Columns>

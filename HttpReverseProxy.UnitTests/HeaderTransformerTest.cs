@@ -77,6 +77,31 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     }
 
     [Test]
+    public void TxId19Test()
+    {
+      var transformer = new HeaderTransformerTestObject(PvpTokenHandling.chain, "1.9");
+      WebHeaderCollection coll1 = new WebHeaderCollection()
+                                  {
+                                    {"X-TXID", "asdf" }
+                                  };
+      WebHeaderCollection rightsideHeaders = transformer.TransformRequestHeaders(coll1);
+      Assert.AreEqual(1, rightsideHeaders.Count);
+      Assert.AreEqual("asdf", rightsideHeaders["X-TXID"]);
+    }
+    [Test]
+    public void TxId20Test()
+    {
+      var transformer = new HeaderTransformerTestObject(PvpTokenHandling.chain, "2.0");
+      WebHeaderCollection coll1 = new WebHeaderCollection()
+                                  {
+                                    {"X-PVP-TXID", "asdf" }
+                                  };
+      WebHeaderCollection rightsideHeaders = transformer.TransformRequestHeaders(coll1);
+      Assert.AreEqual(1, rightsideHeaders.Count);
+      Assert.AreEqual("asdf", rightsideHeaders["X-PVP-TXID"]);
+    }
+
+    [Test]
     public void LocationHeaderTest2()
     {
       string location =
@@ -186,6 +211,10 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       
     }
 
+    public HeaderTransformerTestObject(PvpTokenHandling pvpTokenHandling, string version) : base(new HttpRequest("", "http://no.where/", null), (HttpWebRequest)WebRequest.Create("http://no.where/"), pvpTokenHandling, "dummy", "dummy", false, version)
+    {
+
+    }
     public WebHeaderCollection TransformRequestHeaders(NameValueCollection leftSideHeaders)
     {
       WebHeaderCollection rightSideHeaders=new WebHeaderCollection();

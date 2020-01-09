@@ -42,8 +42,7 @@ namespace Egora.Stammportal.LdapAuthorizationService
       get
       {
         List<PvpAttributes> attrs = PvpConfigAttributes == null ? new List<PvpAttributes>() : new List<PvpAttributes>(PvpConfigAttributes.Select(a => a.Key));
-        attrs.AddRange(
-          LdapConfiguration.GetConfiguration().GlobalApplication.PvpConfigAttributes.Where(ga => !attrs.Contains(ga.Key)).Select(a => a.Key));
+        attrs.AddRange(GlobalApplication.PvpConfigAttributes.Where(ga => !attrs.Contains(ga.Key)).Select(a => a.Key));
         return attrs.ToArray();
       }
     }
@@ -61,7 +60,7 @@ namespace Egora.Stammportal.LdapAuthorizationService
       if (_pvpAttributes.TryGetValue(key, out attr))
         return attr;
       
-      ApplicationConfiguration globalApp = LdapConfiguration.GetConfiguration().GlobalApplication;
+      ApplicationConfiguration globalApp = GlobalApplication;
       if (this != globalApp)
         return globalApp.GetPvpAttribute(key);
       
@@ -75,8 +74,8 @@ namespace Egora.Stammportal.LdapAuthorizationService
       {
         foreach (PvpConfigAttribute attrXml in _pvpConfigAttributesXml)
         {
-          ApplicationConfiguration global = LdapConfiguration.GetConfiguration().GlobalApplication;
-          if (this == global)
+          ApplicationConfiguration global = GlobalApplication;
+          if (this == global || attrXml.BlockGlobal)
           {
             attrXml.GlobalConfigAttribute = null;
           }
@@ -105,7 +104,7 @@ namespace Egora.Stammportal.LdapAuthorizationService
       string localValue = GetConfigValue(localName);
       if (localValue == null)
       {
-        ApplicationConfiguration global = LdapConfiguration.GetConfiguration().GlobalApplication;
+        ApplicationConfiguration global = GlobalApplication;
         if (this != global)
           return global.GetConfigValue(localName);
       }
@@ -197,6 +196,8 @@ namespace Egora.Stammportal.LdapAuthorizationService
     {
       get { return GetConfigValue("mustHaveRole") == "true"; }
     }
+    [XmlIgnore]
+    public ApplicationConfiguration GlobalApplication { get; internal set; }
 
     public bool IsWeb(string rootUrl)
     {

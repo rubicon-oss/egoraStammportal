@@ -184,20 +184,20 @@ namespace Egora.Stammportal.LdapAuthorizationService
       return attributeName==PvpAttributes.ROLES ? String.Join(";", values) : String.Join (",", values);
     }
 
-    private XmlElement _pvpSoapFragment = null;
-    public XmlElement PvpSoapFragment
+    private XmlElement _userPrincipalSoapFragment = null;
+    public XmlElement UserPrincipalSoapFragment
     {
       get
       {
         if (User==null)
           return null;
 
-        if (_pvpSoapFragment == null)
+        if (_userPrincipalSoapFragment == null)
         {
-          _pvpSoapFragment=GetPvpToken().GetUserPrincipalSoapFragment();
+          _userPrincipalSoapFragment=GetPvpToken().GetUserPrincipalSoapFragment();
         }
 
-        return _pvpSoapFragment;
+        return _userPrincipalSoapFragment;
       }
     }
 

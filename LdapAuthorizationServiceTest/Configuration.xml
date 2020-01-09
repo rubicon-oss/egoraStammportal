@@ -85,4 +85,17 @@
     recurseGroupMembership="false">
   </Application>
 
+  <Application
+    name="FixedRole"
+    ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
+    groupContainer="LDAP://DC=int,DC=rubicon-it,DC=com"
+    soapUrls="https://dummy.com/fixedrole/"
+    recurseGroupMembership="false"
+    mustHaveRole="false">
+    <PvpAttribute key="ROLES" default="FixedRole(param=val)" blockGlobal="true"/>
+    <PvpAttribute name="X-AUTHENTICATE-mail" default="default@rubicon-it.com" />
+    <PvpAttribute name="X-AUTHENTICATE-tel" default="+43 1 5332555-0"/>
+    <PvpAttribute name="X-AUTHENTICATE-Ou" default="Test" />
+  </Application>
+
 </Configuration>
