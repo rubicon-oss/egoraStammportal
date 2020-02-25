@@ -25,8 +25,11 @@ namespace Egora.Stammportal.HttpReverseProxy
       path.Replace('/', '_');
       path.Replace('.', '_');
 
+      var validPath = GetValidString(path);
+      if (validPath.Length > 100)
+          validPath = validPath.Substring(0, 100);
       _logFileDir = Path.Combine(Path.Combine(Path.Combine(Settings.Default.TrafficLogDir, GetValidString(p)), GetValidString(u)),
-                                 DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_" +  GetValidString(path) + "_" +
+                                 DateTime.Now.ToString("yyyyMMdd_HHmmssff") + "_" +  validPath + "_" +
                                  Guid.NewGuid());
       _traceScope = traceScope;
     }

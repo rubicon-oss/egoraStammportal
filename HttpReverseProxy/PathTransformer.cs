@@ -62,11 +62,11 @@ namespace Egora.Stammportal.HttpReverseProxy
           }
         }
 
-        string[] leftSideParts = leftSidePath.Split(new string[] { "://" }, 2, StringSplitOptions.None);
-        if (leftSideParts.Length == 1)
-          leftSidePath = leftSidePath.Replace("//", "/");
-        else if (leftSideParts.Length == 2)
-          leftSidePath = leftSideParts[0] + "://" + leftSideParts[1].Replace("//", "/");
+        //string[] leftSideParts = leftSidePath.Split(new string[] { "://" }, 2, StringSplitOptions.None);
+        //if (leftSideParts.Length == 1)
+        //  leftSidePath = leftSidePath.Replace("//", "/");
+        //else if (leftSideParts.Length == 2)
+        //  leftSidePath = leftSideParts[0] + "://" + leftSideParts[1].Replace("//", "/");
       }
 
       return leftSidePath;

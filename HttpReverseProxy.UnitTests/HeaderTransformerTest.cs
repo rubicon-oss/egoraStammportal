@@ -63,6 +63,18 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     }
 
     [Test]
+    public void LocationHeaderTest2()
+    {
+        string location =
+            "http://localhost:9090/someurl.do?someParam=http://localhost:9090/someotherurl.do";
+        string expectedLaoction = location;
+
+        PathTransformer transformer = new PathTransformer("https://pvawp.bmi.gv.at/bmi.gv.at/fk2web-t/", "/bmi.gv.at/fk2web-t/blabla.jsp");
+
+        Assert.AreEqual(expectedLaoction, transformer.AdjustPath(location));
+    }
+
+    [Test]
     public void RemoveHeaderTest()
     {
       var transformer = new HeaderTransformerTestObject(true, "2.1");
@@ -99,18 +111,6 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       WebHeaderCollection rightsideHeaders = transformer.TransformRequestHeaders(coll1);
       Assert.AreEqual(1, rightsideHeaders.Count);
       Assert.AreEqual("asdf", rightsideHeaders["X-PVP-TXID"]);
-    }
-
-    [Test]
-    public void LocationHeaderTest2()
-    {
-      string location =
-        "http://localhost:9090/fkb2local/views/client.api.DatenImportierenLandesIT.jsf?FT=X";
-      string expectedLaoction = location;
-
-      PathTransformer transformer = new PathTransformer("https://pvawp.bmi.gv.at/bmi.gv.at/fk2web-t/", "/bmi.gv.at/fk2web-t/blabla.jsp");
-
-      Assert.AreEqual(expectedLaoction, transformer.AdjustPath(location));
     }
 
     [Test]
