@@ -67,11 +67,22 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     {
         string location =
             "http://localhost:9090/someurl.do?someParam=http://localhost:9090/someotherurl.do";
-        string expectedLaoction = location;
+        string expectedLoction = location;
 
         PathTransformer transformer = new PathTransformer("https://pvawp.bmi.gv.at/bmi.gv.at/fk2web-t/", "/bmi.gv.at/fk2web-t/blabla.jsp");
 
-        Assert.AreEqual(expectedLaoction, transformer.AdjustPath(location));
+        Assert.AreEqual(expectedLoction, transformer.AdjustPath(location));
+    }
+
+    [Test]
+    public void LocationHeaderTest3()
+    {
+        string location =
+            "http://some.where/someapp/someurl.do?someParam=http://localhost:9090/someotherurl.do";
+     
+        PathTransformer transformer = new PathTransformer("https://some.where/someapp/", "/someapp/");
+
+        Assert.AreEqual("/someapp/someurl.do?someParam=http://localhost:9090/someotherurl.do", transformer.AdjustPath(location));
     }
 
     [Test]

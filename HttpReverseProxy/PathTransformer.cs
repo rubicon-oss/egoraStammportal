@@ -7,6 +7,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 *************************/
 
 using System;
+using System.Diagnostics.Eventing.Reader;
 using System.Web;
 using Egora.Stammportal.HttpReverseProxy.Properties;
 
@@ -21,13 +22,28 @@ namespace Egora.Stammportal.HttpReverseProxy
       if (remoteApplicationProxyPath == null)
         throw new ArgumentException("remoteApplicationProxyPath must not be null.");
 
-      _targetRootUrl = targetRootUrl;
+      if (targetRootUrl.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
+      {
+          _targetRootUrlhttp = targetRootUrl.Remove(4, 1);
+          _targetRootUrlhttps = targetRootUrl;
+      }
+      else if (targetRootUrl.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase))
+      {
+          _targetRootUrlhttp = targetRootUrl;
+          _targetRootUrlhttps = targetRootUrl.Insert(4, "s"); 
+      }
+      else
+      {
+          throw new ApplicationException(nameof(targetRootUrl) + " must start with 'https://' or 'http://'");
+      }
+
       _remoteApplicationProxyPath = remoteApplicationProxyPath;
       _targetBasePath = new Uri(targetRootUrl).AbsolutePath;
     }
 
     private string _remoteApplicationProxyPath;
-    private string _targetRootUrl;
+    private string _targetRootUrlhttp;
+    private string _targetRootUrlhttps;
     private string _targetBasePath;
 
     public virtual string AdjustPath(string rightSidePath)
@@ -40,15 +56,19 @@ namespace Egora.Stammportal.HttpReverseProxy
       if (leftSidePath.StartsWith("/") || leftSidePath.StartsWith("http://") ||
           leftSidePath.StartsWith("https://"))
       {
-        if (leftSidePath.StartsWith(_targetRootUrl, StringComparison.OrdinalIgnoreCase))
+        if (leftSidePath.StartsWith(_targetRootUrlhttp, StringComparison.OrdinalIgnoreCase))
         {
-          leftSidePath = _remoteApplicationProxyPath + leftSidePath.Substring(_targetRootUrl.Length);
+          leftSidePath = _remoteApplicationProxyPath + leftSidePath.Substring(_targetRootUrlhttp.Length);
+        }
+        else if (leftSidePath.StartsWith(_targetRootUrlhttps, StringComparison.OrdinalIgnoreCase))
+        {
+            leftSidePath = _remoteApplicationProxyPath + leftSidePath.Substring(_targetRootUrlhttps.Length);
         }
         else if (leftSidePath.StartsWith(_targetBasePath, StringComparison.OrdinalIgnoreCase))
         {
           leftSidePath = _remoteApplicationProxyPath + leftSidePath.Substring(_targetBasePath.Length);
         }
-        else if(Settings.Default.SubstituteHostInLocationHeader)
+        else if(Settings.Default.SubstituteHostInLocationHeader) //TODO: better Application specific
         {
           Uri rightSideUri = new Uri(leftSidePath);
           if (! (rightSideUri.Authority == HttpContext.Current.Request.Url.Authority && rightSideUri.Scheme == HttpContext.Current.Request.Url.Scheme) )
