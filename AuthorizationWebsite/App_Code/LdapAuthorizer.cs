@@ -48,10 +48,12 @@ public class LdapAuthorizer : WebService, IAuthorizationContract
         List<HttpHeader> headers = authorizer.GetPvpToken().GetHeaders();
         auth.HttpHeaders = headers.ToArray();
       }
+      auth.PvpVersion = authorizer.Version;
     }
     else if (authorizer.IsSoap)
     {
       auth.SoapHeaderXmlFragment = authorizer.UserPrincipalSoapFragment;
+      auth.PvpVersion = authorizer.Version;
     }
     else
     {

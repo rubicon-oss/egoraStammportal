@@ -1,2 +1,1 @@
-C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\xsd.exe ..\bin\Egora.Stammportal.HttpReverseProxy.dll /
-t:Egora.Stammportal.HttpReverseProxy.Mapping.PathMap
+"c:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.7.1 Tools\xsd.exe" ..\bin\Egora.Stammportal.HttpReverseProxy.dll /t:Egora.Stammportal.HttpReverseProxy.Mapping.PathMap

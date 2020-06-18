@@ -36,7 +36,15 @@
       LogTraffic="true"
       RootUrl="http://egoratest/PvpTestService/1/">
     </ApplicationDirectory>
-    
+
+    <ApplicationDirectory
+      AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpTestAuthorizer.asmx"
+      Name="soapwithcustomnamespace"
+      LogTraffic="true"
+      RootUrl="http://egoratest/PvpTestService/1/"
+      SecExtNamespace="https://somewhere.com/SomeStupidNamespace.xsd">
+    </ApplicationDirectory>
+
     <ApplicationDirectory 
       AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpAuthorizer.asmx"
       RootUrl="https://portals-test.bmi.gv.at/bmi.gv.at/soapv2/soaphttpengine/soapv2%23pvp1?dest=ZMR&amp;opzone=test"

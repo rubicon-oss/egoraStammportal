@@ -47,7 +47,7 @@ namespace Egora.Stammportal
     // methods and properties
 
     /// <summary>
-    /// If tha application is a webapplication, this collection holds the http-headers.
+    /// If the application is a webapplication, this collection holds the http-headers.
     /// </summary>
     public HttpHeader[] HttpHeaders
     {

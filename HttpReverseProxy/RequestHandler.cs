@@ -186,7 +186,8 @@ namespace Egora.Stammportal.HttpReverseProxy
         if (method == "POST" || method == "M-POST")
         {
           MemoryStream buffer = new MemoryStream();
-          SoapFilter filter = new SoapFilter(_authorization, _leftSideRequest.ContentLength, _application.PvpInformationHandling, _leftSideRequest.Headers);
+          var secExtNS = _application.Directory.SecExtNamespace;
+          SoapFilter filter = new SoapFilter(_authorization, _leftSideRequest.ContentLength, _application.PvpInformationHandling, _leftSideRequest.Headers, secExtNS);
           length = filter.FilterStream(inputBuffer, buffer);
           _rightSideRequest.ContentLength = length;
           if (_application.LogTraffic)

@@ -20,6 +20,7 @@
       &lt;gvFunction>{8}&lt;/gvFunction>
     &lt;/userPrincipal>">
     <PvpAttribute name="X-Version" default="1.9" />
+    <PvpAttribute name="X-AUTHENTICATE-userId" ldapAttribute="sAMAccountName" />
     <PvpAttribute name="X-AUTHENTICATE-cn" ldapAttribute="cn" />
     <PvpAttribute name="X-AUTHENTICATE-participantId" default="AT:VKZ:XFN-216900x" />
     <PvpAttribute name="X-AUTHENTICATE-gvGid" ldapAttribute="mail" default="office@rubicon.eu" />

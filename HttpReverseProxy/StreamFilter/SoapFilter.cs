@@ -6,6 +6,7 @@ This software is sample code and is subject to the Microsoft Public License.
 You may use this code according to the conditions of the Microsoft Public License.
 *************************/
 
+using System;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
@@ -17,17 +18,20 @@ namespace Egora.Stammportal.HttpReverseProxy.StreamFilter
 {
   public class SoapFilter : CopyFilter
   {
-    public SoapFilter(CustomAuthorization soapAuthorization, long streamLength, PvpTokenHandling tokenHandling, NameValueCollection headers)
+    public SoapFilter(CustomAuthorization soapAuthorization, long streamLength, PvpTokenHandling tokenHandling,
+      NameValueCollection headers, string secExtNamespace)
       : base(streamLength)
     {
       _soapAuthorization = soapAuthorization;
       _tokenHandling = tokenHandling;
       _headers = headers;
+      _secExtNamespace = String.IsNullOrEmpty(secExtNamespace) ? null : secExtNamespace;
     }
 
     private CustomAuthorization _soapAuthorization;
     private PvpTokenHandling _tokenHandling;
     private NameValueCollection _headers;
+    private string _secExtNamespace;
 
     private const string _headerTag = "Header";
     private const string _securityNS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
@@ -42,7 +46,7 @@ namespace Egora.Stammportal.HttpReverseProxy.StreamFilter
       StreamReader reader = new StreamReader(fromStream, System.Text.Encoding.UTF8);
       XmlDocument xmlDocument = new XmlDocument();
       xmlDocument.Load(reader);
-      XmlElement insertedToken = InsertAuthorization(xmlDocument, _soapAuthorization);
+      XmlElement insertedToken = InsertAuthorization(xmlDocument);
       TraceScope.Current.TraceEvent(TraceEventType.Information, (int) HeaderTransformer.Event.TransformRequest, "PvpToken inserted: {0}", insertedToken.OuterXml);
       XmlWriter writer = XmlWriter.Create(toStream);
       xmlDocument.WriteTo(writer);
@@ -52,7 +56,7 @@ namespace Egora.Stammportal.HttpReverseProxy.StreamFilter
       return 0;
     }
 
-    public virtual XmlElement InsertAuthorization(XmlDocument soapDocument, CustomAuthorization authorization)
+    public virtual XmlElement InsertAuthorization(XmlDocument soapDocument)
     {
       XmlElement securityElement = SelectOrCreateSecurityElement(soapDocument.DocumentElement);
 
@@ -68,7 +72,7 @@ namespace Egora.Stammportal.HttpReverseProxy.StreamFilter
         }
       }
       
-      XmlElement pvpToken = (XmlElement) soapDocument.ImportNode(authorization.SoapHeaderXmlFragment, true);
+      XmlElement pvpToken = (XmlElement) soapDocument.ImportNode(_soapAuthorization.SoapHeaderXmlFragment, true);
       securityElement.PrependChild(pvpToken);
 
       if (_tokenHandling == PvpTokenHandling.chain)
@@ -121,16 +125,39 @@ namespace Egora.Stammportal.HttpReverseProxy.StreamFilter
     {
       XmlElement soapHeader = SelectOrCreateHeader(soapEnvelope);
 
-      return SelectOrCreateXmlElement(soapHeader, _securityTag, _soapAuthorization != null && _soapAuthorization.PvpVersion==PvpVersionNumber.Version18 ? _securityNSLegacy : _securityNS);
+      var existingSecurityElement18 = SelectXmlElement(soapHeader, _securityTag, _securityNSLegacy);
+      var existingSecurityElement19orNewer = SelectXmlElement(soapHeader, _securityTag, _securityNS);
+      
+      if (AuthorizationIs18 && existingSecurityElement19orNewer != null)
+      {
+        var newSecurityElement18 = SelectOrCreateXmlElement(soapHeader, _securityTag, _secExtNamespace ?? _securityNSLegacy);
+        newSecurityElement18.InnerXml = existingSecurityElement19orNewer.InnerXml;
+        soapHeader.RemoveChild(existingSecurityElement19orNewer);
+        return newSecurityElement18;
+      }
+      
+      if (AuthorizationIs19orNewer && existingSecurityElement18 != null)
+      {
+        var newSecurityElement19 = SelectOrCreateXmlElement(soapHeader, _securityTag, _secExtNamespace ?? _securityNS);
+        newSecurityElement19.InnerXml = existingSecurityElement18.InnerXml;
+        soapHeader.RemoveChild(existingSecurityElement18);
+        return newSecurityElement19;
+      }
+
+      return SelectOrCreateXmlElement(soapHeader, _securityTag, _secExtNamespace ?? (AuthorizationIs18 ? _securityNSLegacy : _securityNS) );
     }
+
+    private bool AuthorizationIs18 => _soapAuthorization != null && _soapAuthorization.PvpVersion==PvpVersionNumber.Version18;
+    private bool AuthorizationIs19orNewer => _soapAuthorization != null && (_soapAuthorization.PvpVersion == PvpVersionNumber.Version19 
+                                                                            || _soapAuthorization.PvpVersion == PvpVersionNumber.Version20 
+                                                                            || _soapAuthorization.PvpVersion == PvpVersionNumber.Version21);
 
     public virtual XmlElement SelectOrCreateHeader(XmlElement soapEnvelope)
     {
       return SelectOrCreateXmlElement(soapEnvelope, _headerTag, soapEnvelope.NamespaceURI);
     }
 
-    public virtual XmlElement SelectOrCreateXmlElement(XmlElement parentElement, string elementName,
-                                                       string elementNameSpace)
+    public virtual XmlElement SelectOrCreateXmlElement(XmlElement parentElement, string elementName, string elementNameSpace)
     {
       XmlElement xmlElement = SelectXmlElement(parentElement, elementName, elementNameSpace);
       if (xmlElement != null)

@@ -59,6 +59,7 @@ namespace Egora.Stammportal.HttpReverseProxy.Mapping
     private string _byPassExpression;
     private Regex _byPassRegex = null;
     private bool _isolateCookies = true;
+    private string _secExtNamespace;
 
     [XmlAttribute]
     public bool LogTraffic 
@@ -102,6 +103,13 @@ namespace Egora.Stammportal.HttpReverseProxy.Mapping
         _byPassExpression = value;
         _byPassRegex = new Regex(_byPassExpression, RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
       }
+    }
+
+    [XmlAttribute]
+    public string SecExtNamespace
+    {
+      get { return _secExtNamespace; }
+      set { _secExtNamespace = value; }
     }
 
     public override string GetFullTargetPath(string fullPath)

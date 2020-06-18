@@ -122,5 +122,23 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       Assert.IsNotNull(app2);
       Assert.AreEqual("https://someserver/", app2.RootUrl);
     }
+
+    [Test]
+    public void RemoteApplication_GetRemoteApplicationWithCustomNamespace()
+    {
+      PathMap map =
+        PathMap.CreateFromFile(
+          @"MappingTest\Mapping.xml");
+      RemoteApplication.Initialize(map);
+
+      HttpContext context = HttpContextHelper.CreateHttpContext("GET", "/soapwithcustomnamespace/someaction.asmx",
+        "name1=value1");
+
+      RemoteApplication app = RemoteApplication.GetRemoteApplication(context.Request);
+
+      Assert.IsNotNull(app, "RemoteApplication");
+
+      Assert.AreEqual("https://somewhere.com/SomeStupidNamespace.xsd", app.Directory.SecExtNamespace);
+    }
   }
 }

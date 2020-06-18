@@ -11,7 +11,7 @@
         </member>
         <member name="P:Egora.Stammportal.CustomAuthorization.HttpHeaders">
             <summary>
-            If tha application is a webapplication, this collection holds the http-headers.
+            If the application is a webapplication, this collection holds the http-headers.
             </summary>
         </member>
         <member name="P:Egora.Stammportal.CustomAuthorization.SoapHeaderXmlFragment">

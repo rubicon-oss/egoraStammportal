@@ -141,6 +141,28 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
     }
 
     [Test]
+    public void Version()
+    {
+        PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer("http://testnr.rubicon-it.com",
+            @"egora.drei");
+        Assert.IsNotNull(authorizer);
+        Assert.IsTrue(authorizer.IsValid);
+        Assert.AreEqual("1.9", authorizer.Version);
+        Assert.AreEqual("egora.drei@egora.at", authorizer.Mail, "MailAddress");
+        Assert.IsNull(authorizer.Roles, "Roles");
+        Assert.AreEqual("Test", authorizer.Ou, "OU");
+
+        authorizer = new PvpApplicationLdapAuthorizer("https://dummy.com/version18/", @"egora2");
+        Assert.IsNotNull(authorizer);
+        Assert.IsTrue(authorizer.IsValid);
+        Assert.AreEqual("1.8", authorizer.Version);
+        Assert.AreEqual("egora.zwei@egora.at", authorizer.Mail);
+        Assert.IsFalse(authorizer.IsWeb);
+        Assert.IsTrue(authorizer.IsSoap);
+        Assert.That(authorizer.Roles, Is.EqualTo("FixedRole(param=val)"));
+    }
+
+        [Test]
     public void OuPathFormatter()
     {
       string path =
