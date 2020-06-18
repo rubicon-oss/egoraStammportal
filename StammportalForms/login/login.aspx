@@ -18,6 +18,7 @@
         {
             Msg.Text = String.Empty;
             FormsAuthentication.RedirectFromLoginPage(UsernameTextbox.Text, false);
+            Response.End();
         }
         else
         {
