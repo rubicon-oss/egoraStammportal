@@ -13,6 +13,8 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Web.Configuration;
+using System.Web.Security;
 using System.Web.UI;
 using Egora.Stammportal.HttpReverseProxy.Properties;
 using Egora.Stammportal.HttpReverseProxy.StreamFilter;
@@ -236,6 +238,9 @@ namespace Egora.Stammportal.HttpReverseProxy
               }
 
               remoteApplication.ShapeHttpResponse(response, context.Response);
+              
+              if (FormsAuthentication.IsEnabled && context.Response.StatusCode == 401)
+                context.Response.SuppressFormsAuthenticationRedirect = true;
 
               Stream rightSideResponseStream = response.GetResponseStream();
 
