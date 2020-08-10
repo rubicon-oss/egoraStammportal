@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.DirectoryServices;
 using System.Xml.Serialization;
 using Egora.Pvp;
+using Egora.Stammportal.LdapAuthorizationService.Exceptions;
 
 namespace Egora.Stammportal.LdapAuthorizationService
 {
@@ -36,11 +37,21 @@ namespace Egora.Stammportal.LdapAuthorizationService
       {
         _name = value;
 
-        if (!_key.HasValue && PvpLegacy.HeaderMapping.ContainsKey(_name))
-          _key = PvpLegacy.HeaderMapping[_name];
+        if (!_key.HasValue)
+        {
+          if (PvpLegacy.HeaderMapping.ContainsKey(_name))
+          {
+            _key = PvpLegacy.HeaderMapping[_name];
+          }
+          else
+          {
+            throw new ConfigurationException(String.Format("'{0}' ist kein unterstütztes PvpAttribut", _name));
+          }
+        }
+
       }
     }
-
+    
     [XmlAttribute("key")]
     public PvpAttributes Key
     {
