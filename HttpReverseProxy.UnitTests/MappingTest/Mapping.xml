@@ -56,7 +56,14 @@
       RootUrl="https://egora:8443/test"
       CertificateFile="~/Certificates/RubiconZmrCertificate.cer"
       Name="withport" />
-    
+
+    <ApplicationDirectory
+      AuthorizationWebService="http://localhost:9009/auth/LdapAuthorizer.asmx"
+      RootUrl="https://awp.lfrz.at/at.gv.bmdw.erecht-q"
+      LogTraffic="true"
+      CertificateFile="~/Certificates/RubiconZmrCertificate.cer"
+      Name="at.gv.bmdw.erecht-q" />
+
     <Directory Name="CaseCheck" TargetPath="casecheck" IgnoreCase="true">
       <Directories>
         <ApplicationDirectory Name="sub1" RootUrl="http://someserver/casecheck/Sub1"/>

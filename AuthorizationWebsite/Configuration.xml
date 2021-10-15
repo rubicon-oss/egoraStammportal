@@ -95,6 +95,24 @@
   </Application>
 
   <Application
+    name="SAML"
+    ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
+    groupContainer="LDAP://OU=GEVER,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
+    webUrls="http://localhost/testsamlconsumer/saml/assertionconsumerservice.aspx"
+    recurseGroupMembership="false">
+    <PvpAttribute key="VERSION" default="2.1" />
+    <PvpAttribute key="PARTICIPANT_ID" default="AT:VKZ:XFN-216900x" />
+    <PvpAttribute key="GID" ldapAttribute="mail" default="office@rubicon.eu" />
+    <PvpAttribute key="PRINCIPAL_NAME" ldapAttribute="sn" />
+    <PvpAttribute key="GIVEN_NAME" ldapAttribute="givenName" />
+    <PvpAttribute key="OU_GV_OU_ID" default="rubicon" />
+    <PvpAttribute key="MAIL" ldapAttribute="MAIL" />
+    <PvpAttribute key="TEL" ldapAttribute="PHONE" />
+    <PvpAttribute key="ROLES" ldapAttribute="description" source="Group"/>
+    <PvpAttribute key="SECCLASS" default="2" />
+  </Application>
+
+  <Application
     name="EKIS_Soap"
     ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
     groupContainer="LDAP://OU=EKIS,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"

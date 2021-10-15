@@ -15,27 +15,27 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     [Test]
     public void LeftSidePath_FromRightSideFullPath()
     {
-      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "http://egoratest/somedomain/");
+      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "/somedomain/");
       string newPath = pathTransformer.AdjustPath("http://somedomain/page1.html");
 
       Assert.IsNotNull(newPath);
-      Assert.AreEqual("http://egoratest/somedomain/page1.html", newPath);
+      Assert.AreEqual("/somedomain/page1.html", newPath);
     }
 
     [Test]
     public void LeftSidePath_FromRightSideSecureFullPath()
     {
-      PathTransformer pathTransformer = new PathTransformer("https://somedomain/", "http://egoratest/somedomain/");
+      PathTransformer pathTransformer = new PathTransformer("https://somedomain/", "/somedomain/");
       string newPath = pathTransformer.AdjustPath("https://somedomain/page1.html");
 
       Assert.IsNotNull(newPath);
-      Assert.AreEqual("http://egoratest/somedomain/page1.html", newPath);
+      Assert.AreEqual("/somedomain/page1.html", newPath);
     }
 
     [Test]
     public void LeftSidePath_FromRightRelativPath()
     {
-      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "http://egoratest/somedomain/");
+      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "/somedomain/");
       string newPath = pathTransformer.AdjustPath("page1.html");
 
       Assert.IsNotNull(newPath);
@@ -45,22 +45,21 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     [Test]
     public void LeftSidePath_FromRightAbsolutPath()
     {
-      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "http://egoratest/somedomain/");
+      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "/somedomain/");
       string newPath = pathTransformer.AdjustPath("/page1.html");
 
       Assert.IsNotNull(newPath);
-      Assert.AreEqual("http://egoratest/somedomain/page1.html", newPath);
+      Assert.AreEqual("/somedomain/page1.html", newPath);
     }
 
     [Test]
-    public void LeftSidePath_FromRightAbsolutPathAndNoRootProxyPath()
+    public void LeftSidePath_FromRightAbsolutPathAndNotRootProxyPath()
     {
-      PathTransformer pathTransformer = new PathTransformer("https://www.fundamt.gv.at/gondor/",
-                                                            "http://egoratest/stammportal/fundamt/");
+      PathTransformer pathTransformer = new PathTransformer("https://www.fundamt.gv.at/gondor/", "/stammportal/fundamt/");
       string newPath = pathTransformer.AdjustPath("/gondor/WebGov/UI/Security/FormsLogin.aspx");
 
       Assert.IsNotNull(newPath);
-      Assert.AreEqual("http://egoratest/stammportal/fundamt/WebGov/UI/Security/FormsLogin.aspx", newPath);
+      Assert.AreEqual("/stammportal/fundamt/WebGov/UI/Security/FormsLogin.aspx", newPath);
     }
 
     [Test]

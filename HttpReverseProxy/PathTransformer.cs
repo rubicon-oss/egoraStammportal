@@ -53,8 +53,8 @@ namespace Egora.Stammportal.HttpReverseProxy
 
       string leftSidePath = rightSidePath;
 
-      if (leftSidePath.StartsWith("/") || leftSidePath.StartsWith("http://") ||
-          leftSidePath.StartsWith("https://"))
+      if (leftSidePath.StartsWith("/") || leftSidePath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+          leftSidePath.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
       {
         if (leftSidePath.StartsWith(_targetRootUrlhttp, StringComparison.OrdinalIgnoreCase))
         {
@@ -66,7 +66,7 @@ namespace Egora.Stammportal.HttpReverseProxy
         }
         else if (leftSidePath.StartsWith(_targetBasePath, StringComparison.OrdinalIgnoreCase))
         {
-          leftSidePath = _remoteApplicationProxyPath + leftSidePath.Substring(_targetBasePath.Length);
+          leftSidePath = _remoteApplicationProxyPath + leftSidePath.Substring(_targetBasePath.Length + (leftSidePath.StartsWith("/") && !_targetBasePath.EndsWith("/") ? 1 : 0));
         }
         else if(Settings.Default.SubstituteHostInLocationHeader) //TODO: better Application specific
         {

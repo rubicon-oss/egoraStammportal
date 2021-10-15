@@ -69,7 +69,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
             "http://localhost:9090/someurl.do?someParam=http://localhost:9090/someotherurl.do";
         string expectedLoction = location;
 
-        PathTransformer transformer = new PathTransformer("https://pvawp.bmi.gv.at/bmi.gv.at/fk2web-t/", "/bmi.gv.at/fk2web-t/blabla.jsp");
+        PathTransformer transformer = new PathTransformer("https://pvawp.bmi.gv.at/bmi.gv.at/fk2web-t/", "/bmi.gv.at/fk2web-t/");
 
         Assert.AreEqual(expectedLoction, transformer.AdjustPath(location));
     }
@@ -83,6 +83,16 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
         PathTransformer transformer = new PathTransformer("https://some.where/someapp/", "/someapp/");
 
         Assert.AreEqual("/someapp/someurl.do?someParam=http://localhost:9090/someotherurl.do", transformer.AdjustPath(location));
+    }
+    
+    [Test]
+    public void LocationHeaderTest4()
+    {
+      string location = "/at.gv.bmdw.erecht-q/app/";
+
+      PathTransformer transformer = new PathTransformer("https://awp.lfrz.at/at.gv.bmdw.erecht-q", "/at.gv.bmdw.erecht-q/");
+
+      Assert.AreEqual("/at.gv.bmdw.erecht-q/app/", transformer.AdjustPath(location));
     }
 
     [Test]
