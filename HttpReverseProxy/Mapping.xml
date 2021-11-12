@@ -6,7 +6,8 @@
       Name="localtest1" 
       LogTraffic="true"
       RootUrl="http://egoratest/PvpTestApplication/1/"
-      ByPassExpression="ByPassToken">
+      ByPassExpression="ByPassToken"
+      PassThroughCookies="ptname otherName">
     </ApplicationDirectory>
 
     <ApplicationDirectory

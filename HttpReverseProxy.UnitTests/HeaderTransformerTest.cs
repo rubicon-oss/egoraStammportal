@@ -141,7 +141,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       HttpRequest leftRequest = new HttpRequest("dummy", "http://somewhere.com", "dummy");
       leftRequest.Headers["range"] = "bytes=300-";
       HttpWebRequest rightRequest = (HttpWebRequest) WebRequest.Create("http://nowhere.com/");
-      HeaderTransformer transformer = new HeaderTransformer(leftRequest, rightRequest, PvpTokenHandling.chain, "dummy", "dummy", true, "1.9");
+      HeaderTransformer transformer = new HeaderTransformer(leftRequest, rightRequest, PvpTokenHandling.chain, "dummy", "dummy", true, null, "1.9");
       transformer.Transform();
       Assert.AreEqual("bytes=300-", rightRequest.Headers["range"]);
     }
@@ -227,12 +227,12 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
 
   public class HeaderTransformerTestObject : HeaderTransformer
   {
-    public HeaderTransformerTestObject(bool isolateCookies, string version) : base(new HttpRequest("","http://no.where/", null), (HttpWebRequest) WebRequest.Create("http://no.where/"), PvpTokenHandling.chain, "dummy", "dummy", isolateCookies, version)
+    public HeaderTransformerTestObject(bool isolateCookies, string version) : base(new HttpRequest("","http://no.where/", null), (HttpWebRequest) WebRequest.Create("http://no.where/"), PvpTokenHandling.chain, "dummy", "dummy", isolateCookies, null, version)
     {
       
     }
 
-    public HeaderTransformerTestObject(PvpTokenHandling pvpTokenHandling, string version) : base(new HttpRequest("", "http://no.where/", null), (HttpWebRequest)WebRequest.Create("http://no.where/"), pvpTokenHandling, "dummy", "dummy", false, version)
+    public HeaderTransformerTestObject(PvpTokenHandling pvpTokenHandling, string version) : base(new HttpRequest("", "http://no.where/", null), (HttpWebRequest)WebRequest.Create("http://no.where/"), pvpTokenHandling, "dummy", "dummy", false, null, version)
     {
 
     }

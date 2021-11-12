@@ -120,7 +120,9 @@ namespace Egora.Stammportal.HttpReverseProxy
       TransformResponse,
     }
 
-    public HeaderTransformer(HttpRequest leftSideRequest, HttpWebRequest rightSideRequest, PvpTokenHandling pvpInformationHandling, string targetRootUrl, string remoteApplicationProxyPath, bool isolateCookies, string pvpVersion)
+    public HeaderTransformer(HttpRequest leftSideRequest, HttpWebRequest rightSideRequest,
+      PvpTokenHandling pvpInformationHandling, string targetRootUrl, string remoteApplicationProxyPath,
+      bool isolateCookies, List<string> passThroughCookies, string pvpVersion)
     {
       if (leftSideRequest == null)
         throw new ArgumentException("leftSideRequest must not be null.");
@@ -137,9 +139,10 @@ namespace Egora.Stammportal.HttpReverseProxy
       _targetRootUrl = targetRootUrl;
       _isolateCookies = isolateCookies;
       _pvpVersion = pvpVersion;
+      _passThroughCookies = passThroughCookies;
     }
 
-    public HeaderTransformer(HttpWebResponse rightSideResponse, HttpResponse leftSideResponse, string targetRootUrl, string remoteApplicationProxyPath, bool isolateCookies)
+    public HeaderTransformer(HttpWebResponse rightSideResponse, HttpResponse leftSideResponse, string targetRootUrl, string remoteApplicationProxyPath, bool isolateCookies, List<string> passThroughCookies)
     {
       if (rightSideResponse == null)
         throw new ArgumentException("rightSideResponse must not be null.");
@@ -155,6 +158,7 @@ namespace Egora.Stammportal.HttpReverseProxy
       _remoteApplicationProxyPath = remoteApplicationProxyPath;
       _targetRootUrl = targetRootUrl;
       _isolateCookies = isolateCookies;
+      _passThroughCookies = passThroughCookies;
     }
 
     private HttpRequest _leftSideRequest;
@@ -172,6 +176,7 @@ namespace Egora.Stammportal.HttpReverseProxy
     private PvpTokenHandling _pvpInformationHandling;
     private string _pvpVersion;
     private bool _isolateCookies;
+    private List<string> _passThroughCookies;
 
     protected PathTransformer LocationTransformer
     {
@@ -229,7 +234,7 @@ namespace Egora.Stammportal.HttpReverseProxy
                 // else do nothing
                 break;
             // Cookies
-                        case "set-cookie":
+            case "set-cookie":
             case "set-cookie2":
               TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
                 (int) Event.TransformResponse,
@@ -265,7 +270,7 @@ namespace Egora.Stammportal.HttpReverseProxy
           }
         }
       }
-      CookieTransformer cookieTransformer = new CookieTransformer(_isolateCookies, _targetRootUrl, _rightSideResponse.ResponseUri);
+      CookieTransformer cookieTransformer = new CookieTransformer(_isolateCookies, _targetRootUrl, _rightSideResponse.ResponseUri, _passThroughCookies);
       // https://github.com/dotnet/corefx/issues/19166
       // wenn Cookie Path empty, dann sollte current Path herangezogen werden.
       // Beispiel Url = https://pamgate2.portal.at/at.gv.bmvit.uhs_p/uhs_c/f?p=blablabla
@@ -367,7 +372,7 @@ namespace Egora.Stammportal.HttpReverseProxy
           case "cookie":
             TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
                                          (int) Event.TransformRequest, "Transforming Cookies");
-            CookieTransformer cookieTransformer = new CookieTransformer(_isolateCookies, _targetRootUrl );
+            CookieTransformer cookieTransformer = new CookieTransformer(_isolateCookies, _targetRootUrl, _passThroughCookies );
             _rightSideRequest.CookieContainer.Add(cookieTransformer.GetRightSideRequestCookies(_leftSideRequest));
             break;
 

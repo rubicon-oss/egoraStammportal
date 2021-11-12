@@ -60,6 +60,7 @@ namespace Egora.Stammportal.HttpReverseProxy.Mapping
     private Regex _byPassRegex = null;
     private bool _isolateCookies = true;
     private string _secExtNamespace;
+    private string _passThroughCookies;
 
     [XmlAttribute]
     public bool LogTraffic 
@@ -75,6 +76,12 @@ namespace Egora.Stammportal.HttpReverseProxy.Mapping
       set { _isolateCookies = value; }
     }
 
+    [XmlAttribute]
+    public string PassThroughCookies
+    {
+      get { return _passThroughCookies; }
+      set { _passThroughCookies = value; }
+    }
     [XmlIgnore]
     public override ApplicationDirectory Application
     {

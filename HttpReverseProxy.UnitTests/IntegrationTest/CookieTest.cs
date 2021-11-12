@@ -8,6 +8,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 using System.Net;
 using System.Xml.Serialization;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
 {
@@ -58,6 +59,44 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
       Assert.AreEqual("cval", cookie.Value);
     }
 
+    [Test]
+    public void SetPassThroughCookie()
+    {
+      HttpWebRequest request1 = (HttpWebRequest)WebRequest.Create(
+                                                   "http://egoratest/stammportal/localtest1/IntegrationTestPage.aspx?CookieName=ptname&CookieValue=cval&CookiePath=IntegrationTestPage.aspx&HttpOnly=false");
+      CookieContainer cookieContainer = new CookieContainer();
+      request1.CookieContainer = cookieContainer;
+      request1.UseDefaultCredentials = true;
+      HttpWebResponse response1 = (HttpWebResponse)request1.GetResponse();
+      // header Set-Cookies is there, but no cookies in cookiecontainer
+      var val = response1.Headers["Set-Cookie"];
+      Assert.IsNotNull(val, "Response");
+
+      Assert.That(val.StartsWith("ptname=cval; expires="), Is.True);
+      Assert.That(val.EndsWith("path=/PvpTestApplication/1/IntegrationTestPage.aspx"), Is.True);
+
+
+      HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(
+                                                   "http://egoratest/stammportal/localtest1/IntegrationTestPage.aspx?dummy=2");
+      CookieContainer cookieContainer2 = new CookieContainer();
+      request2.CookieContainer = cookieContainer2;
+      cookieContainer2.Add(new Cookie("ptname", "cval", "/stammportal/", "egoratest"));
+      request2.UseDefaultCredentials = true;
+      HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
+
+      Assert.IsNotNull(response2, "Response");
+
+      XmlSerializer serializer = new XmlSerializer(typeof(RequestInformation));
+      RequestInformation info = (RequestInformation)serializer.Deserialize(response2.GetResponseStream());
+
+      Assert.IsNotNull(info, "RequestInformation");
+      Assert.IsNotNull(info.Cookies, "Cookies");
+
+      CookieInformation cookie = info.GetCookie("ptname");
+
+      Assert.IsNotNull(cookie, "Cookie");
+      Assert.AreEqual("cval", cookie.Value);
+    }
     [Test]
     public void SetCookieWithoutPath()
     {

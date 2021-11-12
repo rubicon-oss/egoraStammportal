@@ -26,6 +26,7 @@ namespace TestPvpApplication
                           ? false
                           : Boolean.Parse(Request.QueryString["HttpOnly"]);
         cookie.HttpOnly = httpOnly;
+        cookie.Expires = DateTime.Now + TimeSpan.FromHours(1);
         Response.SetCookie(cookie);
       }
 

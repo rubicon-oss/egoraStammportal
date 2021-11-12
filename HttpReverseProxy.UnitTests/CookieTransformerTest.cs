@@ -6,6 +6,7 @@ This software is sample code and is subject to the Microsoft Public License.
 You may use this code according to the conditions of the Microsoft Public License.
 *************************/
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web;
 using NUnit.Framework;
@@ -37,6 +38,27 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       Assert.IsTrue(leftSideCookie.HttpOnly, "HttpOnly");
     }
 
+    [Test]
+    public void LeftSidePassThroughCookie_FromRightSideCookieWithNoDomainAndNoPath()
+    {
+      CookieTransformer transformer = new CookieTransformer(true, "https://somehost/somepath/", new List<string>() {"TestName","someothername"});
+      Cookie rightSideCookie = new Cookie("TestName", "TestValue");
+      DateTime inOneHour = DateTime.Now + new TimeSpan(1, 0, 0);
+      rightSideCookie.Expires = inOneHour;
+      rightSideCookie.Secure = true;
+      rightSideCookie.HttpOnly = false;
+
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false);
+
+      Assert.IsNotNull(leftSideCookie);
+      Assert.AreEqual("TestName", leftSideCookie.Name);
+      Assert.AreEqual("TestValue", leftSideCookie.Value);
+      Assert.AreEqual("", leftSideCookie.Path);
+      Assert.AreEqual(inOneHour, leftSideCookie.Expires);
+      Assert.IsNull(leftSideCookie.Domain);
+      Assert.IsTrue(leftSideCookie.Secure, "Secure");
+      Assert.IsFalse(leftSideCookie.HttpOnly, "HttpOnly");
+    }
     [Test]
     public void LeftSideCookie_FromRightSideCookieWithSpecialCharactersNoDomainAndNoPath()
     {
@@ -84,6 +106,30 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       Assert.IsFalse(leftSideCookie.HttpOnly, "HttpOnly");
     }
 
+    [Test]
+    public void LeftSidePassThroughCookie_FromRightSideCookieWithDomainAndSamePath()
+    {
+      CookieTransformer transformer = new CookieTransformer(true, "https://somehost:8443/somepath/", new List<string>() {"TestName"});
+      Cookie rightSideCookie = new Cookie("TestName", "TestValue");
+      DateTime inOneHour = DateTime.Now + new TimeSpan(1, 0, 0);
+      rightSideCookie.Domain = "www.domain.com";
+      rightSideCookie.Path = "/somepath/xxx";
+      rightSideCookie.Expires = inOneHour;
+      rightSideCookie.Secure = false;
+      rightSideCookie.HttpOnly = false;
+
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, true);
+
+      Assert.IsNotNull(leftSideCookie);
+      Assert.AreEqual("TestName", leftSideCookie.Name);
+      Assert.AreEqual("TestValue",
+        leftSideCookie.Value);
+      Assert.AreEqual("/somepath/xxx", leftSideCookie.Path);
+      Assert.AreEqual(inOneHour, leftSideCookie.Expires);
+      Assert.IsNull(leftSideCookie.Domain);
+      Assert.IsFalse(leftSideCookie.Secure, "Secure");
+      Assert.IsFalse(leftSideCookie.HttpOnly, "HttpOnly");
+    }
     [Test]
     public void LeftSideCookie_FromRightSideCookieWithDomainAndPath_NoIsolation()
     {
@@ -135,6 +181,28 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       Assert.IsTrue(rightSideCookie.HttpOnly, "HttpOnly");
     }
 
+    [Test]
+    public void RightSidePassThroughCookie_FromLeftSideCookieWithDomainAndPath()
+    {
+      CookieTransformer transformer = new CookieTransformer(true, "https://somehost:8443/somepath/", new List<string>(){"TestName"});
+      HttpCookie leftSideCookie = new HttpCookie("TestName","TestValue");
+      DateTime inOneHour = DateTime.Now + new TimeSpan(1, 0, 0);
+      leftSideCookie.Domain = "www.domain.com";
+      leftSideCookie.Path = "/somepath";
+      leftSideCookie.Expires = inOneHour;
+      leftSideCookie.Secure = true;
+      leftSideCookie.HttpOnly = false;
+
+      Cookie rightSideCookie = transformer.CreateRightSideRequestCookie(leftSideCookie, "/somepath", true);
+
+      Assert.IsNotNull(rightSideCookie, "Cookie is null");
+      Assert.AreEqual("TestName", rightSideCookie.Name);
+      Assert.AreEqual("TestValue", rightSideCookie.Value);
+      Assert.AreEqual("/somepath", rightSideCookie.Path);
+      Assert.AreEqual(inOneHour, rightSideCookie.Expires);
+      Assert.IsTrue(rightSideCookie.Secure, "Secure");
+      Assert.IsFalse(rightSideCookie.HttpOnly, "HttpOnly");
+    }
     [Test]
     public void RightSideCookie_FromLeftSideCookieWithDomainAndPathNoIsolation()
     {

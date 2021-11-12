@@ -84,7 +84,8 @@ namespace Egora.Stammportal.HttpReverseProxy
           IsSoap ? PvpTokenHandling.remove : _application.PvpInformationHandling,
           _application.RootUrl,
           _application.RemoteApplicationProxyPath,
-          _application.IsolateCookies,
+          _application.IsolateCookies, 
+          _application.PassThroughCookies,
           _authorization == null ? null : _authorization.PvpVersion);
 
       headerTransformer.Transform();

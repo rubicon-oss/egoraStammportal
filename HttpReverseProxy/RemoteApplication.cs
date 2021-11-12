@@ -89,6 +89,7 @@ namespace Egora.Stammportal.HttpReverseProxy
     private PvpTokenHandling _pvpInformationHandling;
     private bool _logTraffic;
     private bool _isolateCookies;
+    private List<string> _passThroughCookies;
 
     public RemoteApplication(ApplicationDirectory applicationDirectory)
     {
@@ -115,6 +116,7 @@ namespace Egora.Stammportal.HttpReverseProxy
         _pvpInformationHandling = applicationDirectory.PvpInformationHandling;
         _logTraffic = applicationDirectory.LogTraffic;
         _isolateCookies = applicationDirectory.IsolateCookies;
+        _passThroughCookies = string.IsNullOrEmpty(applicationDirectory.PassThroughCookies) ? new List<string> { } : new List<string> (applicationDirectory.PassThroughCookies.Split(" ".ToCharArray()));
       }
     }
 
@@ -128,6 +130,10 @@ namespace Egora.Stammportal.HttpReverseProxy
       get { return _pvpInformationHandling; }
     }
 
+    public List<string> PassThroughCookies
+    {
+      get { return _passThroughCookies; }
+    }
     public bool IsolateCookies
     {
       get { return _isolateCookies; }
@@ -197,7 +203,7 @@ namespace Egora.Stammportal.HttpReverseProxy
     public virtual void ShapeHttpResponse(HttpWebResponse rightSideResponse, HttpResponse leftSideResponse)
     {
       HeaderTransformer headerTransformer =
-        new HeaderTransformer(rightSideResponse, leftSideResponse, RootUrl, RemoteApplicationProxyPath, IsolateCookies);
+        new HeaderTransformer(rightSideResponse, leftSideResponse, RootUrl, RemoteApplicationProxyPath, IsolateCookies, _passThroughCookies);
       headerTransformer.Transform();
       leftSideResponse.StatusCode = (int) rightSideResponse.StatusCode;
       leftSideResponse.ContentType = rightSideResponse.ContentType;
