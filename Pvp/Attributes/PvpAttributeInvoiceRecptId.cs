@@ -21,7 +21,7 @@ namespace Egora.Pvp.Attributes
                         ,{PvpVersion.Version20, "X-PVP-INVOICE-RECPT-ID"}
                         ,{PvpVersion.Version21, "X-PVP-INVOICE-RECPT-ID"}
                       }
-      , soapElementName: "ChargeCode"
+      , soapElementName: "InvoiceRecptId"
         )
     {}
 
