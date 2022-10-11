@@ -381,7 +381,8 @@ namespace Egora.Pvp
                                       EncodingUtil.XmlEncode(VersionAsString),
                                       EncodingUtil.XmlEncode(ParticipantId),
                                       GetSoapUserPrincipalFragment(),
-                                      GetSoapAuthorizeFragment());
+                                      GetSoapAuthorizeFragment(),
+                                      GetSoapAccountingFragment());
 
       XmlDocument doc = new XmlDocument();
       doc.LoadXml(pvpToken);
@@ -395,13 +396,15 @@ namespace Egora.Pvp
                                       EncodingUtil.XmlEncode(VersionAsString),
                                       EncodingUtil.XmlEncode(ParticipantId),
                                       GetSoapSystemPrincipalFragment(),
-                                      GetSoapAuthorizeFragment());
+                                      GetSoapAuthorizeFragment(),
+                                      GetSoapAccountingFragment());
 
       XmlDocument doc = new XmlDocument();
       doc.LoadXml(pvpToken);
 
       return doc.DocumentElement;
     }
+
     public PvpAttributes[] SoapUserPrincipalAttributes = new PvpAttributes[]
                                                        {
                                                          PvpAttributes.USERID,
@@ -435,6 +438,12 @@ namespace Egora.Pvp
                                                          PvpAttributes.ROLES,
                                                        };
 
+    public PvpAttributes[] SoapAccountingAttributes = new PvpAttributes[]
+                                                        {
+                                                          PvpAttributes.INVOICE_RECPT_ID,
+                                                          PvpAttributes.COST_CENTER_ID,
+                                                          PvpAttributes.CHARGE_CODE,
+                                                        };
     private string GetSoapUserPrincipalFragment()
     {
       StringBuilder sb = new StringBuilder();
@@ -458,6 +467,21 @@ namespace Egora.Pvp
       StringBuilder sb = new StringBuilder();
       sb.Append(String.Join(Environment.NewLine, SoapAuthorizeAttributes.Select(index => GetXmlPart(index))));
       return sb.ToString();
+    }
+
+    private string GetSoapAccountingFragment()
+    {
+
+      var values = SoapAccountingAttributes.Select(index => GetXmlPart(index));
+      if (values.Any(v => !string.IsNullOrEmpty(v)))
+      {
+        StringBuilder sb = new StringBuilder("<accounting>");
+        sb.Append(String.Join(Environment.NewLine, values));
+        sb.Append("</accounting>");
+        return sb.ToString();
+      }
+
+      return string.Empty;
     }
 
     private string GetXmlPart(PvpAttributes index)
@@ -519,6 +543,7 @@ namespace Egora.Pvp
 <authorize>
 {3}
 </authorize>
+{4}
 </pvpToken>";
 
             break;

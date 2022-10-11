@@ -54,6 +54,9 @@ namespace Egora.Pvp.Test
                                       {"X-AUTHENTICATE-tel", "+43 3155 5153"},
                                       {"X-AUTHENTICATE-gvSecClass", "2"},
                                       {"X-AUTHORIZE-roles", "Beispielrolle(GKZ=60420)"},
+                                      {"X-ACCOUNTING-InvoiceRecptId", "Recipient"},
+                                      {"X-ACCOUNTING-CostCenterId", "CostCenter"},
+                                      {"X-ACCOUNTING-ChargeCode", "0"},
                                     };
       return headers;
     }
@@ -332,10 +335,18 @@ namespace Egora.Pvp.Test
     {
       PvpToken token = new PvpToken(GetNameValueCollection19());
       var xml = token.GetSystemPrincipalSoapFragment();
-      Assert.AreEqual("<pvpToken version=\"1.9\" xmlns=\"http://egov.gv.at/pvp1.xsd\"><authenticate><participantId>AT:L6:1234789</participantId><systemPrincipal><userId>mmustermann@kommunalnet.at</userId><cn>Max Mustermann</cn><gvOuId>AT:GGA-60420:0815</gvOuId><ou>Meldeamt</ou><gvOuOKZ>AT:GGA-60420-Abt13</gvOuOKZ><gvSecClass>2</gvSecClass></systemPrincipal></authenticate><authorize><role value=\"Beispielrolle\"><param><key>GKZ</key><value>60420</value></param></role></authorize></pvpToken>"
+      Assert.AreEqual("<pvpToken version=\"1.9\" xmlns=\"http://egov.gv.at/pvp1.xsd\"><authenticate><participantId>AT:L6:1234789</participantId><systemPrincipal><userId>mmustermann@kommunalnet.at</userId><cn>Max Mustermann</cn><gvOuId>AT:GGA-60420:0815</gvOuId><ou>Meldeamt</ou><gvOuOKZ>AT:GGA-60420-Abt13</gvOuOKZ><gvSecClass>2</gvSecClass></systemPrincipal></authenticate><authorize><role value=\"Beispielrolle\"><param><key>GKZ</key><value>60420</value></param></role></authorize><accounting><InvoiceRecptId>Recipient</InvoiceRecptId><CostCenterId>CostCenter</CostCenterId><ChargeCode>0</ChargeCode></accounting></pvpToken>"
         , xml.OuterXml);
     }
 
+    [Test]
+    public void UserPrincipalTest()
+    {
+      PvpToken token = new PvpToken(GetNameValueCollection19());
+      var xml = token.GetUserPrincipalSoapFragment();
+      Assert.AreEqual("<pvpToken version=\"1.9\" xmlns=\"http://egov.gv.at/pvp1.xsd\"><authenticate><participantId>AT:L6:1234789</participantId><userPrincipal><userId>mmustermann@kommunalnet.at</userId><cn>Max Mustermann</cn><gvOuId>AT:GGA-60420:0815</gvOuId><ou>Meldeamt</ou><gvOuOKZ>AT:GGA-60420-Abt13</gvOuOKZ><gvSecClass>2</gvSecClass><mail>max.mustermann@hatzendorf.steiermark.at</mail><tel>+43 3155 5153</tel><gvGid>AT:B:0:LxXnvpcYZesiqVXsZG0bB==</gvGid></userPrincipal></authenticate><authorize><role value=\"Beispielrolle\"><param><key>GKZ</key><value>60420</value></param></role></authorize><accounting><InvoiceRecptId>Recipient</InvoiceRecptId><CostCenterId>CostCenter</CostCenterId><ChargeCode>0</ChargeCode></accounting></pvpToken>"
+        , xml.OuterXml);
+    }
     private NameValueCollection GetNameValueCollection21()
     {
       NameValueCollection headers = new NameValueCollection()
