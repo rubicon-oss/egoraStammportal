@@ -18,5 +18,12 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
   //[TestFixture]
   public class AuthenticationTest
   {
+    [Test]
+    public void UriTest()
+    {
+      var uri = new Uri("https://server/dir1/dir2/file.ext?name1=valuewith%2F");
+      var redirect = uri.PathAndQuery;
+      Assert.That(System.Web.HttpUtility.UrlEncode(redirect), Is.EqualTo("%2fdir1%2fdir2%2ffile.ext%3fname1%3dvaluewith%252F"));
+    }
   }
 }

@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="RemoteApplication.cs" />
     <Compile Include="RemoteApplicationHistory.cs" />
+    <Compile Include="SecClass3Helper.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Authentication.cs" />
     <Compile Include="StreamFilter\CopyFilter.cs" />

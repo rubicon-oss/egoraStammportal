@@ -14,6 +14,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using Egora.Stammportal.HttpReverseProxy.Mapping;
+using Egora.Stammportal.HttpReverseProxy.Properties;
 
 namespace Egora.Stammportal.HttpReverseProxy
 {
@@ -34,7 +35,7 @@ namespace Egora.Stammportal.HttpReverseProxy
 
     public static int HistoryMaxLength = Properties.Settings.Default.HistoryLength;
 
-    internal static RemoteApplication[] GetApplications()
+    internal static RemoteApplication[] GetActiveApplications()
     {
       RemoteApplication[] apps = new RemoteApplication[s_remoteApplications.Count];
       s_remoteApplications.Values.CopyTo(apps, 0);
@@ -90,7 +91,7 @@ namespace Egora.Stammportal.HttpReverseProxy
     private bool _logTraffic;
     private bool _isolateCookies;
     private List<string> _passThroughCookies;
-
+    
     public RemoteApplication(ApplicationDirectory applicationDirectory)
     {
       lock (_thisLock)
@@ -205,6 +206,7 @@ namespace Egora.Stammportal.HttpReverseProxy
       HeaderTransformer headerTransformer =
         new HeaderTransformer(rightSideResponse, leftSideResponse, RootUrl, RemoteApplicationProxyPath, IsolateCookies, _passThroughCookies);
       headerTransformer.Transform();
+      
       leftSideResponse.StatusCode = (int) rightSideResponse.StatusCode;
       leftSideResponse.ContentType = rightSideResponse.ContentType;
       leftSideResponse.StatusDescription = rightSideResponse.StatusDescription;

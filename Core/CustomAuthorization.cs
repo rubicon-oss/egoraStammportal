@@ -6,7 +6,10 @@ This software is sample code and is subject to the Microsoft Public License.
 You may use this code according to the conditions of the Microsoft Public License.
 *************************/
 
+using System;
+using System.Collections.Generic;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace Egora.Stammportal
 {
@@ -80,6 +83,38 @@ namespace Egora.Stammportal
     {
       get {return _version; }
       set { _version = value; }
+    }
+
+    private List<string> _secClassHeaders = new List<string>() { "X-PVP-SECCLASS", "X-AUTHENTICATE-gvSecClass" };
+    /// <summary>
+    /// SecClass, retrieved from Headers
+    /// </summary>
+    [XmlIgnore]
+    public string SecClass
+    {
+      get
+      {
+        if (HttpHeaders != null)
+        {
+          foreach (var httpHeader in HttpHeaders)
+          {
+            if (httpHeader.Name.Equals("X-AUTHENTICATE-gvSecClass", StringComparison.InvariantCultureIgnoreCase) ||
+                httpHeader.Name.Equals("X-PVP-SECCLASS", StringComparison.InvariantCultureIgnoreCase))
+              return httpHeader.Value;
+          }
+        }
+
+        if (SoapHeaderXmlFragment != null)
+        {
+          var nsManager = new XmlNamespaceManager(new NameTable());
+          nsManager.AddNamespace("pvp", "http://egov.gv.at/pvp1.xsd");
+          var secClass = SoapHeaderXmlFragment.SelectSingleNode("//pvp:gvSecClass", nsManager);
+          if (secClass != null)
+            return secClass.InnerText;
+        }
+        
+        return null;
+      }
     }
 
   }

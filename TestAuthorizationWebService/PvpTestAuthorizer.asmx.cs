@@ -73,6 +73,27 @@ namespace Egora.Stammportal.TestAuthorizationWebService
         auth.PvpVersion = "2.1";
         auth.TimeToLive = 600;
       }
+
+      else if (url == "http://egoratest/pvptestapplication/3/")
+      {
+        auth = new CustomAuthorization();
+
+        auth.HttpHeaders = new HttpHeader[]
+        {
+          new HttpHeader("X-PVP-UserId", userId),
+          new HttpHeader("PVP-Header1", "PVP-Value1"),
+          new HttpHeader("X-PVP-Version", "2.1"),
+          new HttpHeader("X-PVP-PRINCIPAL-NAME", "common name"),
+          new HttpHeader("X-PVP-gvOuId", "1234"),
+          new HttpHeader("X-PVP-ou", "egora"),
+          new HttpHeader("X-PVP-participantId", "test"),
+          new HttpHeader("X-PVP-SecClass", "3"),
+        };
+
+        auth.PvpVersion = "2.1";
+        auth.TimeToLive = 600;
+      }
+
       else if (url == "http://egoratest/pvptestservice/1/")
       {
         auth = new CustomAuthorization();

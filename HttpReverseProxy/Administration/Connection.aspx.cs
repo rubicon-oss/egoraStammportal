@@ -17,7 +17,7 @@ namespace Egora.Stammportal.HttpReverseProxy.Administration
     protected void Page_Load(object sender, EventArgs e)
     {
       List<ServicePoint> servicePoints = new List<ServicePoint>();
-      foreach (RemoteApplication app in RemoteApplication.GetApplications())
+      foreach (RemoteApplication app in RemoteApplication.GetActiveApplications())
       {
         ServicePoint servicePoint = ServicePointManager.FindServicePoint(new Uri(app.RootUrl));
         if (!servicePoints.Contains(servicePoint))

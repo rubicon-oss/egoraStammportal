@@ -41,14 +41,14 @@ namespace Egora.Stammportal.HttpReverseProxy
     private HttpWebRequest _rightSideRequest;
     private RemoteApplication _application;
     private CustomAuthorization _authorization;
-    private Authentication _auth;
+    private Authentication _authentication;
     private TrafficLogger _logger;
 
     public RequestHandler(HttpRequest leftSideRequest, RemoteApplication application, TrafficLogger logger)
     {
       _leftSideRequest = leftSideRequest;
       _application = application;
-      _auth = new Authentication(_leftSideRequest);
+      _authentication = new Authentication(_leftSideRequest);
       _logger = logger;
     }
 
@@ -68,7 +68,7 @@ namespace Egora.Stammportal.HttpReverseProxy
       {
         AuthorizationWebServiceProxy authorizationProxy =
           new AuthorizationWebServiceProxy(_application.Directory.AuthorizationWebService);
-        string userName = _auth.UserId;
+        string userName = _authentication.UserId;
         _authorization = authorizationProxy.GetAuthorization(_application.RootUrl, userName);
 
         if (!Properties.Settings.Default.ProcessRequestWithoutAuthorization)
@@ -79,6 +79,14 @@ namespace Egora.Stammportal.HttpReverseProxy
           }
         }
       }
+
+      if (_authorization != null 
+          && string.Compare(_authorization.SecClass, Settings.Default.AuthenticationCheckerThreshold, StringComparison.InvariantCultureIgnoreCase) >= 0 
+          && !string.IsNullOrWhiteSpace(Settings.Default.AuthenticationCheckerStartPath))
+      {
+        _authentication.EnsureAuthentication();
+      }
+
       HeaderTransformer headerTransformer = new HeaderTransformer(_leftSideRequest,
           _rightSideRequest,
           IsSoap ? PvpTokenHandling.remove : _application.PvpInformationHandling,
@@ -202,7 +210,7 @@ namespace Egora.Stammportal.HttpReverseProxy
 
     private Stream GetRequestStream()
     {
-      return _auth.GetRequestStream(_rightSideRequest);
+      return _authentication.GetRequestStream(_rightSideRequest);
     }
   }
 }

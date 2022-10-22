@@ -75,6 +75,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "StammportalForms", "Stammpo
 		SlnRelativePath = "StammportalForms\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationChecker", "AuthenticationChecker\AuthenticationChecker.csproj", "{AFC0EBEA-15E9-41D5-8467-138ED4B15143}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -217,6 +219,18 @@ Global
 		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{0EF16DCC-605A-4B6E-961A-C769605C6B5C}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Debug|.NET.Build.0 = Debug|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Release|.NET.ActiveCfg = Release|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Release|.NET.Build.0 = Release|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AFC0EBEA-15E9-41D5-8467-138ED4B15143}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

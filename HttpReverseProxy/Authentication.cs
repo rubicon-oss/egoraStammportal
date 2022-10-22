@@ -8,6 +8,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Principal;
 using System.Web;
@@ -156,6 +157,37 @@ namespace Egora.Stammportal.HttpReverseProxy
       }
 
       return webResponse;
+    }
+
+    public void EnsureAuthentication()
+    {
+      var cookie = _leftSideRequest.Cookies[Settings.Default.AuthenticationCookieName];
+      if (cookie != null)
+      {
+        var ticket = FormsAuthentication.Decrypt(cookie.Value);
+        if (ticket != null && ticket.Name == UserId && !ticket.Expired)
+          return;
+      }
+
+      StartCheck();
+    }
+
+    private void StartCheck()
+    {
+      var startPath = Path.Combine( _leftSideRequest.Url.GetLeftPart(UriPartial.Authority), _leftSideRequest.ApplicationPath,  Settings.Default.AuthenticationCheckerStartPath);
+      startPath += startPath.Contains("?") ? "&" : "?";
+      startPath += "ReturnUrl=" + System.Web.HttpUtility.UrlEncode(_leftSideRequest.Url.OriginalString);
+      startPath += "&UserId=" + System.Web.HttpUtility.UrlEncode(UserId);
+      startPath += "&FrontEnd=" + System.Web.HttpUtility.UrlEncode(_leftSideRequest.Url.GetLeftPart(UriPartial.Authority)+_leftSideRequest.ApplicationPath);
+      HttpContext.Current.Response.Redirect(startPath);
+    }
+
+    public static void CreateAuthenticationCookie(HttpResponse response, string userId, string userData)
+    {
+      var now = DateTime.Now;
+      FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(2, userId, now, now + new TimeSpan(Settings.Default.AuthenticationCheckerValidHours, 0, 0), false, userData);
+      var value =FormsAuthentication.Encrypt(ticket);
+      response.Cookies.Add( new HttpCookie(Settings.Default.AuthenticationCookieName, value));
     }
   }
 }

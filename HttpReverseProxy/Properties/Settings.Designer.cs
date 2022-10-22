@@ -12,7 +12,7 @@ namespace Egora.Stammportal.HttpReverseProxy.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -242,15 +242,6 @@ namespace Egora.Stammportal.HttpReverseProxy.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("VsDebuggerCausalityData")]
-        public string RequestHeaderToRemove {
-            get {
-                return ((string)(this["RequestHeaderToRemove"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3840")]
         public int SecurityProtocol {
             get {
@@ -264,6 +255,51 @@ namespace Egora.Stammportal.HttpReverseProxy.Properties {
         public bool WorkaroundCookieWithEmptyPath {
             get {
                 return ((bool)(this["WorkaroundCookieWithEmptyPath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ExternalAuthentication")]
+        public string AuthenticationCookieName {
+            get {
+                return ((string)(this["AuthenticationCookieName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("VsDebuggerCausalityData")]
+        public string RequestHeaderToRemove {
+            get {
+                return ((string)(this["RequestHeaderToRemove"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/AuthenticationChecker/Authenticate/Authorize")]
+        public string AuthenticationCheckerStartPath {
+            get {
+                return ((string)(this["AuthenticationCheckerStartPath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public string AuthenticationCheckerThreshold {
+            get {
+                return ((string)(this["AuthenticationCheckerThreshold"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int AuthenticationCheckerValidHours {
+            get {
+                return ((int)(this["AuthenticationCheckerValidHours"]));
             }
         }
     }

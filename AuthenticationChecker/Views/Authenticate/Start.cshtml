@@ -1,0 +1,7 @@
+﻿@{
+    ViewBag.Title = "Begin Authentication Check";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+<p>ReturnUrl=@ViewBag.ReturnUrl</p>
+<input type="button" value="Weiter ..." onclick="location.href = '@Url.Action("Authorize", new {ReturnUrl=ViewBag.ReturnUrl, UserID=ViewBag.UserId})'" />

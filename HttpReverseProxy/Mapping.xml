@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PathMap xmlns="http://www.egora.at/Stammportal/PathMap/1.0" >
   <Directories>
+    <ApplicationDirectory
+      AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpTestAuthorizer.asmx"
+      Name="AuthenticationChecker"
+      LogTraffic="true"
+      RootUrl="http://egoratest/AuthenticationChecker/"
+      ByPassExpression="AuthenticationChecker/.*" >
+    </ApplicationDirectory>
+
     <ApplicationDirectory 
       AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpTestAuthorizer.asmx"
       Name="localtest1" 
@@ -25,6 +33,15 @@
       IsolateCookies="false"
       RootUrl="http://egoratest/PvpTestApplication/2/"
       ByPassExpression="ByPassToken">
+    </ApplicationDirectory>
+
+    <ApplicationDirectory
+      AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpTestAuthorizer.asmx"
+      Name="localtest3"
+      LogTraffic="true"
+      RootUrl="http://egoratest/PvpTestApplication/3/"
+      ByPassExpression="ByPassToken"
+      PassThroughCookies="ptname otherName">
     </ApplicationDirectory>
 
     <ApplicationDirectory

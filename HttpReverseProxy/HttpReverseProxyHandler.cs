@@ -238,7 +238,18 @@ namespace Egora.Stammportal.HttpReverseProxy
               }
 
               remoteApplication.ShapeHttpResponse(response, context.Response);
-              
+
+              if (remoteApplication.Directory.Name.Equals("AuthenticationChecker", StringComparison.InvariantCultureIgnoreCase))
+              {
+                var result = response.Headers["X-Egora-Authentication-UserId"];
+                if (!string.IsNullOrEmpty(result))
+                {
+                  var userData = response.Headers["X-Egora-Authentication-UserData"];
+                  Authentication.CreateAuthenticationCookie(context.Response, auth.UserId, userData);
+                }
+              }
+
+
               if (FormsAuthentication.IsEnabled && context.Response.StatusCode == 401)
                 context.Response.SuppressFormsAuthenticationRedirect = true;
 

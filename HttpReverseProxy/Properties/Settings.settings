@@ -74,14 +74,26 @@
     <Setting Name="TrafficLogDir" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\temp</Value>
     </Setting>
-    <Setting Name="RequestHeaderToRemove" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">VsDebuggerCausalityData</Value>
-    </Setting>
     <Setting Name="SecurityProtocol" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">3840</Value>
     </Setting>
     <Setting Name="WorkaroundCookieWithEmptyPath" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AuthenticationCookieName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ExternalAuthentication</Value>
+    </Setting>
+    <Setting Name="RequestHeaderToRemove" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">VsDebuggerCausalityData</Value>
+    </Setting>
+    <Setting Name="AuthenticationCheckerStartPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">/AuthenticationChecker/Authenticate/Authorize</Value>
+    </Setting>
+    <Setting Name="AuthenticationCheckerThreshold" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="AuthenticationCheckerValidHours" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
     </Setting>
   </Settings>
 </SettingsFile>

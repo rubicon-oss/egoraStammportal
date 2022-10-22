@@ -29,6 +29,11 @@
             PvpVersion
             </summary>
         </member>
+        <member name="P:Egora.Stammportal.CustomAuthorization.SecClass">
+            <summary>
+            SecClass, retrieved from Headers
+            </summary>
+        </member>
         <member name="T:Egora.Stammportal.HttpHeader">
             <summary>
             Holds Information for HttpHeaders.

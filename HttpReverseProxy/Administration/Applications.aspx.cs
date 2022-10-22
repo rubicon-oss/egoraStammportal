@@ -17,7 +17,7 @@ namespace Egora.Stammportal.HttpReverseProxy.Administration
 
     protected void Page_Load(object sender, EventArgs e)
     {
-      apps = RemoteApplication.GetApplications();
+      apps = RemoteApplication.GetActiveApplications();
       ApplicationsGridView.DataSource = apps;
       ApplicationsGridView.DataBind();
     }

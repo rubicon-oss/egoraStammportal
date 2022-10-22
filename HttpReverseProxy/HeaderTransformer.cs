@@ -221,6 +221,8 @@ namespace Egora.Stammportal.HttpReverseProxy
             case "keep-alive":
             case "content-length":
             case "range":
+            case "x-egora-authentication-userid":
+            case "x-egora-authentication-userdata":
               TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose,
                 (int) Event.TransformResponse,
                 "Ignoring Header {0} with value {1}.", headerName,
