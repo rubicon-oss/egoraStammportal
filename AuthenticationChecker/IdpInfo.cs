@@ -11,5 +11,6 @@ namespace AuthenticationChecker
     public string ClientSecret { get; set; }
     public string DiscoveryEndpoint { get; set; }
     public string Issuer { get; set; }
+    public string Scope { get; set; }
   }
 }

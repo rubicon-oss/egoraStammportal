@@ -25,7 +25,6 @@ namespace AuthenticationChecker.Controllers
   
   public class AuthenticateController : Controller
   {
-
     private static readonly ILog s_log = LogManager.GetLogger(typeof(AuthenticateController));
     private static readonly OpenIdConnectConfiguration Configuration;
     private static readonly IdpInfo Info;
@@ -82,7 +81,7 @@ namespace AuthenticationChecker.Controllers
         {"response_type", "code" },
         {"client_id", Info.ClientId },
         {"redirect_uri", GetActionUrl(nameof(Receive), frontend)},
-        {"scope", "openid profile email"},
+        {"scope", Info.Scope},
         {"state", stateKey}
       };
       var query = GetQueryString(parameters);
