@@ -40,5 +40,14 @@ namespace AuthenticationChecker.Properties {
                 return ((string)(this["IdpInfoFile"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RUBICON\\")]
+        public string DomainPrefix {
+            get {
+                return ((string)(this["DomainPrefix"]));
+            }
+        }
     }
 }

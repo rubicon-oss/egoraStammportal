@@ -8,5 +8,8 @@
     <Setting Name="IdpInfoFile" Type="System.String" Scope="Application">
       <Value Profile="(Default)">dev-wk.json.config</Value>
     </Setting>
+    <Setting Name="DomainPrefix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">RUBICON\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

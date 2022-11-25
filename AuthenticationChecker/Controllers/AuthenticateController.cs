@@ -3,6 +3,7 @@ using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.DirectoryServices;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -63,6 +64,9 @@ namespace AuthenticationChecker.Controllers
 
       var stateHandler = new StateHandler();
       var stateKey = Guid.NewGuid().ToString();
+      if (!string.IsNullOrEmpty(Settings.Default.DomainPrefix) && userId.StartsWith(Settings.Default.DomainPrefix, StringComparison.InvariantCultureIgnoreCase))
+        userId = userId.Remove(0, Settings.Default.DomainPrefix.Length);
+
       stateHandler.Add(stateKey, new AuthenticationState() { ReturnUrl = returnUrl, UserId = userId, FrontEnd = frontend });
 
       if (Settings.Default.DummyMode)
@@ -108,6 +112,8 @@ namespace AuthenticationChecker.Controllers
         ViewBag.Error = $"unknown state '{state}'.";
         return View();
       }
+
+      ViewBag.Error = "";
       if (Settings.Default.DummyMode)
       {
         if (string.IsNullOrEmpty(data.ReturnUrl))
@@ -174,13 +180,39 @@ namespace AuthenticationChecker.Controllers
 
       var jwt = new JwtSecurityToken(idToken);
 
-      ViewBag.Identity = string.Join(", ", jwt.Claims.Select(c => $"{c.Type}={c.Value}"));
+      ViewBag.Identity = string.Join(", ", (IEnumerable<string>)jwt.Claims?.Select(c => $"{c.Type}={c.Value}") ?? Array.Empty<string>());
+      
       string firstName = jwt.Claims.First(c => c.Type == "given_name").Value;
       string lastName = jwt.Claims.First(c => c.Type == "family_name").Value;
-      var accountName =new ADHelper().FindUser(firstName, lastName, data.UserId)?.Properties["userPrincipalName"].Value;
+      var adHelper = new ADHelper();
+      var firstnames = new List<string>() { firstName };
+      var separators = new char[] { ' ', '-' };
+      if (separators.Any(s => firstName.Contains(s)))
+        firstnames.AddRange(firstName.Split(separators));
+      DirectoryEntry adUser = null;
+      foreach (var fn in  firstnames)
+      {
+        adUser = adHelper.FindUser(fn, lastName, data.UserId);
+        if (adUser == null)
+        {
+          s_log.Info($"No AD user found with firstname {fn}, givenname {lastName} and userid {data.UserId}");
+        }
+        else
+        {
+          s_log.Info($"AD user found with firstname {fn}, givenname {lastName} and userid {data.UserId}");
+          break;
+        }
+      }
+      if (adUser == null) 
+      {
+        s_log.Info("giving up finding AD user.");
+        throw new ApplicationException(
+          $"Kein AD Benutzer gefunden für {firstName} {lastName} und Accountname {data.UserId}.");
+      }
+      var accountName =adUser.Properties["userPrincipalName"].Value;
       ViewBag.AccountName = accountName;
       ViewBag.ReturnUrl = data.ReturnUrl;
-      SetHeader(accountName?.ToString(), validatedToken?.ToString());
+      SetHeader(accountName.ToString(), validatedToken.ToString());
 
       if (!string.IsNullOrEmpty(data.ReturnUrl))
         Response.Redirect(data.ReturnUrl, true);

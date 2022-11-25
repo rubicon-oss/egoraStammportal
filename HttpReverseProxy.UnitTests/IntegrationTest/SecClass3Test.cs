@@ -35,7 +35,9 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
       var location1 = response1.Headers["Location"];
       StringAssert.Contains("/Authenticate/Authorize", location1);
       
-      var request2 = (HttpWebRequest)WebRequest.Create(location1);
+      var pageUrl = new Uri(appPage);
+      var redirectUri = new UriBuilder(pageUrl.Scheme, pageUrl.Host, pageUrl.Port).Uri + location1.Remove(0,1);
+      var request2 = (HttpWebRequest)WebRequest.Create(redirectUri);
       cookieContainer.Add(response1.Cookies);
       request2.CookieContainer = cookieContainer;
       request2.AllowAutoRedirect = false;

@@ -238,6 +238,9 @@ xcopy $(ProjectDir)Administration\*.aspx $(SolutionDir)Output\$(ConfigurationNam
 if Exist $(SolutionDir)Output\$(ConfigurationName)\Authorizer del $(SolutionDir)Output\$(ConfigurationName)\Authorizer\*.* /s /q
 xcopy $(SolutionDir)AuthorizationWebsite\*.* $(SolutionDir)Output\$(ConfigurationName)\Authorizer\ /s
 
+if Exist $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker del $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker\*.* /s /q
+xcopy $(SolutionDir)AuthenticationChecker\bin\app.publish\*.* $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker\ /s
+
 if Exist $(SolutionDir)StammportalForms\bin del $(SolutionDir)StammportalForms\bin\*.* /s /q
 xcopy $(TargetDir)*.* $(SolutionDir)StammportalForms\bin
 
