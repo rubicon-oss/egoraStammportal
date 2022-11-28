@@ -61,9 +61,10 @@ namespace Egora.Stammportal.HttpReverseProxy.Mapping
     private bool _isolateCookies = true;
     private string _secExtNamespace;
     private string _passThroughCookies;
+    private bool? _substituteHostInLocationHeader;
 
     [XmlAttribute]
-    public bool LogTraffic 
+    public bool LogTraffic
     {
       get { return _logTraffic; }
       set { _logTraffic = value; }
@@ -117,6 +118,20 @@ namespace Egora.Stammportal.HttpReverseProxy.Mapping
     {
       get { return _secExtNamespace; }
       set { _secExtNamespace = value; }
+    }
+
+    [XmlAttribute]
+    public bool SubstituteHostInRedirect 
+    { 
+      get => _substituteHostInLocationHeader ?? false; 
+      set => _substituteHostInLocationHeader = value;
+    }
+
+    [XmlIgnore]
+    public bool? SubstituteHostInLocationHeader
+    {
+      get => _substituteHostInLocationHeader;
+      set => _substituteHostInLocationHeader = value;
     }
 
     public override string GetFullTargetPath(string fullPath)

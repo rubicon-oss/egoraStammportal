@@ -32,7 +32,9 @@
       LogTraffic="true"
       IsolateCookies="false"
       RootUrl="http://egoratest/PvpTestApplication/2/"
-      ByPassExpression="ByPassToken">
+      ByPassExpression="ByPassToken"
+      SubstituteHostInRedirect="true" 
+    >
     </ApplicationDirectory>
 
     <ApplicationDirectory

@@ -23,6 +23,7 @@
         <xs:attribute name="PvpInformationHandling" type="tns:pvpTokenHandling" use="optional"/>
         <xs:attribute name="ByPassExpression" type="xs:string" use="optional"/>
         <xs:attribute name="SecExtNamespace" type="xs:string"  use="optional"/>
+        <xs:attribute name="SubstituteHostInRedirect" type="xs:boolean" use="optional"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

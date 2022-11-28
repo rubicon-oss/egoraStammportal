@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Web.Services.Protocols;
 using System.Xml.Serialization;
 using NUnit.Framework;
 
@@ -210,6 +211,37 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
       Assert.IsNull(info.GetHeader("From")); // because header is removed
       Assert.IsNull(info.GetHeader("X-AUTHENTICATE-UserId"));
       Assert.AreEqual("MyTestValue", info.GetHeader("MyHeader"));
+    }
+
+    [Test]
+    public void Redirect()
+    {
+      HttpWebRequest request1 = (HttpWebRequest)WebRequest.Create(
+        "http://egoratest/stammportal/localtest1/IntegrationTestPage.aspx?RedirectTo=" + WebUtility.UrlEncode ("/somepage.html"));
+      request1.AllowAutoRedirect = false;
+      HttpWebResponse response1 = (HttpWebResponse)request1.GetResponse();
+
+      Assert.IsNotNull(response1, "Response");
+      Assert.IsNotNull(response1.Headers["Location"]);
+      Assert.AreEqual("/somepage.html", response1.Headers["Location"]);
+
+      HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(
+        "http://egoratest/stammportal/localtest1/IntegrationTestPage.aspx?RedirectTo=" + WebUtility.UrlEncode("http://someotherdomain/otherpage.html"));
+      request2.AllowAutoRedirect = false;
+      HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
+
+      Assert.IsNotNull(response2, "Response");
+      Assert.IsNotNull(response2.Headers["Location"]);
+      Assert.AreEqual("http://someotherdomain/otherpage.html", response2.Headers["Location"]);
+
+      HttpWebRequest request3 = (HttpWebRequest)WebRequest.Create(
+        "http://egoratest/stammportal/localtest2/IntegrationTestPage.aspx?RedirectTo=" + WebUtility.UrlEncode("http://someotherdomain/otherpage.html"));
+      request3.AllowAutoRedirect = false;
+      HttpWebResponse response3 = (HttpWebResponse)request3.GetResponse();
+
+      Assert.IsNotNull(response3, "Response");
+      Assert.IsNotNull(response3.Headers["Location"]);
+      Assert.AreEqual("http://egoratest:80/otherpage.html", response3.Headers["Location"]);
     }
 
     private HttpWebRequest CreateRequest(string query)

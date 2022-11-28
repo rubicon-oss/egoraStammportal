@@ -81,6 +81,17 @@ namespace Egora.Stammportal.HttpReverseProxy
       return null;
     }
 
+    public static RemoteApplication GetRemoteApplicationByTarget(string targetRootUrl)
+    {
+      var apps = GetActiveApplications();
+      foreach (var app in apps)
+      {
+        if (app.RootUrl.Equals(targetRootUrl, StringComparison.InvariantCultureIgnoreCase))
+          return app;
+      }  
+      
+      return null;
+    }
     private ApplicationDirectory _applicationDirectory;
     private X509Certificate _certificate;
     private List<RemoteApplicationHistory> _history = new List<RemoteApplicationHistory>(HistoryMaxLength);
@@ -201,10 +212,15 @@ namespace Egora.Stammportal.HttpReverseProxy
       return _applicationDirectory.ByPass(url);
     }
 
+    public bool? SubstituteHostInLocationHeader
+    {
+      get { return _applicationDirectory.SubstituteHostInLocationHeader; }
+    }
+
     public virtual void ShapeHttpResponse(HttpWebResponse rightSideResponse, HttpResponse leftSideResponse)
     {
       HeaderTransformer headerTransformer =
-        new HeaderTransformer(rightSideResponse, leftSideResponse, RootUrl, RemoteApplicationProxyPath, IsolateCookies, _passThroughCookies);
+        new HeaderTransformer(rightSideResponse, leftSideResponse, RootUrl, RemoteApplicationProxyPath, IsolateCookies, SubstituteHostInLocationHeader, _passThroughCookies);
       headerTransformer.Transform();
       
       leftSideResponse.StatusCode = (int) rightSideResponse.StatusCode;

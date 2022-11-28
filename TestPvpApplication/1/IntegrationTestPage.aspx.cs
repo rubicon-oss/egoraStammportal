@@ -30,6 +30,13 @@ namespace TestPvpApplication
         Response.SetCookie(cookie);
       }
 
+      if (Request.QueryString["RedirectTo"] != null)
+      {
+        string url = Request.QueryString["RedirectTo"];
+        Response.Redirect(url);
+        Response.End();
+      }
+
       XmlSerializer serializer = new XmlSerializer(typeof (RequestInformation));
       RequestInformation info = new RequestInformation(Request);
       serializer.Serialize(Response.OutputStream, info);

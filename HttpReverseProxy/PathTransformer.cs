@@ -15,7 +15,8 @@ namespace Egora.Stammportal.HttpReverseProxy
 {
   public class PathTransformer
   {
-    public PathTransformer(string targetRootUrl, string remoteApplicationProxyPath)
+    public PathTransformer(string targetRootUrl, string remoteApplicationProxyPath,
+      bool? substituteHostInLocationHeader)
     {
       if (targetRootUrl == null)
         throw new ArgumentException("targetUrlBasePath must not be null.");
@@ -39,12 +40,14 @@ namespace Egora.Stammportal.HttpReverseProxy
 
       _remoteApplicationProxyPath = remoteApplicationProxyPath;
       _targetBasePath = new Uri(targetRootUrl).AbsolutePath;
+      _substituteHostInLocationHeader = substituteHostInLocationHeader;
     }
 
     private string _remoteApplicationProxyPath;
     private string _targetRootUrlhttp;
     private string _targetRootUrlhttps;
     private string _targetBasePath;
+    private readonly bool? _substituteHostInLocationHeader;
 
     public virtual string AdjustPath(string rightSidePath)
     {
@@ -68,7 +71,8 @@ namespace Egora.Stammportal.HttpReverseProxy
         {
           leftSidePath = _remoteApplicationProxyPath + leftSidePath.Substring(_targetBasePath.Length + (leftSidePath.StartsWith("/") && !_targetBasePath.EndsWith("/") ? 1 : 0));
         }
-        else if(Settings.Default.SubstituteHostInLocationHeader) //TODO: better Application specific
+        else if(_substituteHostInLocationHeader.HasValue && _substituteHostInLocationHeader.Value == true
+                || !_substituteHostInLocationHeader.HasValue && Settings.Default.SubstituteHostInLocationHeader) 
         {
           Uri rightSideUri = new Uri(leftSidePath);
           if (! (rightSideUri.Authority == HttpContext.Current.Request.Url.Authority && rightSideUri.Scheme == HttpContext.Current.Request.Url.Scheme) )

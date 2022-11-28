@@ -142,7 +142,9 @@ namespace Egora.Stammportal.HttpReverseProxy
       _passThroughCookies = passThroughCookies;
     }
 
-    public HeaderTransformer(HttpWebResponse rightSideResponse, HttpResponse leftSideResponse, string targetRootUrl, string remoteApplicationProxyPath, bool isolateCookies, List<string> passThroughCookies)
+    public HeaderTransformer(HttpWebResponse rightSideResponse, HttpResponse leftSideResponse, string targetRootUrl,
+      string remoteApplicationProxyPath, bool isolateCookies, bool? substituteHostInLocationHeader,
+      List<string> passThroughCookies)
     {
       if (rightSideResponse == null)
         throw new ArgumentException("rightSideResponse must not be null.");
@@ -158,6 +160,7 @@ namespace Egora.Stammportal.HttpReverseProxy
       _remoteApplicationProxyPath = remoteApplicationProxyPath;
       _targetRootUrl = targetRootUrl;
       _isolateCookies = isolateCookies;
+      _substituteHostInLocationHeader = substituteHostInLocationHeader;
       _passThroughCookies = passThroughCookies;
     }
 
@@ -177,13 +180,14 @@ namespace Egora.Stammportal.HttpReverseProxy
     private string _pvpVersion;
     private bool _isolateCookies;
     private List<string> _passThroughCookies;
+    private bool? _substituteHostInLocationHeader;
 
     protected PathTransformer LocationTransformer
     {
       get
       {
         if (_locationTransformer == null)
-          _locationTransformer = new PathTransformer(_targetRootUrl, _remoteApplicationProxyPath);
+          _locationTransformer = new PathTransformer(_targetRootUrl, _remoteApplicationProxyPath, _substituteHostInLocationHeader);
         return _locationTransformer;
       }
     }

@@ -44,3 +44,4 @@ _ReSharper*/
 #Nuget packages folder
 packages/
 /AuthenticationChecker/eid.json.config
+/AuthenticationChecker/dev-wk.json.config

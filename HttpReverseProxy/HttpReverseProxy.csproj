@@ -151,6 +151,7 @@
     <Content Include="Web References\AuthorizationWebService\CustomAuthorization.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
+    <Content Include="Mapping\Mapping.cd" />
     <None Include="Web References\AuthorizationWebService\PvpAuthorizer.disco" />
     <Content Include="Administration\Applications.aspx" />
     <Content Include="Administration\Authorization.aspx" />

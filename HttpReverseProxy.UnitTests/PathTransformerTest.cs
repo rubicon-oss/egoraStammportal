@@ -15,7 +15,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     [Test]
     public void LeftSidePath_FromRightSideFullPath()
     {
-      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "/somedomain/");
+      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "/somedomain/", null);
       string newPath = pathTransformer.AdjustPath("http://somedomain/page1.html");
 
       Assert.IsNotNull(newPath);
@@ -25,7 +25,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     [Test]
     public void LeftSidePath_FromRightSideSecureFullPath()
     {
-      PathTransformer pathTransformer = new PathTransformer("https://somedomain/", "/somedomain/");
+      PathTransformer pathTransformer = new PathTransformer("https://somedomain/", "/somedomain/", null);
       string newPath = pathTransformer.AdjustPath("https://somedomain/page1.html");
 
       Assert.IsNotNull(newPath);
@@ -35,7 +35,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     [Test]
     public void LeftSidePath_FromRightRelativPath()
     {
-      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "/somedomain/");
+      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "/somedomain/", null);
       string newPath = pathTransformer.AdjustPath("page1.html");
 
       Assert.IsNotNull(newPath);
@@ -45,7 +45,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     [Test]
     public void LeftSidePath_FromRightAbsolutPath()
     {
-      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "/somedomain/");
+      PathTransformer pathTransformer = new PathTransformer("http://somedomain/", "/somedomain/", null);
       string newPath = pathTransformer.AdjustPath("/page1.html");
 
       Assert.IsNotNull(newPath);
@@ -55,7 +55,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     [Test]
     public void LeftSidePath_FromRightAbsolutPathAndNotRootProxyPath()
     {
-      PathTransformer pathTransformer = new PathTransformer("https://www.fundamt.gv.at/gondor/", "/stammportal/fundamt/");
+      PathTransformer pathTransformer = new PathTransformer("https://www.fundamt.gv.at/gondor/", "/stammportal/fundamt/", null);
       string newPath = pathTransformer.AdjustPath("/gondor/WebGov/UI/Security/FormsLogin.aspx");
 
       Assert.IsNotNull(newPath);
@@ -67,7 +67,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     {
       PathTransformer pathTransformer =
         new PathTransformer("https://awp.statistik.at/statistik.at/vis.test.extern/",
-                            "/statistik.at/vis.test.extern/");
+                            "/statistik.at/vis.test.extern/", null);
       string newPath = pathTransformer.AdjustPath("https://awp.statistik.at/statistik.at/vis.test.extern/start.do");
 
       Assert.IsNotNull(newPath);
