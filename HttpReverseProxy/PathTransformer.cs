@@ -75,13 +75,15 @@ namespace Egora.Stammportal.HttpReverseProxy
                 || !_substituteHostInLocationHeader.HasValue && Settings.Default.SubstituteHostInLocationHeader) 
         {
           Uri rightSideUri = new Uri(leftSidePath);
-          if (! (rightSideUri.Authority == HttpContext.Current.Request.Url.Authority && rightSideUri.Scheme == HttpContext.Current.Request.Url.Scheme) )
+          if (! (rightSideUri.Authority == HttpContext.Current.Request.Url.Authority 
+                 && rightSideUri.Scheme == HttpContext.Current.Request.Url.Scheme) )
           {
             Uri contextUrl = HttpContext.Current.Request.Url;
             UriBuilder uriBuilder = new UriBuilder(leftSidePath);
-            uriBuilder.Host = contextUrl.Host;
-            uriBuilder.Port = contextUrl.Port;
             uriBuilder.Scheme = contextUrl.Scheme;
+            uriBuilder.Host = contextUrl.Host;
+            if (!contextUrl.IsDefaultPort)
+              uriBuilder.Port = contextUrl.Port;
             leftSidePath = uriBuilder.ToString();
           }
         }
