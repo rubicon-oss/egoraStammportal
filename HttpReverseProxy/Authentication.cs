@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Principal;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using Egora.Stammportal.HttpReverseProxy.Properties;
@@ -174,12 +175,38 @@ namespace Egora.Stammportal.HttpReverseProxy
 
     private void StartCheck()
     {
-      var startPath = Path.Combine( _leftSideRequest.Url.GetLeftPart(UriPartial.Authority), _leftSideRequest.ApplicationPath,  Settings.Default.AuthenticationCheckerStartPath);
+      var startPath = GetAuthenticationCheckerStartPath(_leftSideRequest);
       startPath += startPath.Contains("?") ? "&" : "?";
       startPath += "ReturnUrl=" + System.Web.HttpUtility.UrlEncode(_leftSideRequest.Url.OriginalString);
       startPath += "&UserId=" + System.Web.HttpUtility.UrlEncode(UserId);
       startPath += "&FrontEnd=" + System.Web.HttpUtility.UrlEncode(_leftSideRequest.Url.GetLeftPart(UriPartial.Authority)+_leftSideRequest.ApplicationPath);
       HttpContext.Current.Response.Redirect(startPath);
+    }
+
+    public static string GetAuthenticationCheckerStartPath(HttpRequest leftSideRequest)
+    {
+      return MyCombine( leftSideRequest.Url.GetLeftPart(UriPartial.Authority), leftSideRequest.ApplicationPath,  Settings.Default.AuthenticationCheckerStartPath);
+    }
+
+    public static string MyCombine(string firstPart, params string[] urlParts)
+    {
+      var sb = new StringBuilder(firstPart);
+      
+      if (urlParts == null)
+        return sb.ToString();
+
+      foreach (var part in urlParts)
+      {
+        if (string.IsNullOrEmpty(part))
+          continue;
+
+        if (sb[sb.Length - 1].Equals('/') && part.StartsWith("/"))
+          sb.Remove(sb.Length - 1, 1);
+        
+        sb.Append(part);
+      }
+      
+      return sb.ToString();
     }
 
     public static void CreateAuthenticationCookie(HttpResponse response, string userId, string userData)

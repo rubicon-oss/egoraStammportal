@@ -58,6 +58,11 @@ namespace Egora.Stammportal.HttpReverseProxy
       if (!path.StartsWith("/"))
         path = "/" + path;
 
+      return GetRemoteApplication(path);
+    }
+
+    public static RemoteApplication GetRemoteApplication(string path)
+    {
       ApplicationDirectory appDir = s_map.GetApplication(path);
       if (appDir != null)
       {
@@ -74,10 +79,12 @@ namespace Egora.Stammportal.HttpReverseProxy
             s_remoteApplications.Add(appDir, app);
           }
         }
-        TraceScope.Current.TraceEvent(TraceEventType.Verbose, (int) Event.AssociateApplication,
-                                     "Found RemoteApplication {0} for path {1}.", app.RootUrl, path);
+
+        TraceScope.Current.TraceEvent(TraceEventType.Verbose, (int)Event.AssociateApplication,
+          "Found RemoteApplication {0} for path {1}.", app.RootUrl, path);
         return app;
       }
+
       return null;
     }
 

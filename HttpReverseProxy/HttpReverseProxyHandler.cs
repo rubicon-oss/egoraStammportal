@@ -238,8 +238,8 @@ namespace Egora.Stammportal.HttpReverseProxy
               }
 
               remoteApplication.ShapeHttpResponse(response, context.Response);
-
-              if (remoteApplication.Directory.Name.Equals("AuthenticationChecker", StringComparison.InvariantCultureIgnoreCase))
+              var authenticationChecker = RemoteApplication.GetRemoteApplication(Settings.Default.AuthenticationCheckerStartPath);
+              if (authenticationChecker.RootUrl == remoteApplication.RootUrl)
               {
                 var result = response.Headers["X-Egora-Authentication-UserId"];
                 if (!string.IsNullOrEmpty(result))
