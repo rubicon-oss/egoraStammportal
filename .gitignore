@@ -45,3 +45,5 @@ _ReSharper*/
 packages/
 /AuthenticationChecker/eid.json.config
 /AuthenticationChecker/dev-wk.json.config
+/_lib/ComponentSpaceLicensed/ComponentSpace.Saml2.Net.Licensed.4.7.0.snupkg
+/_lib/ComponentSpaceLicensed/ComponentSpace.Saml2.Net.Licensed.4.7.0.nupkg
