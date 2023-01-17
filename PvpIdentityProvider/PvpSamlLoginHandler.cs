@@ -20,7 +20,7 @@ namespace Egora.Stammportal.PvpIdentityProvider
       userName = GetUserName(context.Request);
       string serviceProvider;
       SAMLIdentityProvider.ReceiveSSO(context.Request, out serviceProvider);
-      var partner = SAMLConfiguration.Current.GetPartnerServiceProvider(serviceProvider);
+      var partner = SAMLController.Configuration.GetPartnerServiceProvider(serviceProvider);
       var samlAttributes = GetSamlAttributes(partner, userName);
 
       SAMLIdentityProvider.SendSSO(context.Response, userName, samlAttributes);

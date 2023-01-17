@@ -20,7 +20,8 @@ namespace Egora.Stammportal.PvpIdentityProvider
       bool isRequest;
       bool hasCompleted;
       string reason;
-      SAMLIdentityProvider.ReceiveSLO(context.Request, context.Response, out isRequest, out hasCompleted, out reason, out serviceProvider);
+      string relayState;
+      SAMLIdentityProvider.ReceiveSLO(context.Request, context.Response, out isRequest, out hasCompleted, out reason, out serviceProvider, out relayState);
       
       //only on ServiceProvider allowed in this sample
       if (isRequest)

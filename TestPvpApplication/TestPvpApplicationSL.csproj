@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ComponentSpace.SAML2, Version=4.7.0.0, Culture=neutral, PublicKeyToken=16647a1283418145, processorArchitecture=MSIL">
-      <HintPath>..\packages\ComponentSpace.Saml2.Net.4.7.0\lib\net40\ComponentSpace.SAML2.dll</HintPath>
+      <HintPath>..\packages\ComponentSpace.Saml2.Net.Licensed.4.7.0\lib\net40\ComponentSpace.SAML2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

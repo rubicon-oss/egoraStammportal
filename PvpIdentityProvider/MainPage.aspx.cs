@@ -15,18 +15,15 @@ namespace Egora.Stammportal.PvpIdentityProvider
   {
     protected void Page_Load(object sender, EventArgs e)
     {
-      if (SAMLConfiguration.Current == null)
-      {
-        try { SAMLConfiguration.Load(); }
-        catch (SAMLConfigurationException) { }
-      }
+      if (SAMLController.Configuration == null)
+        SAMLController.Initialize();
 
-      if (SAMLConfiguration.Current != null
-          && SAMLConfiguration.Current.PartnerServiceProviderConfigurations != null
-          && SAMLConfiguration.Current.PartnerServiceProviderConfigurations.Keys.Count > 0)
+      if (SAMLController.Configuration != null
+          && SAMLController.Configuration.PartnerServiceProviderConfigurations != null
+          && SAMLController.Configuration.PartnerServiceProviderConfigurations.Count > 0)
       {
         ServiceProviderDropDown.Items.AddRange(
-          SAMLConfiguration.Current.PartnerServiceProviderConfigurations.Select(c => new ListItem(c.Value.Name, c.Key)).ToArray());
+          SAMLController.Configuration.PartnerServiceProviderConfigurations.Select(c => new ListItem(c.Name, c.AssertionConsumerServiceUrl)).ToArray());
       }
 
     }
@@ -34,7 +31,8 @@ namespace Egora.Stammportal.PvpIdentityProvider
     protected void LoginButton_Click(object sender, EventArgs e)
     {
       string userName = PvpSamlLoginHandler.GetUserName(Request);
-      var config = SAMLConfiguration.Current.PartnerServiceProviderConfigurations[ServiceProviderDropDown.SelectedItem.Value];
+      var config = SAMLController.Configuration.PartnerServiceProviderConfigurations
+        .First(sp => sp.AssertionConsumerServiceUrl.Equals(ServiceProviderDropDown.SelectedItem.Value));
       var attributes = PvpSamlLoginHandler.GetSamlAttributes(config, userName);
       SAMLIdentityProvider.InitiateSSO(Response, userName, attributes, null, ServiceProviderDropDown.SelectedItem.Value);
     }

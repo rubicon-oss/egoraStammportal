@@ -24,18 +24,15 @@ namespace TestPvpApplication.Saml
 
     private void InitiateSamlSso()
     {
-      if (SAMLConfiguration.Current == null)
-      {
-        try { SAMLConfiguration.Load(); }
-        catch (SAMLConfigurationException) {}
-      }
+      if (SAMLController.Configuration == null)
+        SAMLController.Initialize(); 
 
-      if (SAMLConfiguration.Current != null
-          && SAMLConfiguration.Current.PartnerIdentityProviderConfigurations != null
-          && SAMLConfiguration.Current.PartnerIdentityProviderConfigurations.Keys.Count > 0)
+      if (SAMLController.Configuration != null
+          && SAMLController.Configuration.PartnerIdentityProviderConfigurations != null
+          && SAMLController.Configuration.PartnerIdentityProviderConfigurations.Count > 0)
       {
         string returnUrl = Request.Url.ToString();
-        SAMLServiceProvider.InitiateSSO(Response, returnUrl, SAMLConfiguration.Current.PartnerIdentityProviderConfigurations.Keys.First());
+        SAMLServiceProvider.InitiateSSO(Response, returnUrl, SAMLController.Configuration.PartnerIdentityProviderConfigurations.First().Name);
         Response.End();
       }
     }

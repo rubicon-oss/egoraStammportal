@@ -21,12 +21,13 @@ namespace TestPvpApplication.Saml
       {
         bool isInResponseTo;
         string partnerIdP;
+        string authnContext;
         string userName;
         SAMLAttribute[] attributes;
         string relayState;
 
         // Receive and process the SAML assertion contained in the SAML response.
-        SAMLServiceProvider.ReceiveSSO(Request, out isInResponseTo, out partnerIdP, out userName, out attributes, out relayState);
+        SAMLServiceProvider.ReceiveSSO(Request, out isInResponseTo, out partnerIdP, out authnContext, out userName, out attributes, out relayState);
         SamlMessageTextBox.Text = m.OuterXml;
         UserNameTextBox.Text = userName;
       }
