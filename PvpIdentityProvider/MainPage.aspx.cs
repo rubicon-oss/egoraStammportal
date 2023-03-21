@@ -34,7 +34,7 @@ namespace Egora.Stammportal.PvpIdentityProvider
       var config = SAMLController.Configuration.PartnerServiceProviderConfigurations
         .First(sp => sp.AssertionConsumerServiceUrl.Equals(ServiceProviderDropDown.SelectedItem.Value));
       var attributes = PvpSamlLoginHandler.GetSamlAttributes(config, userName);
-      SAMLIdentityProvider.InitiateSSO(Response, userName, attributes, null, ServiceProviderDropDown.SelectedItem.Value);
+      SAMLIdentityProvider.InitiateSSO(Response, userName, attributes, null, ServiceProviderDropDown.SelectedItem.Text);
     }
   }
 }
