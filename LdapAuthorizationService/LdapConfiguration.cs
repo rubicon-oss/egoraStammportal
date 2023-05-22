@@ -27,19 +27,19 @@ namespace Egora.Stammportal.LdapAuthorizationService
     {
       if (!s_configuration.ContainsKey(configFileName) || reload)
       {
-        lock (s_configurationLock)
+        XmlSerializer serializer = new XmlSerializer(typeof(LdapConfiguration));
+        using (StreamReader f = File.OpenText(configFileName))
         {
-          XmlSerializer serializer = new XmlSerializer(typeof (LdapConfiguration));
-          using (StreamReader f = File.OpenText(configFileName))
+          var ldapConfiguration = (LdapConfiguration)serializer.Deserialize(f);
+          var global = ldapConfiguration.GlobalApplication;
+          foreach (var application in ldapConfiguration.Applications)
           {
-            var ldapConfiguration = (LdapConfiguration) serializer.Deserialize(f);
-            var global = ldapConfiguration.GlobalApplication;
-            foreach (var application in ldapConfiguration.Applications)
-            {
-              application.GlobalApplication = global;
-            }
+            application.GlobalApplication = global;
+          }
 
-            s_configuration.Add(configFileName,  ldapConfiguration);
+          lock (s_configurationLock)
+          {
+            s_configuration[configFileName] = ldapConfiguration;
           }
         }
       }

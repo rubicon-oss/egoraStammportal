@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SamlMetadata.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SamlConfigFilename" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">saml.config</Value>
+    </Setting>
+    <Setting Name="ConfigurationName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">egora</Value>
+    </Setting>
+    <Setting Name="MetadataFilename" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">metadata.xml</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

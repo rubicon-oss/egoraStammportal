@@ -77,6 +77,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPvpApplicationSL", "Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PvpIdentityProviderSL", "PvpIdentityProvider\PvpIdentityProviderSL.csproj", "{7C5D7C8E-65DC-43CC-B3ED-A5F68F9140B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamlMetadata", "SamlMetadata\SamlMetadata.csproj", "{50E17730-0071-4661-A59E-6207C546B790}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -235,6 +237,18 @@ Global
 		{7C5D7C8E-65DC-43CC-B3ED-A5F68F9140B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C5D7C8E-65DC-43CC-B3ED-A5F68F9140B3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7C5D7C8E-65DC-43CC-B3ED-A5F68F9140B3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Debug|.NET.Build.0 = Debug|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Release|.NET.ActiveCfg = Release|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Release|.NET.Build.0 = Release|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{50E17730-0071-4661-A59E-6207C546B790}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

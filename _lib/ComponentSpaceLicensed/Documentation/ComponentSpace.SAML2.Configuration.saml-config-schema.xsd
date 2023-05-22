@@ -26,7 +26,7 @@
       <element name="PartnerIdentityProviders" type="saml:PartnerIdentityProvidersType" minOccurs="0"/>
       <element name="PartnerServiceProviders" type="saml:PartnerServiceProvidersType" minOccurs="0"/>
     </all>
-    <attribute name="ID" type="string"/>
+    <attribute name="Name" type="string"/>
   </complexType>
 
   <!-- Identity Provider -->
@@ -96,6 +96,7 @@
         <attribute name="SignAssertion" type="boolean" default="false"/>
         <attribute name="EncryptAssertion" type="boolean" default="false"/>
         <attribute name="AssertionLifeTime" type="string" default="00:03:00"/>
+        <attribute name="RelayState" type="string"/>
       </extension>
     </complexContent>
   </complexType>
