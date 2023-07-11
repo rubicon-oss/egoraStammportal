@@ -65,6 +65,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(SolutionDir)PvpIdentityProvider\saml.config $(ProjectDir)$(OutDir) /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy $(SolutionDir)PvpIdentityProvider\saml.config $(ProjectDir)$(OutDir) /Y
+
+if Exist $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) del $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\*.* /s /q
+xcopy $(TargetDir)*.* $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

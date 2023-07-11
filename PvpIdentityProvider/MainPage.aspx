@@ -8,7 +8,7 @@
 </head>
 <body>
   
-    <form id="form1" runat="server">
+    <form id="Form1" runat="server">
     <div>
       <asp:DropDownList ID="ServiceProviderDropDown" runat="server"></asp:DropDownList>  <asp:Button ID="LoginButton" runat="server" Text="IdP Initiated Login" OnClick="LoginButton_Click" />  
     </div>

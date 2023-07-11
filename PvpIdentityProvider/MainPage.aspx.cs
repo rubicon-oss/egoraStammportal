@@ -13,6 +13,12 @@ namespace Egora.Stammportal.PvpIdentityProvider
 {
   public partial class MainPage : System.Web.UI.Page
   {
+    protected System.Web.UI.HtmlControls.HtmlForm Form1;
+
+    protected DropDownList ServiceProviderDropDown;
+
+    protected Button LoginButton;
+
     protected void Page_Load(object sender, EventArgs e)
     {
       if (SAMLController.Configuration == null)
@@ -36,5 +42,6 @@ namespace Egora.Stammportal.PvpIdentityProvider
       var attributes = PvpSamlLoginHandler.GetSamlAttributes(config, userName);
       SAMLIdentityProvider.InitiateSSO(Response, userName, attributes, null, ServiceProviderDropDown.SelectedItem.Text);
     }
+
   }
 }

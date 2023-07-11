@@ -12,6 +12,7 @@ using Egora.Pvp;
 using Egora.Stammportal.HttpReverseProxy.Mapping;
 using Egora.Stammportal.HttpReverseProxy.StreamFilter;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace Egora.Stammportal.HttpReverseProxy.UnitTests
 {
@@ -190,6 +191,65 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
             Assert.AreEqual("http://schemas.xmlsoap.org/ws/2002/04/secext", security.NamespaceURI);
         }
 
+    [Test]
+    public void SecurityElement18Chain19Test()
+    {
+      XmlDocument doc = new XmlDocument();
+      doc.LoadXml(EnvStart +
+@"
+<S:Header>
+<Security xmlns=""http://schemas.xmlsoap.org/ws/2002/04/secext"">
+			<pvpToken version=""1.8"" xmlns=""http://egov.gv.at/pvp1.xsd"">
+				<authenticate>
+					<participantId>AT:VKZ:XFN-216900x</participantId>
+					<userPrincipal>
+						<userId>RUBICON\werner.kugler</userId>
+						<cn>RUBICON\werner.kugler</cn>
+						<gvOuId>633243</gvOuId>
+						<ou>rubicon ZMR Test</ou>
+						<gvSecClass>2</gvSecClass>
+						<gvGid>RUBICON\werner.kugler</gvGid>
+					</userPrincipal>
+				</authenticate>
+				<authorize>
+					<role value=""ZMR-Behoerdenanfrage""/>
+				</authorize>
+			</pvpToken>
+		</Security> 
+</S:Header>
+<S:Body>
+</S:Body>
+</S:Envelope> 
+" 
+        );
+
+      CustomAuthorization authorization19 = new CustomAuthorization();
+      XmlDocument authDoc = new XmlDocument();
+      XmlElement authToken = authDoc.CreateElement("P:pvpToken", "http://egov.gv.at/pvp1.xsd");
+      authToken.SetAttribute("version", "1.9");
+      authToken.InnerXml =
+        @"<authenticate>
+					<participantId>egora</participantId>
+					<systemPrincipal>
+						<userId>test</userId>
+						<cn>test</cn>
+						<gvOuId>egora</gvOuId>
+						<ou>rubicon PD</ou>
+						<gvSecClass>3</gvSecClass>
+					</systemPrincipal>
+				</authenticate>
+   <authorize>
+<role value=""ZMR-Behoerdenanfrage"">
+</role>
+</authorize>";
+
+      authorization19.SoapHeaderXmlFragment = authToken;
+      authorization19.PvpVersion = "1.9";
+      SoapFilter filter = new SoapFilter(authorization19, 1000, PvpTokenHandling.chain, null, null);
+      var security = filter.InsertAuthorization(doc);
+      Assert.That(security, Is.Not.Null);
+      Assert.That(security.InnerXml, Text.Contains("pvpChainedToken").IgnoreCase);
+    }
     [Test]
     public void SecurityElement19Test()
     {

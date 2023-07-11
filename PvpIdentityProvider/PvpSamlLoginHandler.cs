@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using ComponentSpace.SAML2;
 using ComponentSpace.SAML2.Assertions;
 using ComponentSpace.SAML2.Configuration;
+using Egora.Pvp;
 using Egora.Stammportal.PvpIdentityProvider.AuthorizationWebService;
 
 namespace Egora.Stammportal.PvpIdentityProvider
@@ -30,7 +31,16 @@ namespace Egora.Stammportal.PvpIdentityProvider
     {
       string rootUrl = partner.AssertionConsumerServiceUrl;
       var authorizer = new PvpAuthorizerSoapClient();
-      CustomAuthorization authorization = authorizer.GetAuthorization(rootUrl, userName);
+      Egora.Stammportal.PvpIdentityProvider.AuthorizationWebService.CustomAuthorization authorization = authorizer.GetAuthorization(rootUrl, userName);
+      if (authorization == null || authorization.Equals(Egora.Stammportal.CustomAuthorization.NoAuthorization))
+      {
+        throw new ApplicationException("No Authorization received.");
+
+      }
+
+      if (!authorization.PvpVersion.Contains("2"))
+        throw new ApplicationException($"Pvp Version 2.0 or 2.1 expected, but {authorization.PvpVersion} received");
+
       var attributes = authorization.SoapHeaderXmlFragment;
       var samlAttributes = attributes.Elements().Select(CreateSamlAttribute).ToArray();
       return samlAttributes;

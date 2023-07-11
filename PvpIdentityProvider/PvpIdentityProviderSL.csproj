@@ -82,9 +82,7 @@
     <Compile Include="SamlLogoutHandler.cs" />
     <Compile Include="MainPage.aspx.cs">
       <DependentUpon>MainPage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="MainPage.aspx.designer.cs">
-      <DependentUpon>MainPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PvpSamlLoginHandler.cs" />
@@ -114,6 +112,10 @@
     <WCFMetadataStorage Include="Service References\AuthorizationWebService\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{fbf8007d-c65a-4cc8-be05-addd01dacf13}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pvp\Pvp.csproj">
       <Project>{BD0C3EB6-0E27-44B5-AFA4-DCE729D15985}</Project>
       <Name>Pvp</Name>
@@ -144,6 +146,17 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>if Exist $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) del $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\*.* /s /q
+xcopy $(TargetDir)*.* $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\$(OutDir)
+xcopy $(ProjectDir)Web.config $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\
+xcopy $(ProjectDir)saml.config $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\
+xcopy $(ProjectDir)MainPage.aspx $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) /Y
+rename $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\MainPage.aspx YourPage._aspx 
+xcopy $(ProjectDir)MainPage.aspx.cs $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) /Y
+rename $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\MainPage.aspx.cs YourPage.aspx._cs
+</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
