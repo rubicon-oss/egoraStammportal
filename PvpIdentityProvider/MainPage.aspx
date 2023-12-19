@@ -23,10 +23,21 @@
     protected void LoginButton_Click(object sender, EventArgs e)
     {
         string userName = PvpSamlLoginHandler.GetUserName(Request);
-        var config = SAMLController.Configuration.PartnerServiceProviderConfigurations
-            .First(sp => sp.AssertionConsumerServiceUrl.Equals(ServiceProviderDropDown.SelectedItem.Value));
-        var attributes = PvpSamlLoginHandler.GetSamlAttributes(config, userName);
-        SAMLIdentityProvider.InitiateSSO(Response, userName, attributes, null, ServiceProviderDropDown.SelectedItem.Text);
+        var spName = ServiceProviderDropDown.SelectedItem.Value;
+        var spConfig = SAMLController.Configuration.PartnerServiceProviderConfigurations
+            .First(sp => sp.AssertionConsumerServiceUrl.Equals(spName));
+        string pvpVersion;
+        int secClass;
+        string authnContext;
+        var attributes = PvpSamlLoginHandler.GetSamlAttributes(spConfig, userName, out pvpVersion, out secClass, out authnContext);
+
+        if (secClass >= 3)
+        {
+            //ToDO 2nd factor
+            throw new ApplicationException($"SecClass {secClass} not yet supported.");
+        }
+        string relayState = null;
+        SAMLIdentityProvider.InitiateSSO(Response, userName, attributes, authnContext, relayState , spName, spConfig.AssertionConsumerServiceUrl);
     }
 
 

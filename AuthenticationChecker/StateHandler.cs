@@ -39,13 +39,13 @@ namespace AuthenticationChecker
     {
       if (s_state.TryGetValue(key, out var state))
       {
+        if (s_state.Remove(key))
         {
-          if (s_state.Remove(key))
-          {
-            s_log.Info($"State with key {key} removed.");
-            return state;
-          }
+          s_log.Info($"State with key {key} removed.");
+          return state;
         }
+
+        throw new ApplicationException($"Could not remove key '{key}'.");
       }
       
       return null;

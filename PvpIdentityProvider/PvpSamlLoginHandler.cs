@@ -23,22 +23,20 @@ namespace Egora.Stammportal.PvpIdentityProvider
       string serviceProvider;
       SAMLIdentityProvider.ReceiveSSO(context.Request, out serviceProvider);
       var partner = SAMLController.Configuration.GetPartnerServiceProvider(serviceProvider);
-      var samlAttributes = GetSamlAttributes(partner, userName, out var pvpVersion, out var secClass);
+      var samlAttributes = GetSamlAttributes(partner, userName, out var pvpVersion, out var secClass, out var authnContext);
 
       if (secClass >= 3)
       {
         // ToDo Check 2nd factor
+        throw new ApplicationException($"SecClass {secClass} not yet supported.");
       }
 
-      string authnContext = pvpVersion.Contains("2.1")
-        ? secClass == 0 ? "http://www.ref.gv.at/ns/names/agiz/pvp/secclass/0" : $"http://www.ref.gv.at/ns/names/agiz/pvp/secclass/0-{secClass}"
-        : $"http://www.ref.gv.at/ns/names/agiz/pvp/secclass/{secClass}";
       string assertionConsumerServiceUrl = partner.AssertionConsumerServiceUrl;
       SAMLIdentityProvider.SendSSO(context.Response, userName, samlAttributes, authnContext, assertionConsumerServiceUrl);
     }
 
     public static SAMLAttribute[] GetSamlAttributes(PartnerServiceProviderConfiguration partner, string userName,
-      out string pvpVersion, out int secClass)
+      out string pvpVersion, out int secClass, out string authnContext)
     {
       string rootUrl = partner.AssertionConsumerServiceUrl;
       var authorizer = new PvpAuthorizerSoapClient();
@@ -61,6 +59,10 @@ namespace Egora.Stammportal.PvpIdentityProvider
         .Select(h => h.Value).Max();
       if (pvpSecClass != null)
         int.TryParse(pvpSecClass, out secClass);
+
+      authnContext = pvpVersion.Contains("2.1")
+        ? secClass == 0 ? "http://www.ref.gv.at/ns/names/agiz/pvp/secclass/0" : $"http://www.ref.gv.at/ns/names/agiz/pvp/secclass/0-{secClass}"
+        : $"http://www.ref.gv.at/ns/names/agiz/pvp/secclass/{secClass}";
 
       var attributes = authorization.SoapHeaderXmlFragment;
       var samlAttributes = attributes.Elements().Select(CreateSamlAttribute).ToArray();
