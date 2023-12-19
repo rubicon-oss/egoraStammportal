@@ -9,6 +9,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 using System;
 using System.Xml;
 using Egora.Pvp;
+using Egora.Stammportal;
 using Egora.Stammportal.LdapAuthorizationService;
 using NUnit.Framework;
 
@@ -64,10 +65,10 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
     [Test]
     public void AuthorizationSimpleNoRole()
     {
-      PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer("http://testrole.rubicon-it.com",
+      PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer("http://testnorole.rubicon-it.com",
                                                                                  @"rubicon\peter.grassnigg");
       Assert.IsNotNull(authorizer);
-      Assert.IsFalse(authorizer.IsValid);
+      Assert.IsTrue(authorizer.IsValid); // mustHaveRole nicht gesetzt
     }
 
     [Test]
@@ -204,6 +205,20 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
       Assert.AreEqual("e/Smp8Ub", hashFormatter.Format(@"rubicon\test.user"));
       Assert.AreEqual("", hashFormatter.Format(null));
       Assert.AreEqual("2jmj7l5r", hashFormatter.Format(String.Empty));
+    }
+
+    [Test]
+    public void OtherConfigurationTest()
+    {
+      LdapConfiguration configuration = LdapConfiguration.GetConfiguration("OtherConfiguration.xml", false);
+      Assert.That(configuration, Is.Not.Null);
+
+      string rootUrl = "https://pvawp.bmi.gv.at/at.gv.bmi.zmrsrv-p/";
+
+      PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer(rootUrl, "rubicon\\bmi-pvp-user-1", configuration);
+      
+      Assert.That(authorizer.IsValid, Is.True);
+      Assert.That(authorizer.Version, Is.EqualTo("1.8"));
     }
   }
 }

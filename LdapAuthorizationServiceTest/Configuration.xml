@@ -53,6 +53,16 @@
   </Application>
 
   <Application
+    name="NoRole"
+    ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
+    groupContainer="LDAP://OU=ServiceUser,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
+    webUrls="http://testnorole.rubicon-it.com" >
+    <PvpAttribute name="X-AUTHENTICATE-mail" default="default@rubicon-it.com" />
+    <PvpAttribute name="X-AUTHENTICATE-tel" default="Wien, DW 0815"/>
+    <PvpAttribute name="X-AUTHENTICATE-cn" ldapAttribute="cn" formatter="LdapAuthorizationServiceTest.ValueFormatter,LdapAuthorizationServiceTest"/>
+  </Application>
+  
+  <Application
     name="TestRecursive"
     ldapRoot="LDAP://DC=int, DC=rubicon-it, DC=com"
     groupContainer="LDAP://OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"

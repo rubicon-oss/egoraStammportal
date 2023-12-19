@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration xmlns="http://www.egora.at/Stammportal/LdapConfiguration/1.1">
+
+  <Application
+		name="Global"
+		ldapRoot="LDAP://OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
+		authorizationTimeToLive="600"
+		domainPrefix="rubicon"
+		soapPrincipal="
+    &lt;userPrincipal>
+      &lt;userId>{0}&lt;/userId>
+      &lt;cn>{1}&lt;/cn>
+      &lt;gvOuId>{2}&lt;/gvOuId>
+      &lt;ou>{3}&lt;/ou>
+      &lt;mail>{4}&lt;/mail>
+      &lt;tel>{5}&lt;/tel>
+      &lt;gvSecClass>{6}&lt;/gvSecClass>
+      &lt;gvGid>{7}&lt;/gvGid>
+      &lt;gvFunction>{8}&lt;/gvFunction>
+    &lt;/userPrincipal>">
+    <PvpAttribute name="X-Version" default="1.8" />
+    <PvpAttribute name="X-AUTHENTICATE-participantId" default="AT:L7:GKZ:70101" />
+    <PvpAttribute name="X-AUTHENTICATE-cn" ldapAttribute="cn" />
+    <PvpAttribute name="X-AUTHENTICATE-gvGid" ldapAttribute="sAMAccountName" format="AT:L7:{0}"/>
+    <PvpAttribute name="X-AUTHENTICATE-mail" ldapAttribute="MAIL" default="edv@magibk.at"/>
+    <PvpAttribute name="X-AUTHENTICATE-tel" ldapAttribute="PHONE" default="+43 512 5360 0"/>
+    <PvpAttribute name="X-AUTHENTICATE-gvFunction" default="Sachbearbeiter" />
+    <PvpAttribute name="X-AUTHENTICATE-Ou" default="Egora Gemeinde" />
+    <PvpAttribute name="X-AUTHENTICATE-gvOuId" default="AT:L7:GKZ:70101" />
+    <PvpAttribute name="X-AUTHORIZE-gvOuId" default="AT:L7:GKZ:70101" />
+    <PvpAttribute name="X-AUTHORIZE-Ou" default="Egora Gemeinde" />
+  </Application>
+
+  <Application
+	  name="ZmrSoapRegit"
+	  webUrls=""
+	  soapUrls="https://pvawp.bmi.gv.at/bmi.gv.at/soap/zmr/ https://pvawp.bmi.gv.at/at.gv.bmi.zmrsrv-p/"
+	  groupContainer="LDAP://OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
+	  recurseGroupMembership="false">
+    <PvpAttribute name="X-AUTHENTICATE-gvSecClass" default="2"/>
+    <PvpAttribute name="X-AUTHORIZE-roles" default="ZMR-Behoerdenanfrage(GKZ=70101)"/>
+    <PvpAttribute name="X-AUTHENTICATE-gvFunction" default="Sachbearbeiter" />
+  </Application>
+
+</Configuration>

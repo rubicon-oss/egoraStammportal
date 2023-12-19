@@ -171,17 +171,17 @@ namespace Egora.Stammportal.LdapAuthorizationService
       return values;
     }
 
-    public string GetAttributeValue(PvpAttributes attributeName)
+    public string GetAttributeValue(PvpAttributes attribute)
     {
       if (User == null || !IsValid)
         return null;
 
-      string[] values = _application.GetAttributeValue (attributeName, User, Groups);
+      string[] values = _application.GetAttributeValue (attribute, User, Groups);
       
       if (values == null)
         return null;
 
-      return attributeName==PvpAttributes.ROLES ? String.Join(";", values) : String.Join (",", values);
+      return attribute==PvpAttributes.ROLES ? String.Join(";", values) : String.Join (",", values);
     }
 
     private XmlElement _userPrincipalSoapFragment = null;
