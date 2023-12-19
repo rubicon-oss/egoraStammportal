@@ -80,10 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SamlLogoutHandler.cs" />
-    <Compile Include="MainPage.aspx.cs">
-      <DependentUpon>MainPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PvpSamlLoginHandler.cs" />
     <Compile Include="Service References\AuthorizationWebService\Reference.cs">
@@ -152,9 +148,6 @@ xcopy $(TargetDir)*.* $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\$
 xcopy $(ProjectDir)Web.config $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\
 xcopy $(ProjectDir)saml.config $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\
 xcopy $(ProjectDir)MainPage.aspx $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) /Y
-rename $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\MainPage.aspx YourPage._aspx 
-xcopy $(ProjectDir)MainPage.aspx.cs $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) /Y
-rename $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\MainPage.aspx.cs YourPage.aspx._cs
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
