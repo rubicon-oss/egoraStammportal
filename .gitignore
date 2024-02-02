@@ -50,3 +50,6 @@ packages/
 /_lib/ComponentSpaceLicensed/ComponentSpace.SAML2.xml
 /_lib/ComponentSpaceLicensed/ComponentSpace.SAML2.dll
 /HttpReverseProxy.UnitTests/HttpReverseProxy.UnitTests.csproj.DotSettings
+/SamlMetadata/MicrosoftOnline.cer.txt
+/SamlMetadata/MicrosoftOnline.xml
+/SamlMetadata/MicrosoftOnline2.xml

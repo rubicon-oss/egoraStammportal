@@ -33,6 +33,11 @@ namespace Egora.Stammportal.HttpReverseProxy
     public Authentication(HttpRequest leftSideRequest)
     {
       _leftSideRequest = leftSideRequest;
+      var remoteApplication = RemoteApplication.GetRemoteApplication(leftSideRequest);
+      if (remoteApplication != null && remoteApplication.UseFromHeader.HasValue)
+      {
+        _useFromHeader = remoteApplication.UseFromHeader.Value;
+      }
     }
 
     private bool _useFromHeader = Settings.Default.UseFromHeader;
@@ -89,12 +94,11 @@ namespace Egora.Stammportal.HttpReverseProxy
     }
 
     ///<summary>
-    /// If true, UserId comes from HttpHeader From. Default value set by config.
+    /// If true, UserId comes from HttpHeader From. Default value set by config. Value from RemoteApplication if set.
     ///</summary>
     public bool UseFromHeader
     {
       get { return _useFromHeader; }
-      set { _useFromHeader = value; }
     }
 
     public virtual Stream GetRequestStream(HttpWebRequest rightSideRequest)

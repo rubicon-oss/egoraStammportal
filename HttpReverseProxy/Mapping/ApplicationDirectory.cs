@@ -62,6 +62,7 @@ namespace Egora.Stammportal.HttpReverseProxy.Mapping
     private string _secExtNamespace;
     private string _passThroughCookies;
     private bool? _substituteHostInLocationHeader;
+    private bool? _useFromHeader;
 
     [XmlAttribute]
     public bool LogTraffic
@@ -125,6 +126,13 @@ namespace Egora.Stammportal.HttpReverseProxy.Mapping
     { 
       get => _substituteHostInLocationHeader ?? false; 
       set => _substituteHostInLocationHeader = value;
+    }
+
+    [XmlAttribute]
+    public bool? UseFromHeader
+    {
+      get { return _useFromHeader; }
+      set { _useFromHeader = value; }
     }
 
     [XmlIgnore]

@@ -109,7 +109,8 @@ namespace Egora.Stammportal.HttpReverseProxy
     private bool _logTraffic;
     private bool _isolateCookies;
     private List<string> _passThroughCookies;
-    
+    private readonly bool? _useFromHeader;
+
     public RemoteApplication(ApplicationDirectory applicationDirectory)
     {
       lock (_thisLock)
@@ -135,6 +136,7 @@ namespace Egora.Stammportal.HttpReverseProxy
         _pvpInformationHandling = applicationDirectory.PvpInformationHandling;
         _logTraffic = applicationDirectory.LogTraffic;
         _isolateCookies = applicationDirectory.IsolateCookies;
+        _useFromHeader= applicationDirectory.UseFromHeader;
         _passThroughCookies = string.IsNullOrEmpty(applicationDirectory.PassThroughCookies) ? new List<string> { } : new List<string> (applicationDirectory.PassThroughCookies.Split(" ".ToCharArray()));
       }
     }
@@ -161,6 +163,11 @@ namespace Egora.Stammportal.HttpReverseProxy
     public bool LogTraffic
     {
       get { return _logTraffic; }
+    }
+
+    public bool? UseFromHeader
+    {
+      get { return _useFromHeader; }
     }
 
     public virtual string RemoteApplicationProxyPath
