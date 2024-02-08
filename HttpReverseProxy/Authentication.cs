@@ -69,7 +69,7 @@ namespace Egora.Stammportal.HttpReverseProxy
           if (!String.IsNullOrEmpty(from))
             return from;
         }
-        else if (HttpContext.Current.User.Identity is FormsIdentity)
+        else if (HttpContext.Current?.User?.Identity is FormsIdentity)
         {
           return HttpContext.Current.User.Identity.Name;
         }

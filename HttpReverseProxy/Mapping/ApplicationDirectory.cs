@@ -7,6 +7,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 *************************/
 
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
@@ -129,10 +130,24 @@ namespace Egora.Stammportal.HttpReverseProxy.Mapping
     }
 
     [XmlAttribute]
-    public bool? UseFromHeader
+    public string UseFromHeader
+    {
+      get { return _useFromHeader.ToString(); }
+      set
+      {
+        if (new string[] {"true", "1"}.Contains(value, StringComparer.InvariantCultureIgnoreCase))
+          _useFromHeader = true;
+        else if (new string[] { "false", "0" }.Contains(value, StringComparer.InvariantCultureIgnoreCase))
+          _useFromHeader = false;
+        else
+          _useFromHeader = null;
+      }
+    }
+
+    [XmlIgnore]
+    public bool? UseFromHeaderForApplication
     {
       get { return _useFromHeader; }
-      set { _useFromHeader = value; }
     }
 
     [XmlIgnore]

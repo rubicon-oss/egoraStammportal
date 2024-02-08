@@ -24,6 +24,12 @@
     <ApplicationDirectory Name="chaining" RootUrl="https://portal.bmi.gv.at/chaining/" PvpInformationHandling="chain">
     </ApplicationDirectory>
 
+    <ApplicationDirectory Name="usefromheader" RootUrl="http://egoratest/usefromheader/" UseFromHeader="true">
+    </ApplicationDirectory>
+
+    <ApplicationDirectory Name="dontusefromheader" RootUrl="http://egoratest/dontusefromheader/" UseFromHeader="false">
+    </ApplicationDirectory>
+
     <ApplicationDirectory 
       AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpTestAuthorizer.asmx"
       Name="localtest1" 

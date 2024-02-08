@@ -124,6 +124,33 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     }
 
     [Test]
+    public void RemoteApplication_UseFromHeader()
+    {
+      PathMap map =
+        PathMap.CreateFromFile(
+          @"MappingTest\Mapping.xml");
+      RemoteApplication.Initialize(map);
+
+      HttpContext context1 = HttpContextHelper.CreateHttpContext("GET", "/usefromheader/",
+        "name1=value1");
+
+      RemoteApplication app1 = RemoteApplication.GetRemoteApplication(context1.Request);
+
+      Assert.IsNotNull(app1, "RemoteApplication");
+      Assert.IsTrue(app1.UseFromHeader.HasValue);
+      Assert.IsTrue(app1.UseFromHeader.Value);
+
+      HttpContext context2 = HttpContextHelper.CreateHttpContext("GET", "/dontusefromheader/",
+        "name1=value1");
+
+      RemoteApplication app2 = RemoteApplication.GetRemoteApplication(context2.Request);
+
+      Assert.IsNotNull(app2, "RemoteApplication");
+      Assert.IsTrue(app2.UseFromHeader.HasValue);
+      Assert.IsFalse(app2.UseFromHeader.Value);
+    }
+
+    [Test]
     public void RemoteApplication_GetRemoteApplicationWithCustomNamespace()
     {
       PathMap map =

@@ -136,7 +136,7 @@ namespace Egora.Stammportal.HttpReverseProxy
         _pvpInformationHandling = applicationDirectory.PvpInformationHandling;
         _logTraffic = applicationDirectory.LogTraffic;
         _isolateCookies = applicationDirectory.IsolateCookies;
-        _useFromHeader= applicationDirectory.UseFromHeader;
+        _useFromHeader= applicationDirectory.UseFromHeaderForApplication;
         _passThroughCookies = string.IsNullOrEmpty(applicationDirectory.PassThroughCookies) ? new List<string> { } : new List<string> (applicationDirectory.PassThroughCookies.Split(" ".ToCharArray()));
       }
     }
