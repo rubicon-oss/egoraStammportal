@@ -94,6 +94,11 @@ namespace Egora.Stammportal.HttpReverseProxy
     public Cookie CreateRightSideRequestCookie(HttpCookie leftSideRequestCookie, string targetPath, bool targetSecure)
     {
       Cookie rightSideCookie;
+      if (leftSideRequestCookie == null || leftSideRequestCookie.Value == null)
+      {
+        return null;
+      }
+
       if (_passThroughCookies.Contains(leftSideRequestCookie.Name, StringComparer.OrdinalIgnoreCase))
       {
         rightSideCookie = new Cookie(leftSideRequestCookie.Name, leftSideRequestCookie.Value, leftSideRequestCookie.Path); //hopefully 1:1 mapping

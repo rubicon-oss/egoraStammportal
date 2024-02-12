@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -21,7 +21,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
     <TargetFrameworkProfile />
     <IISExpressSSLPort />
@@ -196,6 +196,7 @@
       <CachedSettingsPropName>Rubicon_Stammportal_HttpReverseProxy_AuthorizationWebService_PvpAuthorizer</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -229,24 +230,19 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>if Exist $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) del $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\*.* /s /q
-xcopy $(TargetDir)*.* $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\$(OutDir)
-xcopy $(ProjectDir)Web.config $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\
-xcopy $(ProjectDir)Mapping.Beispiel.xml $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\
-xcopy $(ProjectDir)Mapping.xml $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\
-xcopy $(ProjectDir)Administration\*.aspx $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\Administration\
+    <PostBuildEvent>if Exist $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) del $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\*.* /s /q &gt; null
+xcopy $(TargetDir)*.* $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\$(OutDir) /q
+xcopy $(ProjectDir)Web.config $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\ /q
+xcopy $(ProjectDir)Mapping.Beispiel.xml $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\ /q
+xcopy $(ProjectDir)Mapping.xml $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\ /q
+xcopy $(ProjectDir)Administration\*.aspx $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\Administration\ /q
 
-if Exist $(SolutionDir)Output\$(ConfigurationName)\Authorizer del $(SolutionDir)Output\$(ConfigurationName)\Authorizer\*.* /s /q
-xcopy $(SolutionDir)AuthorizationWebsite\*.* $(SolutionDir)Output\$(ConfigurationName)\Authorizer\ /s
+if Exist $(SolutionDir)Output\$(ConfigurationName)\Authorizer del $(SolutionDir)Output\$(ConfigurationName)\Authorizer\*.* /s /q &gt; null
+xcopy $(SolutionDir)AuthorizationWebsite\*.* $(SolutionDir)Output\$(ConfigurationName)\Authorizer\ /s /q
 
-if Exist $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker del $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker\*.* /s /q
-xcopy $(SolutionDir)AuthenticationChecker\bin\app.publish\*.* $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker\ /s
+if Exist $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker del $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker\*.* /s /q  &gt; null
+xcopy $(SolutionDir)AuthenticationChecker\bin\app.publish\*.* $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker\ /s /q
 
-if Exist $(SolutionDir)StammportalForms\bin del $(SolutionDir)StammportalForms\bin\*.* /s /q
-xcopy $(TargetDir)*.* $(SolutionDir)StammportalForms\bin
-
-if Exist $(SolutionDir)StammportalForms\Administration del $(SolutionDir)StammportalForms\Administration\*.* /s /q
-xcopy $(ProjectDir)Administration\*.aspx $(SolutionDir)StammportalForms\Administration
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

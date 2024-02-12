@@ -1,6 +1,7 @@
 <%@ Page Language="C#" %>
 <%@ Import Namespace="System.DirectoryServices.AccountManagement" %>
 <%@ Import Namespace="System.Web.Security" %>
+<%@ Import Namespace="Egora.Stammportal.Authentication" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -17,8 +18,14 @@
         if (isValid)
         {
             Msg.Text = String.Empty;
-            FormsAuthentication.RedirectFromLoginPage(UsernameTextbox.Text, false);
-            Response.End();
+            var authInfo = new AuthenticationInformation() { SecClass = 2, UserName = UsernameTextbox.Text };
+            Response.Cookies.Add(authInfo.ToCookie());
+
+            var url = Request.QueryString["ReturnUrl"];
+            if (string.IsNullOrEmpty(url))
+                url = "Test.aspx";
+            
+            Response.Redirect(url, true);
         }
         else
         {
