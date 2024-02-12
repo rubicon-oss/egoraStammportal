@@ -41,6 +41,7 @@ namespace Egora.Stammportal.HttpReverseProxy
     }
 
     private bool _useFromHeader = Settings.Default.UseFromHeader;
+    private string _userId = null;
 
     public virtual WindowsIdentity GetIdentity()
     {
@@ -63,18 +64,31 @@ namespace Egora.Stammportal.HttpReverseProxy
     {
       get
       {
+        if (_userId != null)
+        {
+          return _userId;
+        }
+
         if (UseFromHeader)
         {
           string from = _leftSideRequest.Headers["From"];
           if (!String.IsNullOrEmpty(from))
-            return from;
+            _userId = from;
         }
-        else if (HttpContext.Current?.User?.Identity is FormsIdentity)
+        else
         {
-          return HttpContext.Current.User.Identity.Name;
+          if (_leftSideRequest.RequestContext?.HttpContext.User?.Identity is FormsIdentity id)
+          {
+            FormsAuthenticationTicket ticket = id.Ticket;
+            _userId = ticket.Name;
+          }
+          else
+          {
+            _userId = GetIdentity().Name;
+          }
         }
 
-        return GetIdentity().Name;
+        return _userId;
       }
     }
 

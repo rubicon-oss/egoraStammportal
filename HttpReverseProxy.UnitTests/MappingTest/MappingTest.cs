@@ -23,7 +23,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.MappingTest
                                       @"MappingTest\Mapping.xml"));
 
       Assert.IsNotNull(mapping);
-      Assert.AreEqual(12, mapping.Directories.Length);
+      Assert.AreEqual(14, mapping.Directories.Length);
 
       Directory dirroot = mapping.GetDirectory("/index.html");
       Assert.IsNotNull(dirroot, "dirroot not found.");

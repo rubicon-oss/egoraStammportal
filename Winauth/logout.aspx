@@ -7,12 +7,11 @@
 
     public void Logout_OnClick(object sender, EventArgs args)
     {
-        FormsAuthentication.SignOut();
-        Msg.Text = "You are logged out.";
-        LogoutButton.Visible = false;
-        //Response.Redirect(FormsAuthentication.LoginUrl);
+        //var cookieValue = "";
+        //var cookie = new HttpCookie(Config.AuthenticationCookieName, cookieValue);
+        //cookie.Expires = new DateTime(1900, 1, 1);
+        //Response.Cookies.Add(cookie);
     }
-
 
 </script>
 

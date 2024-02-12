@@ -445,7 +445,8 @@ namespace Egora.Stammportal.HttpReverseProxy
             break;
 
           case "from":
-            if (!Settings.Default.UseFromHeader)
+            var remoteApplication = RemoteApplication.GetRemoteApplication(_leftSideRequest);
+            if (! remoteApplication.UseFromHeader.HasValue && remoteApplication.UseFromHeader.Value)
               rightSideHeaders.Add(headerName, headerValue);
             break;
 
