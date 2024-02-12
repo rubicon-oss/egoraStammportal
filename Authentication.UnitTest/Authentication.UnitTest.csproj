@@ -37,14 +37,13 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticationInformationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Auth\Authentication.csproj">
+    <ProjectReference Include="..\Authentication\Authentication.csproj">
       <Project>{583bcce8-a76b-4a9d-8468-933cc96990ef}</Project>
       <Name>Authentication</Name>
     </ProjectReference>
