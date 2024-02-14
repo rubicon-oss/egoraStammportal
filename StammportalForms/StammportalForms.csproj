@@ -152,12 +152,12 @@ xcopy $(SolutionDir)HttpReverseProxy\Administration\*.aspx $(SolutionDir)Output\
 xcopy $(ProjectDir)Global.asax $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\ /q
 
 if Exist $(SolutionDir)Output\$(ConfigurationName)\winauth del $(SolutionDir)Output\$(ConfigurationName)\winauth\*.* /s /q &gt; nul
-xcopy $(SolutionDir)winauth\bin\*.* $(SolutionDir)Output\$(ConfigurationName)\winauth\ /q
+xcopy $(SolutionDir)winauth\bin\*.* $(SolutionDir)Output\$(ConfigurationName)\winauth\bin /q /i /s
 xcopy $(SolutionDir)winauth\*.aspx $(SolutionDir)Output\$(ConfigurationName)\winauth\ /q
 xcopy $(SolutionDir)winauth\web.config $(SolutionDir)Output\$(ConfigurationName)\winauth\ /q
 
 if Exist $(SolutionDir)Output\$(ConfigurationName)\formsauth del $(SolutionDir)Output\$(ConfigurationName)\formsauth\*.* /s /q &gt; nul
-xcopy $(SolutionDir)formsauth\bin\*.* $(SolutionDir)Output\$(ConfigurationName)\formsauth\ /q
+xcopy $(SolutionDir)formsauth\bin\*.* $(SolutionDir)Output\$(ConfigurationName)\formsauth\bin /q /i /s
 xcopy $(SolutionDir)formsauth\*.aspx $(SolutionDir)Output\$(ConfigurationName)\formsauth\ /q
 xcopy $(SolutionDir)formsauth\web.config $(SolutionDir)Output\$(ConfigurationName)\formsauth\ /q
 </PostBuildEvent>
