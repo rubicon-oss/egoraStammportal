@@ -37,7 +37,7 @@
             throw new ApplicationException($"SecClass {secClass} not yet supported.");
         }
         string relayState = null;
-        SAMLIdentityProvider.InitiateSSO(Response, userName, attributes, authnContext, relayState , spName, spConfig.AssertionConsumerServiceUrl);
+        SAMLIdentityProvider.InitiateSSO(Response, userName, attributes, authnContext, relayState , spConfig.Name, spConfig.AssertionConsumerServiceUrl);
     }
 
 
