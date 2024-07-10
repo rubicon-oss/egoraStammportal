@@ -38,7 +38,7 @@
     groupContainer="LDAP://OU=Stammportal,OU=egora,OU=Development,DC=int,DC=rubicon-it,DC=com"
     recurseGroupMembership="true"
     userProperties="canonicalName"
-    webUrls="http://egoratest/stptools/authorizationwebsite/ https://at-vie-dev-57.int.rubicon-it.com/stptools/authorizationwebsite/" >
+    webUrls="http://egoratest/stptools/authorizationwebsite/" >
     <PvpAttribute name="X-AUTHENTICATE-mail" default="default@rubicon-it.com" />
     <PvpAttribute name="X-AUTHENTICATE-tel" default="Wien, DW 0815"/>
   </Application>

@@ -37,7 +37,7 @@ public partial class _ListAuthorization : System.Web.UI.Page
   public SearchResultCollection GetUsers(string userId, string ldapPath)
   {
     DirectoryEntry root = new DirectoryEntry(ldapPath);
-    root.AuthenticationType = AuthenticationTypes.Secure;
+    root.AuthenticationType = AuthenticationTypes.Secure | AuthenticationTypes.SecureSocketsLayer;
 
     DirectorySearcher search = new DirectorySearcher(root, "samAccountName=" + userId);
     SearchResultCollection coll = search.FindAll();

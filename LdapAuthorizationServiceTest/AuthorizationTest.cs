@@ -7,6 +7,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 *************************/
 
 using System;
+using System.DirectoryServices;
 using System.Xml;
 using Egora.Pvp;
 using Egora.Stammportal;
@@ -47,7 +48,7 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
       Assert.IsTrue(authorizer.IsValid);
       var fragment = authorizer.UserPrincipalSoapFragment;
       var ns = new XmlNamespaceManager(new NameTable());
-      ns.AddNamespace("pvp", PvpToken.PvpTokenNamespace );
+      ns.AddNamespace("pvp", PvpToken.PvpTokenNamespace);
       var userId = fragment.SelectSingleNode("//pvp:userId", ns);
       Assert.AreEqual("egora.eins@egora.at", userId.InnerText);
       Assert.AreEqual("egora.eins@egora.at", authorizer.Mail, "MailAddress");
@@ -63,6 +64,18 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
     }
 
     [Test]
+    public void LdapSecureTest()
+    {
+      DirectoryEntry root = new DirectoryEntry(@"LDAP://DC=int,DC=rubicon-it,DC=com");
+      root.AuthenticationType = AuthenticationTypes.SecureSocketsLayer | AuthenticationTypes.Secure;
+
+      DirectorySearcher search = new DirectorySearcher(root, "(sAMAccountName=werner.kugler)");
+      SearchResultCollection coll = search.FindAll();
+
+      Assert.AreEqual(1, coll.Count);
+    }
+
+    [Test]
     public void AuthorizationSimpleNoRole()
     {
       PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer("http://testnorole.rubicon-it.com",
@@ -74,13 +87,13 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
     [Test]
     public void AuthorizationSimpleMustHaveRole()
     {
-        PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer("http://testrole.rubicon-it.com",
-                                                                                    @"rubicon\werner.kugler");
-        Assert.IsNotNull(authorizer);
-        Assert.IsNotNull(authorizer.User);
-        Assert.IsNotNull(authorizer.Roles);
-        Assert.Greater(authorizer.Roles.Length, 0);
-        Assert.IsTrue(authorizer.IsValid);
+      PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer("http://testrole.rubicon-it.com",
+                                                                                  @"rubicon\werner.kugler");
+      Assert.IsNotNull(authorizer);
+      Assert.IsNotNull(authorizer.User);
+      Assert.IsNotNull(authorizer.Roles);
+      Assert.Greater(authorizer.Roles.Length, 0);
+      Assert.IsTrue(authorizer.IsValid);
     }
 
     [Test]
@@ -101,7 +114,7 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
 
       string outerXml = authorizer.UserPrincipalSoapFragment.OuterXml;
       Assert.IsTrue(outerXml.StartsWith("<pvpToken version=\"1.9\" xmlns=\"http://egov.gv.at/pvp1.xsd\"><authenticate><participantId>Max.Mustermann</participantId>"));
-      
+
       string userPrincipal = outerXml.Substring(outerXml.IndexOf("<userPrincipal>"));
       Assert.IsTrue(userPrincipal.Contains("<userId>egora.zwei@egora.at</userId>"));
       Assert.IsTrue(userPrincipal.Contains("<cn>egora Zwei</cn>"));
@@ -144,26 +157,26 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
     [Test]
     public void Version()
     {
-        PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer("http://testnr.rubicon-it.com",
-            @"egora.drei");
-        Assert.IsNotNull(authorizer);
-        Assert.IsTrue(authorizer.IsValid);
-        Assert.AreEqual("1.9", authorizer.Version);
-        Assert.AreEqual("egora.drei@egora.at", authorizer.Mail, "MailAddress");
-        Assert.IsNull(authorizer.Roles, "Roles");
-        Assert.AreEqual("Test", authorizer.Ou, "OU");
+      PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer("http://testnr.rubicon-it.com",
+          @"egora.drei");
+      Assert.IsNotNull(authorizer);
+      Assert.IsTrue(authorizer.IsValid);
+      Assert.AreEqual("1.9", authorizer.Version);
+      Assert.AreEqual("egora.drei@egora.at", authorizer.Mail, "MailAddress");
+      Assert.IsNull(authorizer.Roles, "Roles");
+      Assert.AreEqual("Test", authorizer.Ou, "OU");
 
-        authorizer = new PvpApplicationLdapAuthorizer("https://dummy.com/version18/", @"egora2");
-        Assert.IsNotNull(authorizer);
-        Assert.IsTrue(authorizer.IsValid);
-        Assert.AreEqual("1.8", authorizer.Version);
-        Assert.AreEqual("egora.zwei@egora.at", authorizer.Mail);
-        Assert.IsFalse(authorizer.IsWeb);
-        Assert.IsTrue(authorizer.IsSoap);
-        Assert.That(authorizer.Roles, Is.EqualTo("FixedRole(param=val)"));
+      authorizer = new PvpApplicationLdapAuthorizer("https://dummy.com/version18/", @"egora2");
+      Assert.IsNotNull(authorizer);
+      Assert.IsTrue(authorizer.IsValid);
+      Assert.AreEqual("1.8", authorizer.Version);
+      Assert.AreEqual("egora.zwei@egora.at", authorizer.Mail);
+      Assert.IsFalse(authorizer.IsWeb);
+      Assert.IsTrue(authorizer.IsSoap);
+      Assert.That(authorizer.Roles, Is.EqualTo("FixedRole(param=val)"));
     }
 
-        [Test]
+    [Test]
     public void OuPathFormatter()
     {
       string path =
@@ -216,7 +229,7 @@ namespace Egora.stammportal.LdapAuthorizationServiceTest
       string rootUrl = "https://pvawp.bmi.gv.at/at.gv.bmi.zmrsrv-p/";
 
       PvpApplicationLdapAuthorizer authorizer = new PvpApplicationLdapAuthorizer(rootUrl, "rubicon\\bmi-pvp-user-1", configuration);
-      
+
       Assert.That(authorizer.IsValid, Is.True);
       Assert.That(authorizer.Version, Is.EqualTo("1.8"));
     }

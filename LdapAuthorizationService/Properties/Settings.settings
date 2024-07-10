@@ -28,5 +28,8 @@
   &lt;/authorize&gt;
 &lt;/pvpToken&gt;</Value>
     </Setting>
+    <Setting Name="UseSecureConnection" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -327,7 +327,7 @@ namespace Egora.Stammportal.LdapAuthorizationService
         foreach (string groupName in member.Properties["memberOf"])
         {
           DirectoryEntry root = new DirectoryEntry (_application.LdapRoot);
-          root.AuthenticationType = AuthenticationTypes.Secure;
+          root.AuthenticationType = GetAuthenticationType();
 
           DirectorySearcher search = new DirectorySearcher (
               root,
@@ -352,10 +352,18 @@ namespace Egora.Stammportal.LdapAuthorizationService
       return groups;
     }
 
+    protected virtual AuthenticationTypes GetAuthenticationType()
+    {
+      if (Properties.Settings.Default.UseSecureConnection)
+        return AuthenticationTypes.Secure | AuthenticationTypes.SecureSocketsLayer;
+      
+      return AuthenticationTypes.Secure;
+    }
+
     private SearchResultCollection GetPvpApplicationGroups(string member)
     {
       DirectoryEntry zmrGroupContainer = new DirectoryEntry (_application.GroupContainer);
-      zmrGroupContainer.AuthenticationType = AuthenticationTypes.Secure;
+      zmrGroupContainer.AuthenticationType = GetAuthenticationType();
 
       DirectorySearcher search = new DirectorySearcher (
           zmrGroupContainer,
@@ -368,7 +376,7 @@ namespace Egora.Stammportal.LdapAuthorizationService
     public SearchResultCollection GetUsers(string userId)
     {
       DirectoryEntry root = new DirectoryEntry (_application.LdapRoot);
-      root.AuthenticationType = AuthenticationTypes.Secure;
+      root.AuthenticationType = GetAuthenticationType();
 
       DirectorySearcher search = new DirectorySearcher (root, String.Format (Properties.Settings.Default.UserFilter, userId));
       SearchResultCollection coll = search.FindAll ();

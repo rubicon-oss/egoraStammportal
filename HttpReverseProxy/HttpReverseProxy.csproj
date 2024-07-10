@@ -168,7 +168,6 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Certificates\RubiconZmrCertificate.cer" />
     <None Include="Mapping\GenerateSchema.cmd" />
     <None Include="Mapping\PathMap.xsd">
       <SubType>Designer</SubType>
@@ -196,7 +195,9 @@
       <CachedSettingsPropName>Rubicon_Stammportal_HttpReverseProxy_AuthorizationWebService_PvpAuthorizer</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Certificates\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -230,17 +231,17 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>if Exist $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) del $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\*.* /s /q &gt; null
+    <PostBuildEvent>if Exist $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) del $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\*.* /s /q &gt; nul
 xcopy $(TargetDir)*.* $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\$(OutDir) /q
 xcopy $(ProjectDir)Web.config $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\ /q
 xcopy $(ProjectDir)Mapping.Beispiel.xml $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\ /q
 xcopy $(ProjectDir)Mapping.xml $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\ /q
 xcopy $(ProjectDir)Administration\*.aspx $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\Administration\ /q
 
-if Exist $(SolutionDir)Output\$(ConfigurationName)\Authorizer del $(SolutionDir)Output\$(ConfigurationName)\Authorizer\*.* /s /q &gt; null
+if Exist $(SolutionDir)Output\$(ConfigurationName)\Authorizer del $(SolutionDir)Output\$(ConfigurationName)\Authorizer\*.* /s /q &gt; nul
 xcopy $(SolutionDir)AuthorizationWebsite\*.* $(SolutionDir)Output\$(ConfigurationName)\Authorizer\ /s /q
 
-if Exist $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker del $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker\*.* /s /q  &gt; null
+if Exist $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker del $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker\*.* /s /q  &gt; nul
 xcopy $(SolutionDir)AuthenticationChecker\bin\app.publish\*.* $(SolutionDir)Output\$(ConfigurationName)\AuthenticationChecker\ /s /q
 
 </PostBuildEvent>

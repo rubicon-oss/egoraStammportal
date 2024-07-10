@@ -8,8 +8,10 @@ You may use this code according to the conditions of the Microsoft Public Licens
 
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Security.Policy;
+using System.Text;
 using System.Xml.Serialization;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
@@ -40,7 +42,31 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
       cookieContainer.Add(response1.Cookies);
       request2.CookieContainer = cookieContainer;
       request2.AllowAutoRedirect = false;
-      HttpWebResponse response2 = (HttpWebResponse)request2.GetResponse();
+      HttpWebResponse response2;
+      try
+      {
+        response2 = (HttpWebResponse)request2.GetResponse();
+      }
+      catch (WebException ex)
+      {
+        var contentStream = ex.Response?.GetResponseStream();
+        if (contentStream != null)
+        {
+          var buffer = new byte[1000];
+          var allBytes = new byte[0];
+          var actualCount = 0;
+          while ((actualCount = contentStream.Read(buffer,0,buffer.Length)) > 0)
+          {
+            var oldLength = allBytes.Length;
+            allBytes = new byte[allBytes.Length + actualCount];
+            System.Array.Copy(buffer, 0, allBytes, oldLength, actualCount);
+          }
+          string content = Encoding.UTF8.GetString(allBytes);
+          throw new Exception(content, ex);
+        }
+
+        throw;
+      }
 
       Assert.IsNotNull(response2, "Response2 is null");
       Assert.AreEqual(HttpStatusCode.Redirect, response2.StatusCode);
