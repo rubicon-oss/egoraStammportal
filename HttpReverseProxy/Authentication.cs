@@ -195,7 +195,7 @@ namespace Egora.Stammportal.HttpReverseProxy
     {
       var startPath = GetAuthenticationCheckerStartPath(_leftSideRequest);
       startPath += startPath.Contains("?") ? "&" : "?";
-      startPath += "ReturnUrl=" + System.Web.HttpUtility.UrlEncode(_leftSideRequest.Url.OriginalString);
+      startPath += "ReturnUrl=" + System.Web.HttpUtility.UrlEncode(_leftSideRequest.Url.AbsoluteUri);
       startPath += "&UserId=" + System.Web.HttpUtility.UrlEncode(UserId);
       startPath += "&FrontEnd=" + System.Web.HttpUtility.UrlEncode(_leftSideRequest.Url.GetLeftPart(UriPartial.Authority)+_leftSideRequest.ApplicationPath);
       HttpContext.Current.Response.Redirect(startPath);
