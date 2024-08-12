@@ -11,5 +11,11 @@
     <Setting Name="DomainPrefix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">RUBICON\</Value>
     </Setting>
+    <Setting Name="UseSecureConnection" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LdapRoot" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">LDAP://</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

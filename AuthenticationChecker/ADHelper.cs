@@ -12,14 +12,23 @@ namespace AuthenticationChecker
   public class ADHelper
   {
     private static ILog s_log = LogManager.GetLogger(typeof(ADHelper));
+    private readonly DirectoryEntry _root;
 
-    private static DirectoryEntry FindUser(string filter)
+    public ADHelper()
+    {
+      _root = new DirectoryEntry(Properties.Settings.Default.LdapRoot);
+      _root.AuthenticationType = Properties.Settings.Default.UseSecureConnection
+        ? AuthenticationTypes.Secure | AuthenticationTypes.SecureSocketsLayer
+        : AuthenticationTypes.Secure;
+    }
+    private DirectoryEntry FindUser(string filter)
     {
       s_log.Info($"searching with filter '{filter}',");
-      using (var seacher = new DirectorySearcher(filter))
+      using (var searcher = new DirectorySearcher(_root, filter))
       {
-        seacher.SearchScope = SearchScope.Subtree;
-        using (var result = seacher.FindAll())
+        searcher.SearchScope = SearchScope.Subtree;
+        searcher.SearchRoot.AuthenticationType = AuthenticationTypes.SecureSocketsLayer;
+        using (var result = searcher.FindAll())
         {
           s_log.Info($"Found {result.Count} user with filter '{filter}'");
           if (result.Count == 0)
