@@ -240,7 +240,8 @@ namespace Egora.Stammportal.HttpReverseProxy
       return sb.ToString();
     }
 
-    public static void CreateAuthenticationCookie(HttpResponse response, string userId, string userData)
+    public static void CreateAuthenticationCookie(HttpResponse response, string userId, bool requestIsSecureConnection,
+      string userData)
     {
       var now = DateTime.Now;
       FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(2, userId, now, now + new TimeSpan(Settings.Default.AuthenticationCheckerValidHours, 0, 0), false, userData);
@@ -251,7 +252,10 @@ namespace Egora.Stammportal.HttpReverseProxy
         value = FormsAuthentication.Encrypt(ticket);
       }
       var authCookie = new HttpCookie(Settings.Default.AuthenticationCookieName, value);
-      authCookie.SameSite = SameSiteMode.Strict;
+      authCookie.SameSite = SameSiteMode.None;
+      if (requestIsSecureConnection)
+        authCookie.Secure = true;
+      authCookie.HttpOnly = true;
       response.Cookies.Add(authCookie);
     }
   }
