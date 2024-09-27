@@ -9,7 +9,7 @@ using log4net.Config;
 
 namespace AuthenticationChecker
 {
-  public class ADHelper
+  public class ADHelper : IDisposable
   {
     private static ILog s_log = LogManager.GetLogger(typeof(ADHelper));
     private readonly DirectoryEntry _root;
@@ -27,7 +27,6 @@ namespace AuthenticationChecker
       using (var searcher = new DirectorySearcher(_root, filter))
       {
         searcher.SearchScope = SearchScope.Subtree;
-        searcher.SearchRoot.AuthenticationType = AuthenticationTypes.SecureSocketsLayer;
         using (var result = searcher.FindAll())
         {
           s_log.Info($"Found {result.Count} user with filter '{filter}'");
@@ -88,6 +87,11 @@ namespace AuthenticationChecker
                 .Replace("(", @"\28")
                 .Replace(")", @"\29")
                 .Replace("\0", @"\00");
+    }
+
+    public void Dispose()
+    {
+      _root.Dispose();
     }
   }
 }

@@ -8,6 +8,7 @@ You may use this code according to the conditions of the Microsoft Public Licens
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Policy;
@@ -76,8 +77,22 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
       cookieContainer.Add(response2.Cookies);
       request3.CookieContainer = cookieContainer;
       request3.AllowAutoRedirect = false;
-      HttpWebResponse response3 = (HttpWebResponse)request3.GetResponse();
+      HttpWebResponse response3 = null;
+      try
+      {
+        response3 = (HttpWebResponse)request3.GetResponse();
+      }
+      catch (WebException e)
+      {
+        var errorResponse = e.Response.GetResponseStream();
+        if (errorResponse != null)
+        {
+          var errorText = new StreamReader(errorResponse, Encoding.UTF8).ReadToEnd();
+          Assert.Fail(errorText);
+        }
 
+        Assert.Fail(e.Message);
+      }
       Assert.IsNotNull(response3, "Response3 is null");
       Assert.AreEqual(HttpStatusCode.Redirect, response3.StatusCode);
       var location3 = response3.Headers["Location"];

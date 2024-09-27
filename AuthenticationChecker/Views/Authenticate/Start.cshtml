@@ -3,5 +3,7 @@
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
+<p>UserId=@ViewBag.UserId</p>
 <p>ReturnUrl=@ViewBag.ReturnUrl</p>
-<input type="button" value="Weiter ..." onclick="location.href = '@Url.Action("Authorize", new {ReturnUrl=ViewBag.ReturnUrl, UserID=ViewBag.UserId})'" />
+<p>FrontEnd=@ViewBag.FrontEnd</p>
+<input type="button" value="Weiter ..." onclick="location.href = '@Url.Action("Authorize", new {ReturnUrl=ViewBag.ReturnUrl, UserID=ViewBag.UserId, FrontEnd=ViewBag.FrontEnd})'" />

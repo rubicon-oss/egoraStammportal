@@ -87,6 +87,7 @@ namespace Egora.Stammportal.HttpReverseProxy
       newCookie.HttpOnly = rightSideResponseCookie.HttpOnly;
       newCookie.Secure = rightSideResponseCookie.Secure &&
                          (HttpContext.Current == null || HttpContext.Current.Request.IsSecureConnection);
+      newCookie.SameSite = SameSiteMode.Strict;
 
       return newCookie;
     }

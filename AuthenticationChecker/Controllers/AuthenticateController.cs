@@ -6,8 +6,10 @@ using System.Configuration;
 using System.DirectoryServices;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -15,6 +17,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.UI;
 using AuthenticationChecker.Properties;
 using log4net;
 using Microsoft.IdentityModel.Protocols;
@@ -43,10 +46,11 @@ namespace AuthenticationChecker.Controllers
       s_log.Info($"AuthorizationEndpoint is '{Configuration.AuthorizationEndpoint}'");
       s_log.Info($"TokenEndpoint is '{Configuration.TokenEndpoint}'");
     }
-    public ActionResult Start(string returnUrl, string userId)
+    public ActionResult Start(string returnUrl, string userId, string frontEnd = null)
     {
       ViewBag.ReturnUrl = returnUrl;
       ViewBag.UserId = userId;
+      ViewBag.FrontEnd = frontEnd;
       return View();
     }
 
@@ -168,9 +172,10 @@ namespace AuthenticationChecker.Controllers
       };
 
       SecurityToken validatedToken;
+      ClaimsPrincipal principal;
       try
       {
-        var principal = tokenHandler.ValidateToken(idToken, validationParameters, out validatedToken);
+        principal = tokenHandler.ValidateToken(idToken, validationParameters, out validatedToken);
       }
       catch (Exception e)
       {
@@ -180,49 +185,86 @@ namespace AuthenticationChecker.Controllers
 
       var jwt = new JwtSecurityToken(idToken);
 
-      ViewBag.Identity = string.Join(", ", (IEnumerable<string>)jwt.Claims?.Select(c => $"{c.Type}={c.Value}") ?? Array.Empty<string>());
+      var compressedStream = new MemoryStream();
+      var zip = new GZipStream(compressedStream, CompressionMode.Compress, true);
+      var claims = string.Join(Environment.NewLine, jwt.Claims?.Select(c => c.ToString()) ?? Array.Empty<string>());
+      var buffer = Encoding.UTF8.GetBytes(claims);
+      zip.Write(buffer, 0, buffer.Length);
+      zip.Close();
+      var claimData = Convert.ToBase64String(compressedStream.ToArray());
+      zip.Dispose();
+
+      ViewBag.Identity = string.Join(", ", (IEnumerable<string>)jwt.Claims?.Select(c => c.ToString()) ?? Array.Empty<string>());
       
       string firstName = jwt.Claims.First(c => c.Type == "given_name").Value;
       string lastName = jwt.Claims.First(c => c.Type == "family_name").Value;
-      var adHelper = new ADHelper();
-      var firstnames = new List<string>() { firstName };
-      var separators = new char[] { ' ', '-' };
-      if (separators.Any(s => firstName.Contains(s)))
-        firstnames.AddRange(firstName.Split(separators));
-      DirectoryEntry adUser = null;
-      foreach (var fn in  firstnames)
+      
+      s_log.Info(string.Join(Environment.NewLine, jwt.Claims.Select(c => c.ToString())));
+      string dateOfBirthString = jwt.Claims.FirstOrDefault(c => c.Type == "birthdate")?.Value;
+      DateTime dateOfBirth = dateOfBirthString != null ? DateTime.Parse(dateOfBirthString) : new DateTime(1900,1,1);
+      var userMappingFilePath = Server.MapPath("~/UserMapping.json");
+      if (System.IO.File.Exists(userMappingFilePath))
       {
-        adUser = adHelper.FindUser(fn, lastName, data.UserId);
+        var userMapping = JsonSerializer.Deserialize<UserMapping>(System.IO.File.ReadAllText(userMappingFilePath),
+          new JsonSerializerOptions() { IncludeFields = true });
+        var mapping = userMapping.Mappings
+          .Where(m => m.IdAustria.GivenName == firstName && m.IdAustria.FamilyName == lastName &&
+                      m.IdAustria.DateOfBirth == dateOfBirth)
+          .Select(m => new { m.Ad.GivenName, m.Ad.Sn })
+          .FirstOrDefault();
+        if (mapping != null)
+        {
+          s_log.Info($"mapped person {firstName} {lastName} {dateOfBirth} to {mapping.GivenName}, {mapping.Sn}");
+          firstName = mapping.GivenName;
+          lastName = mapping.Sn;
+        }
+      }
+
+      using (var adHelper = new ADHelper())
+      {
+        var firstnames = new List<string>() { firstName };
+        var separators = new char[] { ' ', '-' };
+        if (separators.Any(s => firstName.Contains(s)))
+          firstnames.AddRange(firstName.Split(separators));
+        DirectoryEntry adUser = null;
+        foreach (var fn in firstnames)
+        {
+          adUser = adHelper.FindUser(fn, lastName, data.UserId);
+          if (adUser == null)
+          {
+            s_log.Info($"No AD user found with firstname {fn}, givenname {lastName} and userid {data.UserId}");
+          }
+          else
+          {
+            s_log.Info($"AD user found with firstname {fn}, givenname {lastName} and userid {data.UserId}");
+            break;
+          }
+        }
+
         if (adUser == null)
         {
-          s_log.Info($"No AD user found with firstname {fn}, givenname {lastName} and userid {data.UserId}");
+          s_log.Info("giving up finding AD user.");
+          throw new ApplicationException(
+            $"Kein AD Benutzer gefunden für {firstName} {lastName} und Accountname {data.UserId}.");
         }
-        else
-        {
-          s_log.Info($"AD user found with firstname {fn}, givenname {lastName} and userid {data.UserId}");
-          break;
-        }
-      }
-      if (adUser == null) 
-      {
-        s_log.Info("giving up finding AD user.");
-        throw new ApplicationException(
-          $"Kein AD Benutzer gefunden für {firstName} {lastName} und Accountname {data.UserId}.");
-      }
-      var accountName =adUser.Properties["userPrincipalName"].Value;
-      ViewBag.AccountName = accountName;
-      ViewBag.ReturnUrl = data.ReturnUrl;
-      SetHeader(accountName.ToString(), validatedToken.ToString());
 
-      if (!string.IsNullOrEmpty(data.ReturnUrl))
-        Response.Redirect(data.ReturnUrl, true);
+        var accountName = adUser.Properties["userPrincipalName"].Value;
+        ViewBag.AccountName = accountName;
+        ViewBag.ReturnUrl = data.ReturnUrl;
+        SetHeader(accountName.ToString(), claimData);
 
-      return View();
+        if (!string.IsNullOrEmpty(data.ReturnUrl))
+          Response.Redirect(data.ReturnUrl, true);
+
+        return View();
+      }
     }
 
     private void SetHeader(string userId, string data)
     {
       Response.Headers.Add("X-Egora-Authentication-UserId", userId);
+      if (data.Length > 4 * 1024)
+        data = "TooLong";
       Response.Headers.Add("X-Egora-Authentication-UserData", data);
     }
 

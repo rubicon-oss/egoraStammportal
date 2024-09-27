@@ -73,7 +73,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests.IntegrationTest
       Assert.IsNotNull(val, "Response");
 
       Assert.That(val.StartsWith("ptname=cval; expires="), Is.True);
-      Assert.That(val.EndsWith("path=/PvpTestApplication/1/IntegrationTestPage.aspx"), Is.True);
+      Assert.That(val.Contains("path=/PvpTestApplication/1/IntegrationTestPage.aspx"), Is.True);
 
 
       HttpWebRequest request2 = (HttpWebRequest)WebRequest.Create(

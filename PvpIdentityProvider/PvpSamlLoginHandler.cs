@@ -41,24 +41,35 @@ namespace Egora.Stammportal.PvpIdentityProvider
       string rootUrl = partner.AssertionConsumerServiceUrl;
       var authorizer = new PvpAuthorizerSoapClient();
       Egora.Stammportal.PvpIdentityProvider.AuthorizationWebService.CustomAuthorization authorization = authorizer.GetAuthorization(rootUrl, userName);
-      if (authorization == null || authorization.HttpHeaders == null)
+      if (authorization == null || (authorization.HttpHeaders == null && authorization.SoapHeaderXmlFragment == null))
         throw new ApplicationException("No Authorization received.");
 
-      var noAuth = authorization.HttpHeaders[0];
-      var noAuthorizationHttpHeader = Egora.Stammportal.CustomAuthorization.NoAuthorization.HttpHeaders[0];
-      if (noAuth.Name == noAuthorizationHttpHeader.Name && noAuth.Value == noAuthorizationHttpHeader.Value)
-        throw new ApplicationException("NoAuthorization received.");
-
-      if (!authorization.PvpVersion.Contains("2"))
+      secClass = 0;
+      if (authorization.PvpVersion == null || !authorization.PvpVersion.Contains("2"))
         throw new ApplicationException($"Pvp Version 2.0 or 2.1 expected, but {authorization.PvpVersion} received");
 
       pvpVersion = authorization.PvpVersion;
 
-      secClass = 0;
-      var pvpSecClass = authorization.HttpHeaders.Where(h => h.Name.Equals("X-PVP-SECCLASS", StringComparison.InvariantCultureIgnoreCase))
-        .Select(h => h.Value).Max();
-      if (pvpSecClass != null)
-        int.TryParse(pvpSecClass, out secClass);
+      if (authorization.SoapHeaderXmlFragment == null)
+      {
+        var noAuth = authorization.HttpHeaders[0];
+        var noAuthorizationHttpHeader = Egora.Stammportal.CustomAuthorization.NoAuthorization.HttpHeaders[0];
+        if (noAuth.Name == noAuthorizationHttpHeader.Name && noAuth.Value == noAuthorizationHttpHeader.Value)
+          throw new ApplicationException("NoAuthorization received.");
+
+        var pvpSecClass = authorization.HttpHeaders.Where(h => h.Name.Equals("X-PVP-SECCLASS", StringComparison.InvariantCultureIgnoreCase))
+          .Select(h => h.Value).Max();
+        if (pvpSecClass != null)
+          int.TryParse(pvpSecClass, out secClass);
+      }
+      else
+      {
+        var sc = authorization.SoapHeaderXmlFragment.Elements()
+          .FirstOrDefault(e => e.Attributes("FriendlyName").Any(a => a.Value == "SECCLASS"))?
+          .Elements().FirstOrDefault(n => n.Name.LocalName == "AttributeValue")?.Value;
+        if (sc != null)
+          int.TryParse(sc, out secClass);
+      }
 
       authnContext = pvpVersion.Contains("2.1")
         ? secClass == 0 ? "http://www.ref.gv.at/ns/names/agiz/pvp/secclass/0" : $"http://www.ref.gv.at/ns/names/agiz/pvp/secclass/0-{secClass}"

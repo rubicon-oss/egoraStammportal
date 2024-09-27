@@ -66,27 +66,40 @@ namespace Egora.Stammportal.HttpReverseProxy
       {
         if (_userId != null)
         {
+          TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose, (int)Event.RetrieveIdentity,
+            "Using existing _userId: '{0}'", _userId);
           return _userId;
         }
 
         if (UseFromHeader)
         {
-          string from = _leftSideRequest.Headers["From"];
-          if (!String.IsNullOrEmpty(from))
-            _userId = from;
-        }
-        else
-        {
-          if (_leftSideRequest.RequestContext?.HttpContext.User?.Identity is FormsIdentity id)
+          if (String.IsNullOrEmpty(_leftSideRequest.Headers["From"]))
           {
-            FormsAuthenticationTicket ticket = id.Ticket;
-            _userId = ticket.Name;
+            TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose, (int)Event.RetrieveIdentity,
+              "UseFromHeader is true, but From Header is empty.");
           }
           else
           {
-            _userId = GetIdentity().Name;
+            _userId = _leftSideRequest.Headers["From"];
+            TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose, (int)Event.RetrieveIdentity,
+              "Retrieved UserId from From Header: '{0}'", _userId);
+            return _userId;
           }
         }
+
+        if (_leftSideRequest.RequestContext?.HttpContext.User?.Identity is FormsIdentity id)
+        {
+          FormsAuthenticationTicket ticket = id.Ticket;
+          _userId = ticket.Name;
+          TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose, (int)Event.RetrieveIdentity,
+            "Retrieved UserId from From Ticket: '{0}'", _userId);
+          return _userId;
+        }
+
+        _userId = GetIdentity().Name;
+
+        TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose, (int)Event.RetrieveIdentity,
+          "Retrieved UserId from Identity: '{0}'", _userId);
 
         return _userId;
       }
@@ -231,8 +244,15 @@ namespace Egora.Stammportal.HttpReverseProxy
     {
       var now = DateTime.Now;
       FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(2, userId, now, now + new TimeSpan(Settings.Default.AuthenticationCheckerValidHours, 0, 0), false, userData);
-      var value =FormsAuthentication.Encrypt(ticket);
-      response.Cookies.Add( new HttpCookie(Settings.Default.AuthenticationCookieName, value));
+      var value = FormsAuthentication.Encrypt(ticket);
+      if (value.Length > 4 * 1024)
+      {
+        ticket = new FormsAuthenticationTicket(2, userId, now, now + new TimeSpan(Settings.Default.AuthenticationCheckerValidHours, 0, 0), false, "TooLong");
+        value = FormsAuthentication.Encrypt(ticket);
+      }
+      var authCookie = new HttpCookie(Settings.Default.AuthenticationCookieName, value);
+      authCookie.SameSite = SameSiteMode.Strict;
+      response.Cookies.Add(authCookie);
     }
   }
 }

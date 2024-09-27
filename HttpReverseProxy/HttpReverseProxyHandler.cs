@@ -245,7 +245,7 @@ namespace Egora.Stammportal.HttpReverseProxy
                 if (!string.IsNullOrEmpty(result))
                 {
                   var userData = response.Headers["X-Egora-Authentication-UserData"];
-                  Authentication.CreateAuthenticationCookie(context.Response, auth.UserId, userData);
+                  Authentication.CreateAuthenticationCookie(context.Response, auth.UserId, String.Empty); // ignore UserData
                 }
               }
 

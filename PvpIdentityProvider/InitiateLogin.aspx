@@ -10,24 +10,19 @@
     {
         if (SAMLController.Configuration == null)
             SAMLController.Initialize();
-
-        if (SAMLController.Configuration != null
-            && SAMLController.Configuration.PartnerServiceProviderConfigurations != null
-            && SAMLController.Configuration.PartnerServiceProviderConfigurations.Count > 0)
+        
+        var app = Request.QueryString["app"];
+        if (!string.IsNullOrEmpty(app))
         {
-            ServiceProviderDropDown.Items.AddRange(
-                SAMLController.Configuration.PartnerServiceProviderConfigurations.Select(c => new ListItem(c.Name, c.AssertionConsumerServiceUrl)).ToArray());
+            var config = SAMLController.Configuration.PartnerServiceProviderConfigurations
+                .FirstOrDefault(sp => sp.Name.Equals(app, StringComparison.InvariantCultureIgnoreCase));
+            if (config != null)
+            {
+                InitiateLogin(config);
+            }
         }
-
-    }
-
-    protected void LoginButton_Click(object sender, EventArgs e)
-    {
-        var spName = ServiceProviderDropDown.SelectedItem.Value;
-        var spConfig = SAMLController.Configuration.PartnerServiceProviderConfigurations
-            .First(sp => sp.AssertionConsumerServiceUrl.Equals(spName));
-
-        InitiateLogin(spConfig);
+        
+        MessageLabel.Text = $"Die Applikation '{app}' ist nicht konfiguriert.";
     }
 
     private void InitiateLogin(PartnerServiceProviderConfiguration spConfig)
@@ -52,12 +47,13 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>IdP initiated Login</title>
 </head>
 <body>
     <form id="Form1" runat="server">
     <div>
-      <asp:DropDownList ID="ServiceProviderDropDown" runat="server"></asp:DropDownList>  <asp:Button ID="LoginButton" runat="server" Text="IdP Initiated Login" OnClick="LoginButton_Click" />  
+        <asp:Label runat="server" ID="MessageLabel"></asp:Label>
+        <a href="MainPage.aspx">Zur Auswahl der Applikationen</a>
     </div>
     </form>
 </body>

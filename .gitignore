@@ -53,3 +53,4 @@ packages/
 /SamlMetadata/MicrosoftOnline.cer.txt
 /SamlMetadata/MicrosoftOnline.xml
 /SamlMetadata/MicrosoftOnline2.xml
+/AuthenticationChecker/UserMapping.json
