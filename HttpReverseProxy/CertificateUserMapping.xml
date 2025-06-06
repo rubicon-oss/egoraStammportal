@@ -2,7 +2,7 @@
 <CertificateAuthenticationConfiguration xmlns="http://www.egora.at/Stammportal/CertMap/1.0">
   <HeaderName>X-Forwarded-ClientCert</HeaderName>
   <Mappings>
-    <CertificateMapping Thumbprint="3D0C7481BF80B3AECBC418CDCFF7B1D8B1D8A8B7" UserName="DerAdmin" IsAdmin="true"/>
+    <CertificateMapping Thumbprint="f75756382f4949bd37df680685a1d813daaae861" UserName="DerAdmin" IsAdmin="true"/>
     <CertificateMapping 
       Subject="CN=*.rubicon.eu" 
       Issuer="CN=Go Daddy Secure Certificate Authority - G2, OU=http://certs.godaddy.com/repository/, O=&quot;GoDaddy.com, Inc.&quot;, L=Scottsdale, S=Arizona, C=US" 

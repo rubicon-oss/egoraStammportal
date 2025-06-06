@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 
 namespace Egora.Stammportal.HttpReverseProxy.CertificateAuthentication
 {
@@ -26,7 +27,7 @@ namespace Egora.Stammportal.HttpReverseProxy.CertificateAuthentication
     {
       foreach (var mapping in Mappings)
       {
-        if (mapping.Thumbprint != null && mapping.Thumbprint == certThumbprint)
+        if (mapping.Thumbprint != null && mapping.Thumbprint.Equals(certThumbprint,StringComparison.InvariantCultureIgnoreCase))
           return (mapping.UserName, mapping.IsAdmin);
 
         if (mapping.Subject != null && mapping.Subject == certSubject && mapping.Issuer != null && mapping.Issuer == certIssuer)
