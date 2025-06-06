@@ -84,7 +84,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
 
       HttpContext context = HttpContextHelper.CreateHttpContext("GET", "/zmrres/images/somepicture.png",
                                                                 "name1=value1");
-
+      HttpContext.Current = context;
       RemoteApplication remoteApplication = RemoteApplication.GetRemoteApplication(context.Request);
       TrafficLogger logger = new TrafficLogger(remoteApplication.RemoteApplicationProxyPath, "UnitTest", new TraceScope(null), context.Request.Url);
       string rightSideUrl = remoteApplication.GetRightSideUrl(context.Request);

@@ -12,7 +12,7 @@ namespace Egora.Stammportal.HttpReverseProxy.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -214,29 +214,11 @@ namespace Egora.Stammportal.HttpReverseProxy.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool UseFromHeader {
-            get {
-                return ((bool)(this["UseFromHeader"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("http://egoratest/TestAuthorizationWebService/PvpAuthorizer.asmx")]
         public string Rubicon_Stammportal_HttpReverseProxy_AuthorizationWebService_PvpAuthorizer {
             get {
                 return ((string)(this["Rubicon_Stammportal_HttpReverseProxy_AuthorizationWebService_PvpAuthorizer"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\temp")]
-        public string TrafficLogDir {
-            get {
-                return ((string)(this["TrafficLogDir"]));
             }
         }
         
@@ -300,6 +282,34 @@ namespace Egora.Stammportal.HttpReverseProxy.Properties {
         public int AuthenticationCheckerValidHours {
             get {
                 return ((int)(this["AuthenticationCheckerValidHours"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseFromHeader {
+            get {
+                return ((bool)(this["UseFromHeader"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\temp")]
+        public string TrafficLogDir {
+            get {
+                return ((string)(this["TrafficLogDir"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Development\\products\\egoraStammportal\\HttpReverseProxy\\CertificateUserMapping." +
+            "xml")]
+        public string CertificateUserMapping {
+            get {
+                return ((string)(this["CertificateUserMapping"]));
             }
         }
     }

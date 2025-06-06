@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://www.egora.at/Stammportal/CertMap/1.0" elementFormDefault="qualified" targetNamespace="http://www.egora.at/Stammportal/CertMap/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CertificateAuthenticationConfiguration" nillable="true" type="tns:CertificateAuthenticationConfiguration" />
+  <xs:complexType name="CertificateAuthenticationConfiguration">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="HeaderName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Mappings" type="tns:ArrayOfCertificateMapping" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfCertificateMapping">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CertificateMapping" nillable="true" type="tns:CertificateMapping" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CertificateMapping">
+    <xs:attribute name="Thumbprint" type="xs:string" />
+    <xs:attribute name="Subject" type="xs:string" />
+    <xs:attribute name="Issuer" type="xs:string" />
+    <xs:attribute name="UserName" type="xs:string" />
+    <xs:attribute name="IsAdmin" type="xs:boolean" use="required" />
+  </xs:complexType>
+</xs:schema>

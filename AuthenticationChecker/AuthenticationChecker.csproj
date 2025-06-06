@@ -236,8 +236,8 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="log4net.config" />
-    <Content Include="dev-wk.json.config" />
-    <Content Include="eid.json.config" />
+    <None Include="dev-wk.json" />
+    <None Include="eid.json" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

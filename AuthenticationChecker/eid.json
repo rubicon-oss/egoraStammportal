@@ -1,0 +1,7 @@
+{      
+	"ClientId": "https://pvp.intra.ibk/",
+	"ClientSecret":"l3KVsHUvsKaQsE-w19ydms-LDoyBy0IdMXmBMbl77H0=",
+	"DiscoveryEndpoint": "https://eid.oesterreich.gv.at/.well-known/openid-configuration",
+	"Issuer":"https://eid.oesterreich.gv.at",
+  "Scope":"openid profile"
+}

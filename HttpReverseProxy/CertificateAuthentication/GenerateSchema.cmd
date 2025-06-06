@@ -1,0 +1,1 @@
+"c:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8.1 Tools\xsd.exe" ..\bin\Egora.Stammportal.HttpReverseProxy.dll /t:Egora.Stammportal.HttpReverseProxy.CertificateAuthentication.CertificateAuthenticationConfiguration

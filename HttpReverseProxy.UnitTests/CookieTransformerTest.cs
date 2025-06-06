@@ -26,15 +26,15 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       rightSideCookie.Secure = true;
       rightSideCookie.HttpOnly = true;
 
-      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false);
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false, GetContext());
 
       Assert.IsNotNull(leftSideCookie);
       Assert.AreEqual("somehost/somepath/TestName", leftSideCookie.Name);
       Assert.AreEqual(CookieTransformer.c_CookieSignature + "|||TestValue", leftSideCookie.Value);
-      Assert.AreEqual("/", leftSideCookie.Path);
+      Assert.AreEqual("/Stammportal", leftSideCookie.Path);
       Assert.AreEqual(inOneHour, leftSideCookie.Expires);
       Assert.IsNull(leftSideCookie.Domain);
-      Assert.IsTrue(leftSideCookie.Secure, "Secure");
+      Assert.IsFalse(leftSideCookie.Secure, "Secure");
       Assert.IsTrue(leftSideCookie.HttpOnly, "HttpOnly");
     }
 
@@ -48,7 +48,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       rightSideCookie.Secure = true;
       rightSideCookie.HttpOnly = false;
 
-      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false);
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false, GetContext());
 
       Assert.IsNotNull(leftSideCookie);
       Assert.AreEqual("TestName", leftSideCookie.Name);
@@ -56,7 +56,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       Assert.AreEqual("", leftSideCookie.Path);
       Assert.AreEqual(inOneHour, leftSideCookie.Expires);
       Assert.IsNull(leftSideCookie.Domain);
-      Assert.IsTrue(leftSideCookie.Secure, "Secure");
+      Assert.IsFalse(leftSideCookie.Secure, "Secure");
       Assert.IsFalse(leftSideCookie.HttpOnly, "HttpOnly");
     }
     [Test]
@@ -69,22 +69,22 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       rightSideCookie.Secure = true;
       rightSideCookie.HttpOnly = true;
 
-      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false);
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false, GetContext());
 
       Assert.IsNotNull(leftSideCookie);
       Assert.AreEqual("somehost/somepath/_pk_id.1.4515", leftSideCookie.Name);
       Assert.AreEqual(CookieTransformer.c_CookieSignature + "|||5d53052c68f46bd6.1461831752.1.1461831752.1461831752.", leftSideCookie.Value);
-      Assert.AreEqual("/", leftSideCookie.Path);
+      Assert.AreEqual("/Stammportal", leftSideCookie.Path);
       Assert.AreEqual(inOneHour, leftSideCookie.Expires);
       Assert.IsNull(leftSideCookie.Domain);
-      Assert.IsTrue(leftSideCookie.Secure, "Secure");
+      Assert.IsFalse(leftSideCookie.Secure, "Secure");
       Assert.IsTrue(leftSideCookie.HttpOnly, "HttpOnly");
     }
 
     [Test]
     public void LeftSideCookie_FromRightSideCookieWithDomainAndPath()
     {
-      CookieTransformer transformer = new CookieTransformer(true, "https://somehost:8443/somepath/");
+      CookieTransformer transformer = new CookieTransformer(true, "https://www.domain.com/somepath/");
       Cookie rightSideCookie = new Cookie("TestName", "TestValue");
       DateTime inOneHour = DateTime.Now + new TimeSpan(1, 0, 0);
       rightSideCookie.Domain = "www.domain.com";
@@ -93,23 +93,28 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       rightSideCookie.Secure = false;
       rightSideCookie.HttpOnly = false;
 
-      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false);
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false, GetContext());
 
       Assert.IsNotNull(leftSideCookie);
-      Assert.AreEqual("somehost:8443/somepath/TestName", leftSideCookie.Name);
+      Assert.AreEqual("www.domain.com/somepath/TestName", leftSideCookie.Name);
       Assert.AreEqual(CookieTransformer.c_CookieSignature + "|www.domain.com|/application|TestValue",
                       leftSideCookie.Value);
-      Assert.AreEqual("/", leftSideCookie.Path);
+      Assert.AreEqual("/Stammportal", leftSideCookie.Path);
       Assert.AreEqual(inOneHour, leftSideCookie.Expires);
       Assert.IsNull(leftSideCookie.Domain);
       Assert.IsFalse(leftSideCookie.Secure, "Secure");
       Assert.IsFalse(leftSideCookie.HttpOnly, "HttpOnly");
     }
 
+    private HttpContext GetContext()
+    {
+      return HttpContextHelper.CreateHttpContext("GET", "/Stammportal", null);
+    }
+
     [Test]
     public void LeftSidePassThroughCookie_FromRightSideCookieWithDomainAndSamePath()
     {
-      CookieTransformer transformer = new CookieTransformer(true, "https://somehost:8443/somepath/", new List<string>() {"TestName"});
+      CookieTransformer transformer = new CookieTransformer(true, "https://www.domain.com/somepath/", new List<string>() {"TestName"});
       Cookie rightSideCookie = new Cookie("TestName", "TestValue");
       DateTime inOneHour = DateTime.Now + new TimeSpan(1, 0, 0);
       rightSideCookie.Domain = "www.domain.com";
@@ -118,7 +123,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       rightSideCookie.Secure = false;
       rightSideCookie.HttpOnly = false;
 
-      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, true);
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, true, GetContext());
 
       Assert.IsNotNull(leftSideCookie);
       Assert.AreEqual("TestName", leftSideCookie.Name);
@@ -142,13 +147,13 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       rightSideCookie.Secure = false;
       rightSideCookie.HttpOnly = false;
 
-      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false);
+      HttpCookie leftSideCookie = transformer.CreateLeftSideResponseCookie(rightSideCookie, false, GetContext());
 
       Assert.IsNotNull(leftSideCookie);
       Assert.AreEqual("somehost/TestName", leftSideCookie.Name);
       Assert.AreEqual(CookieTransformer.c_CookieSignature + "|www.domain.com|/application|TestValue",
                       leftSideCookie.Value);
-      Assert.AreEqual("/", leftSideCookie.Path);
+      Assert.AreEqual("/Stammportal", leftSideCookie.Path);
       Assert.AreEqual(inOneHour, leftSideCookie.Expires);
       Assert.IsNull(leftSideCookie.Domain);
       Assert.IsFalse(leftSideCookie.Secure, "Secure");
@@ -158,8 +163,8 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     [Test]
     public void RightSideCookie_FromLeftSideCookieWithDomainAndPath()
     {
-      CookieTransformer transformer = new CookieTransformer(true, "https://somehost:8443/somepath/");
-      HttpCookie leftSideCookie = new HttpCookie("somehost:8443/somepath/TestName",
+      CookieTransformer transformer = new CookieTransformer(true, "https://www.domain.com/somepath/");
+      HttpCookie leftSideCookie = new HttpCookie("www.domain.com/somepath/TestName",
                                                  CookieTransformer.c_CookieSignature +
                                                  "|www.portal.gv.at|/application|TestValue|anotherValue");
       DateTime inOneHour = DateTime.Now + new TimeSpan(1, 0, 0);
@@ -184,7 +189,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     [Test]
     public void RightSidePassThroughCookie_FromLeftSideCookieWithDomainAndPath()
     {
-      CookieTransformer transformer = new CookieTransformer(true, "https://somehost:8443/somepath/", new List<string>(){"TestName"});
+      CookieTransformer transformer = new CookieTransformer(true, "https://www.domain.com/somepath/", new List<string>(){"TestName"});
       HttpCookie leftSideCookie = new HttpCookie("TestName","TestValue");
       DateTime inOneHour = DateTime.Now + new TimeSpan(1, 0, 0);
       leftSideCookie.Domain = "www.domain.com";
@@ -206,8 +211,8 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
     [Test]
     public void RightSideCookie_FromLeftSideCookieWithDomainAndPathNoIsolation()
     {
-        CookieTransformer transformer = new CookieTransformer(false, "https://somehost:8443/somepath/");
-        HttpCookie leftSideCookie = new HttpCookie("somehost:8443/TestName",
+        CookieTransformer transformer = new CookieTransformer(false, "https://www.domain.com/somepath/");
+        HttpCookie leftSideCookie = new HttpCookie("www.domain.com/TestName",
                                                     CookieTransformer.c_CookieSignature +
                                                     "|www.portal.gv.at|/application|TestValue|anotherValue");
         DateTime inOneHour = DateTime.Now + new TimeSpan(1, 0, 0);

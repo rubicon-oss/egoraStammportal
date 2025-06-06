@@ -115,5 +115,12 @@
       RootUrl="https://www.ssllabs.com/ssltest/">
     </ApplicationDirectory>
 
+    <ApplicationDirectory
+      AuthorizationWebService="http://egoratest/TestAuthorizationWebService/PvpTestAuthorizer.asmx"
+      Name="certificatebased"
+      LogTraffic="true"
+      RootUrl="http://egoratest/PvpTestApplication/1/"
+    >
+    </ApplicationDirectory>
   </Directories>
 </PathMap>

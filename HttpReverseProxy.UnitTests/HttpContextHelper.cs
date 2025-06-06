@@ -50,7 +50,6 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       Type buildManagerType = typeof (System.Web.Compilation.BuildManager);
       PrivateInvoke.SetNonPublicStaticProperty(buildManagerType, "SkipTopLevelCompilationExceptions", true);
       HttpContext context = new HttpContext(workerRequest);
-
       PrivateInvoke.SetNonPublicField(context.Request, "_httpMethod", httpMethod);
 
       HttpSessionState sessionState = CreateSession();
@@ -58,7 +57,7 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
 
       context.Request.Browser = new HttpBrowserCapabilities();
 
-      HttpContext.Current = context;
+      //HttpContext.Current = context;
 
       return context;
     }

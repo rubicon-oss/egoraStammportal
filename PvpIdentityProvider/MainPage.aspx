@@ -27,7 +27,14 @@
         var spConfig = SAMLController.Configuration.PartnerServiceProviderConfigurations
             .First(sp => sp.AssertionConsumerServiceUrl.Equals(spName));
 
-        InitiateLogin(spConfig);
+        try
+        {
+            InitiateLogin(spConfig);
+        }
+        catch (Exception exception)
+        {
+            MessageLabel.Text = $"Es trat folgender Fehler auf: {exception.Message}";
+        }
     }
 
     private void InitiateLogin(PartnerServiceProviderConfiguration spConfig)
@@ -59,6 +66,7 @@
     <div>
       <asp:DropDownList ID="ServiceProviderDropDown" runat="server"></asp:DropDownList>  <asp:Button ID="LoginButton" runat="server" Text="IdP Initiated Login" OnClick="LoginButton_Click" />  
     </div>
+        <asp:Label runat="server" ID="MessageLabel"></asp:Label>
     </form>
 </body>
 </html>

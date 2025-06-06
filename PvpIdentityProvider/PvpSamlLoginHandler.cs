@@ -9,6 +9,7 @@ using ComponentSpace.SAML2;
 using ComponentSpace.SAML2.Assertions;
 using ComponentSpace.SAML2.Configuration;
 using Egora.Pvp;
+using Egora.Stammportal.HttpReverseProxy;
 using Egora.Stammportal.PvpIdentityProvider.AuthorizationWebService;
 using static System.Net.WebRequestMethods;
 
@@ -28,7 +29,7 @@ namespace Egora.Stammportal.PvpIdentityProvider
       if (secClass >= 3)
       {
         // ToDo Check 2nd factor
-        throw new ApplicationException($"SecClass {secClass} not yet supported.");
+        throw new AuthorizationException($"SecClass {secClass} not yet supported.");
       }
 
       string assertionConsumerServiceUrl = partner.AssertionConsumerServiceUrl;
@@ -42,7 +43,7 @@ namespace Egora.Stammportal.PvpIdentityProvider
       var authorizer = new PvpAuthorizerSoapClient();
       Egora.Stammportal.PvpIdentityProvider.AuthorizationWebService.CustomAuthorization authorization = authorizer.GetAuthorization(rootUrl, userName);
       if (authorization == null || (authorization.HttpHeaders == null && authorization.SoapHeaderXmlFragment == null))
-        throw new ApplicationException("No Authorization received.");
+        throw new AuthorizationException("No Authorization received.");
 
       secClass = 0;
       if (authorization.PvpVersion == null || !authorization.PvpVersion.Contains("2"))
@@ -52,10 +53,10 @@ namespace Egora.Stammportal.PvpIdentityProvider
 
       if (authorization.SoapHeaderXmlFragment == null)
       {
-        var noAuth = authorization.HttpHeaders[0];
+        var auth = authorization.HttpHeaders[0];
         var noAuthorizationHttpHeader = Egora.Stammportal.CustomAuthorization.NoAuthorization.HttpHeaders[0];
-        if (noAuth.Name == noAuthorizationHttpHeader.Name && noAuth.Value == noAuthorizationHttpHeader.Value)
-          throw new ApplicationException("NoAuthorization received.");
+        if (auth.Name == noAuthorizationHttpHeader.Name && auth.Value == noAuthorizationHttpHeader.Value)
+          throw new AuthorizationException("NoAuthorization received.");
 
         var pvpSecClass = authorization.HttpHeaders.Where(h => h.Name.Equals("X-PVP-SECCLASS", StringComparison.InvariantCultureIgnoreCase))
           .Select(h => h.Value).Max();

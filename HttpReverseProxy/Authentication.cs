@@ -109,6 +109,10 @@ namespace Egora.Stammportal.HttpReverseProxy
     {
       get
       {
+        var user = HttpContext.Current.User;
+        if (user is GenericPrincipal gp)
+          return gp.IsInRole("Admin");
+
         WindowsPrincipal principal = new WindowsPrincipal(_leftSideRequest.LogonUserIdentity);
 
         TraceScope.Current.TraceEvent(System.Diagnostics.TraceEventType.Verbose, (int)Event.IsAdmin,

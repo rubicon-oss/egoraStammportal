@@ -54,7 +54,7 @@ namespace Egora.Stammportal.HttpReverseProxy
 
       foreach (Cookie rightSideResponseCookie in rightSideResponseCookies)
       {
-        leftSideResponseCookies.Add(CreateLeftSideResponseCookie(rightSideResponseCookie, cookiesWithEmptyPath.Contains(rightSideResponseCookie.Name)));
+        leftSideResponseCookies.Add(CreateLeftSideResponseCookie(rightSideResponseCookie, cookiesWithEmptyPath.Contains(rightSideResponseCookie.Name), HttpContext.Current));
       }
 
       return leftSideResponseCookies.ToArray();
@@ -65,7 +65,7 @@ namespace Egora.Stammportal.HttpReverseProxy
       get { return _cookieNamePrefix; }
     }
 
-    public virtual HttpCookie CreateLeftSideResponseCookie(Cookie rightSideResponseCookie, bool useRequestPath)
+    public virtual HttpCookie CreateLeftSideResponseCookie(Cookie rightSideResponseCookie, bool useRequestPath, HttpContext httpContext)
     {
       HttpCookie newCookie;
       if (_passThroughCookies.Contains(rightSideResponseCookie.Name, StringComparer.OrdinalIgnoreCase) && !rightSideResponseCookie.HttpOnly)
@@ -80,13 +80,13 @@ namespace Egora.Stammportal.HttpReverseProxy
           path, rightSideResponseCookie.Value);
         newCookie = new HttpCookie(CookieNamePrefix + rightSideResponseCookie.Name, value);
 
-        if (HttpContext.Current != null && HttpContext.Current.Request != null)
-          newCookie.Path = HttpContext.Current.Request.ApplicationPath;
+        if (httpContext != null && httpContext.Request != null)
+          newCookie.Path = httpContext.Request.ApplicationPath;
       }
       newCookie.Expires = rightSideResponseCookie.Expires;
       newCookie.HttpOnly = rightSideResponseCookie.HttpOnly;
       newCookie.Secure = rightSideResponseCookie.Secure &&
-                         (HttpContext.Current == null || HttpContext.Current.Request.IsSecureConnection);
+                         (httpContext == null || httpContext.Request.IsSecureConnection);
       newCookie.SameSite = SameSiteMode.Strict;
 
       return newCookie;

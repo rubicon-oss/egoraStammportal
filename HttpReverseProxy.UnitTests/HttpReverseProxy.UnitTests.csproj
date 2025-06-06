@@ -77,6 +77,7 @@
     <Compile Include="ArgumentUtility.cs" />
     <Compile Include="AuthenticationTest.cs" />
     <Compile Include="CustomAuthorizationTest.cs" />
+    <Compile Include="IntegrationTest\CertficateTest.cs" />
     <Compile Include="IntegrationTest\SecClass3Test.cs" />
     <Compile Include="StreamFilterTest.cs" />
     <Compile Include="IntegrationTest\ChainTest.cs" />
@@ -131,6 +132,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="rubicon.eu.crt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Web References\PvpTestService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -139,6 +143,10 @@
     <None Include="Web References\PvpTestService\TestService.wsdl" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\HttpReverseProxy\CertificateUserMapping.xml">
+      <Link>CertificateUserMapping.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="MappingTest\Mapping.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

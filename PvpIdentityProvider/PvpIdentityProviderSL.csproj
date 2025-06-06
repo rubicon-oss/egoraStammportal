@@ -154,7 +154,7 @@
 xcopy $(TargetDir)*.* $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\$(OutDir)
 xcopy $(ProjectDir)Web.config $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\
 xcopy $(ProjectDir)saml.config $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName)\
-xcopy $(ProjectDir)MainPage.aspx $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) /Y
+xcopy $(ProjectDir)*.aspx $(SolutionDir)Output\$(ConfigurationName)\$(ProjectName) /Y
 </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />

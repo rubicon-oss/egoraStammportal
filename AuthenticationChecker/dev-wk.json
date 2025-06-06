@@ -1,0 +1,7 @@
+{      
+		"ClientId": "3Qtp9q2g9g1ZojA3ad0TzjnNMq84tox2",
+		"ClientSecret":"j2R1mq6pt9W-F8kSVk2mDConopjSTuz4n2UVI-9yKX7pD-GFKQWWZIyXW9BMz0Fi",
+		"DiscoveryEndpoint": "https://dev-wk.eu.auth0.com/.well-known/openid-configuration",
+		"Issuer":"https://dev-wk.eu.auth0.com/",
+    "Scope":"openid profile email"
+}

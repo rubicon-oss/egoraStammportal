@@ -65,14 +65,8 @@
     <Setting Name="AuthenticationLevel" Type="System.Net.Security.AuthenticationLevel" Scope="Application">
       <Value Profile="(Default)">None</Value>
     </Setting>
-    <Setting Name="UseFromHeader" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="Rubicon_Stammportal_HttpReverseProxy_AuthorizationWebService_PvpAuthorizer" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://egoratest/TestAuthorizationWebService/PvpAuthorizer.asmx</Value>
-    </Setting>
-    <Setting Name="TrafficLogDir" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">C:\temp</Value>
     </Setting>
     <Setting Name="SecurityProtocol" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">3840</Value>
@@ -94,6 +88,15 @@
     </Setting>
     <Setting Name="AuthenticationCheckerValidHours" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="UseFromHeader" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TrafficLogDir" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\temp</Value>
+    </Setting>
+    <Setting Name="CertificateUserMapping" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\Development\products\egoraStammportal\HttpReverseProxy\CertificateUserMapping.xml</Value>
     </Setting>
   </Settings>
 </SettingsFile>

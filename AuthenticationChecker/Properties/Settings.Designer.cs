@@ -12,7 +12,7 @@ namespace AuthenticationChecker.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.10.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -29,15 +29,6 @@ namespace AuthenticationChecker.Properties {
         public bool DummyMode {
             get {
                 return ((bool)(this["DummyMode"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("dev-wk.json.config")]
-        public string IdpInfoFile {
-            get {
-                return ((string)(this["IdpInfoFile"]));
             }
         }
         
@@ -65,6 +56,15 @@ namespace AuthenticationChecker.Properties {
         public string LdapRoot {
             get {
                 return ((string)(this["LdapRoot"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dev-wk.json")]
+        public string IdpInfoFile {
+            get {
+                return ((string)(this["IdpInfoFile"]));
             }
         }
     }
