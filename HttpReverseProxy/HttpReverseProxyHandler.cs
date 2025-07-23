@@ -1,4 +1,4 @@
-/*************************
+ï»¿/*************************
 Diese Software ist ein Beispiel (sample code) und unterliegt der Microsoft Public License. 
 Die Verwendung des Codes ist unter den Bedingungen der Microsoft Public License erlaubt.
 *************************
@@ -42,7 +42,7 @@ namespace Egora.Stammportal.HttpReverseProxy
     {
       using (TraceScope traceScope = new TraceScope(null))
       {
-        traceScope.TraceEvent(TraceEventType.Start, (int) Event.Initializing,
+        traceScope.TraceEvent(TraceEventType.Start, (int)Event.Initializing,
                                      "ReverseProxy initializing started.");
 
         string filename =
@@ -53,9 +53,9 @@ namespace Egora.Stammportal.HttpReverseProxy
           s_map = Egora.Stammportal.HttpReverseProxy.Mapping.PathMap.CreateFromFile(filename);
           RemoteApplication.Initialize(s_map);
 
-          ServicePointManager.MaxServicePointIdleTime = Settings.Default.ConnectionMaxIdleTimeSeconds*1000;
+          ServicePointManager.MaxServicePointIdleTime = Settings.Default.ConnectionMaxIdleTimeSeconds * 1000;
           ServicePointManager.DefaultConnectionLimit = Settings.Default.ConnectionsPerServer;
-          ServicePointManager.SecurityProtocol = (SecurityProtocolType) Settings.Default.SecurityProtocol;
+          ServicePointManager.SecurityProtocol = (SecurityProtocolType)Settings.Default.SecurityProtocol;
           //SecurityProtocolType.Ssl3=48
           //SecurityProtocolType.Tls=192;
           //SecurityProtocolType.Tls11=768
@@ -64,7 +64,7 @@ namespace Egora.Stammportal.HttpReverseProxy
           s_initialized = true;
         }
 
-        traceScope.TraceEvent(TraceEventType.Start, (int) Event.Initializing,
+        traceScope.TraceEvent(TraceEventType.Start, (int)Event.Initializing,
                                      "ReverseProxy initializing finished.");
       }
     }
@@ -80,12 +80,12 @@ namespace Egora.Stammportal.HttpReverseProxy
     {
       using (TraceScope traceScope = new TraceScope(context))
       {
-        traceScope.TraceEvent(TraceEventType.Verbose, (int) Event.ProcessingRequest,
+        traceScope.TraceEvent(TraceEventType.Verbose, (int)Event.ProcessingRequest,
           "Processing request started.");
         if (context.Request == null)
         {
           //happens when application starts first time
-          traceScope.TraceEvent(TraceEventType.Verbose, (int) Event.ProcessingRequest, "Context is null.");
+          traceScope.TraceEvent(TraceEventType.Verbose, (int)Event.ProcessingRequest, "Context is null.");
           return;
         }
 
@@ -102,7 +102,7 @@ namespace Egora.Stammportal.HttpReverseProxy
 
           if (remoteApplication == null)
           {
-            traceScope.TraceEvent(TraceEventType.Warning, (int) Event.NotFound,
+            traceScope.TraceEvent(TraceEventType.Warning, (int)Event.NotFound,
               "No RemoteApplication found. Ending with 404.");
             context.Response.StatusCode = 404;
             context.Response.End();
@@ -121,7 +121,7 @@ namespace Egora.Stammportal.HttpReverseProxy
               if (tries > 0)
               {
                 System.Threading.Thread.Sleep(Properties.Settings.Default.NetworkRetryDelay);
-                traceScope.TraceEvent(TraceEventType.Error, (int) Event.ProcessingResponse,
+                traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse,
                   "trying again.");
                 inputBuffer.Position = 0;
               }
@@ -137,13 +137,27 @@ namespace Egora.Stammportal.HttpReverseProxy
                 }
                 catch (AuthorizationException e)
                 {
-                  traceScope.TraceEvent(TraceEventType.Verbose, (int) Event.NotAuthorized, e.Message);
+                  traceScope.TraceEvent(TraceEventType.Verbose, (int)Event.NotAuthorized, e.Message);
                   context.Response.StatusCode = 403;
                   context.Response.End();
                 }
+                catch (WebException ex)
+                {
+                  traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse,
+                    "Could not create right side request: {0}", ex.Message);
+                  if (ErrorHandlingAndShouldRetry(context, ex, remoteApplication, traceScope, inputBuffer))
+                  {
+                    if (webRequest != null)
+                    {
+                      webRequest.Abort();
+                      webRequest = null;
+                    }
+                    continue;
+                  }
+                }
               }
 
-              traceScope.TraceEvent(TraceEventType.Verbose, (int) Event.ProcessingRequest,
+              traceScope.TraceEvent(TraceEventType.Verbose, (int)Event.ProcessingRequest,
                 "Processing request finished.");
 
               using (new ExecutionScope(nameof(auth.GetWebResponse)))
@@ -158,7 +172,7 @@ namespace Egora.Stammportal.HttpReverseProxy
                     "Could not get right side response: {0}", ex.Message);
                   if (ex.Response == null)
                   {
-                    if (IsRetryable(ex, remoteApplication.IsSoap))
+                    if (ErrorHandlingAndShouldRetry(context, ex, remoteApplication, traceScope, inputBuffer))
                     {
                       if (webRequest != null)
                       {
@@ -166,33 +180,6 @@ namespace Egora.Stammportal.HttpReverseProxy
                         webRequest = null;
                       }
                       continue;
-                    }
-                    else if (ex.Status == WebExceptionStatus.Timeout)
-                    {
-                      traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse,
-                        "Ending with 408 Timeout.");
-                      context.Response.StatusCode = 408;
-                      context.Response.End();
-                      /*
-                    408 Request Timeout Der Server hat eine erwartete Anfrage nicht innerhalb des dafür festgelegten Maximalzeitraums erhalten. Die Verbindung zum anfragenden Browser wird deshalb abgebaut. Angeforderte Daten werden nicht übertragen. 
-                    412 Precondition Failed Eine oder mehrere Bedingungen, die bei der Anfrage gestellt wurden, treffen nicht zu. Die angeforderten Daten werden deshalb nicht übertragen. 
-                    500 Internal Server Error Der Server kann die angeforderten Daten nicht senden, weil auf dem Server ein Fehler aufgetreten ist. Beispielsweise konnte das aufgerufene CGI-Script nicht gestartet werden. 
-                    502 Bad Gateway Zum Bearbeiten der Anfrage musste der Server einen anderen Server aufrufen, erhielt dabei jedoch eine Fehlermeldung. Die angeforderten Daten können deshalb nicht gesendet werden. 
-                    503 Service Unavailable Der Server kann die Anfrage wegen Überlastung nicht bearbeiten. Die angeforderten Daten können deshalb nicht gesendet werden. In der Statusmeldung kann stehen, wann die Anfrage frühestens wieder bearbeitet werden kann. Im Gegensatz zum Status-Code 202 verarbeitet der Server die Daten nicht, sobald er wieder Kapazitäten hat. 
-                    504 Gateway Timeout Zum Bearbeiten der Anfrage musste der Server einen anderen Server aufrufen, erhielt dabei jedoch nach einem festgelegten Maximalzeitraum keine Antwort. Die angeforderten Daten können deshalb nicht gesendet werden. 
-                    */
-                    }
-                    else
-                    {
-                      traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse, "Ending with 500.");
-                      traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse,
-                        "No response available.");
-                      traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse,
-                        "Input stream follows.");
-                      LogInputStream(context, inputBuffer, traceScope);
-                      context.Response.StatusCode = 500;
-                      context.Response.StatusDescription = ex.Message;
-                      context.Response.End();
                     }
                   }
                   else
@@ -204,7 +191,7 @@ namespace Egora.Stammportal.HttpReverseProxy
 
               if (ShouldRetry(webResponse, remoteApplication.IsSoap))
               {
-                traceScope.TraceEvent(TraceEventType.Error, (int) Event.ProcessingResponse,
+                traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse,
                   "Received " + webResponse.StatusCode);
                 if (tries < Properties.Settings.Default.NetworkRetryCount)
                   webResponse.Close();
@@ -217,7 +204,7 @@ namespace Egora.Stammportal.HttpReverseProxy
 
           if (webResponse == null)
           {
-            traceScope.TraceEvent(TraceEventType.Verbose, (int) Event.ProcessingResponse,
+            traceScope.TraceEvent(TraceEventType.Verbose, (int)Event.ProcessingResponse,
               "Response is null.");
             context.Response.StatusCode = 502;
             context.Response.StatusDescription = "No response reveived from upstream server.";
@@ -230,7 +217,7 @@ namespace Egora.Stammportal.HttpReverseProxy
           {
             using (HttpWebResponse response = webResponse)
             {
-              traceScope.TraceEvent(TraceEventType.Verbose, (int) Event.ProcessingResponse,
+              traceScope.TraceEvent(TraceEventType.Verbose, (int)Event.ProcessingResponse,
                 "Processing response started.");
               if (remoteApplication.LogTraffic)
               {
@@ -239,7 +226,7 @@ namespace Egora.Stammportal.HttpReverseProxy
 
               remoteApplication.ShapeHttpResponse(response, context.Response);
               var authenticationChecker = RemoteApplication.GetRemoteApplication(Settings.Default.AuthenticationCheckerStartPath);
-              if (authenticationChecker!= null && authenticationChecker.RootUrl == remoteApplication.RootUrl)
+              if (authenticationChecker != null && authenticationChecker.RootUrl == remoteApplication.RootUrl)
               {
                 var result = response.Headers["X-Egora-Authentication-UserId"];
                 if (!string.IsNullOrEmpty(result))
@@ -258,7 +245,7 @@ namespace Egora.Stammportal.HttpReverseProxy
               CopyFilter filter = new CopyFilter(response.ContentLength);
               filter.FilterStream(rightSideResponseStream, output);
 
-              traceScope.TraceEvent(TraceEventType.Verbose, (int) Event.ProcessingResponse,
+              traceScope.TraceEvent(TraceEventType.Verbose, (int)Event.ProcessingResponse,
                 "Processing response finished.");
             }
 
@@ -266,19 +253,19 @@ namespace Egora.Stammportal.HttpReverseProxy
             {
               output.Position = 0;
               byte[] buffer = new byte[output.Length];
-              output.Read(buffer, 0, (int) output.Length);
+              output.Read(buffer, 0, (int)output.Length);
               Encoding encoding = Encoding.UTF8;
               if (context.Response.ContentEncoding != null)
                 encoding = context.Response.ContentEncoding;
-              traceScope.TraceEvent(TraceEventType.Error, (int) Event.ProcessingResponse,
+              traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse,
                 "Response stream follows.");
-              traceScope.TraceData(TraceEventType.Error, (int) Event.ProcessingResponse,
+              traceScope.TraceData(TraceEventType.Error, (int)Event.ProcessingResponse,
                 encoding.GetString(buffer));
             }
 
             if (remoteApplication.LogTraffic)
             {
-              logger.LogResponseContent((MemoryStream) output);
+              logger.LogResponseContent((MemoryStream)output);
             }
 
             if (bufferResponse)
@@ -294,17 +281,58 @@ namespace Egora.Stammportal.HttpReverseProxy
       }
     }
 
+    private bool ErrorHandlingAndShouldRetry(
+      HttpContext context,
+      WebException ex,
+      RemoteApplication remoteApplication,
+      TraceScope traceScope,
+      Stream inputBuffer)
+    {
+      if (IsRetryable(ex, remoteApplication.IsSoap))
+      {
+        return true;
+      }
+      if (ex.Status == WebExceptionStatus.Timeout)
+      {
+        traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse,
+          "Ending with 408 Timeout.");
+        context.Response.StatusCode = 408;
+        context.Response.End();
+        /*
+                    408 Request Timeout Der Server hat eine erwartete Anfrage nicht innerhalb des dafï¿½r festgelegten Maximalzeitraums erhalten. Die Verbindung zum anfragenden Browser wird deshalb abgebaut. Angeforderte Daten werden nicht ï¿½bertragen. 
+                    412 Precondition Failed Eine oder mehrere Bedingungen, die bei der Anfrage gestellt wurden, treffen nicht zu. Die angeforderten Daten werden deshalb nicht ï¿½bertragen. 
+                    500 Internal Server Error Der Server kann die angeforderten Daten nicht senden, weil auf dem Server ein Fehler aufgetreten ist. Beispielsweise konnte das aufgerufene CGI-Script nicht gestartet werden. 
+                    502 Bad Gateway Zum Bearbeiten der Anfrage musste der Server einen anderen Server aufrufen, erhielt dabei jedoch eine Fehlermeldung. Die angeforderten Daten kï¿½nnen deshalb nicht gesendet werden. 
+                    503 Service Unavailable Der Server kann die Anfrage wegen ï¿½berlastung nicht bearbeiten. Die angeforderten Daten kï¿½nnen deshalb nicht gesendet werden. In der Statusmeldung kann stehen, wann die Anfrage frï¿½hestens wieder bearbeitet werden kann. Im Gegensatz zum Status-Code 202 verarbeitet der Server die Daten nicht, sobald er wieder Kapazitï¿½ten hat. 
+                    504 Gateway Timeout Zum Bearbeiten der Anfrage musste der Server einen anderen Server aufrufen, erhielt dabei jedoch nach einem festgelegten Maximalzeitraum keine Antwort. Die angeforderten Daten kï¿½nnen deshalb nicht gesendet werden. 
+                    */
+      }
+      else
+      {
+        traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse, "Ending with 500.");
+        traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse,
+          "No response available.");
+        traceScope.TraceEvent(TraceEventType.Error, (int)Event.ProcessingResponse,
+          "Input stream follows.");
+        LogInputStream(context, inputBuffer, traceScope);
+        context.Response.StatusCode = 500;
+        context.Response.StatusDescription = ex.Message;
+        context.Response.End();
+      }
+      return false;
+    }
+
     private static void LogInputStream(HttpContext context, Stream inputBuffer, TraceScope traceScope)
     {
       try
       {
         inputBuffer.Position = 0;
         byte[] buffer = new byte[inputBuffer.Length];
-        inputBuffer.Read(buffer, 0, (int) inputBuffer.Length);
+        inputBuffer.Read(buffer, 0, (int)inputBuffer.Length);
         Encoding encoding = Encoding.UTF8;
         if (context.Request.ContentEncoding != null)
           encoding = context.Request.ContentEncoding;
-        traceScope.TraceData(TraceEventType.Error, (int) Event.ProcessingResponse,
+        traceScope.TraceData(TraceEventType.Error, (int)Event.ProcessingResponse,
                                     encoding.GetString(buffer));
       }
       catch
@@ -346,7 +374,7 @@ namespace Egora.Stammportal.HttpReverseProxy
     private Stream GetOutputStream(HttpResponse response, long bufferSize, bool useMemoryStream)
     {
       Stream output;
-      int size = bufferSize > 0 ? (int) bufferSize : 1024;
+      int size = bufferSize > 0 ? (int)bufferSize : 1024;
       if (useMemoryStream)
       {
         output = new MemoryStream(size);
