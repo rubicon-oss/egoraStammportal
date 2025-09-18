@@ -100,8 +100,10 @@
     <Compile Include="Administration\Reset.aspx.designer.cs">
       <DependentUpon>Reset.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CertificateAuthentication\CertificateAuthenticationModule.cs" />
-    <Compile Include="CertificateAuthentication\CertificateAuthenticationConfiguration.cs" />
+    <Compile Include="CustomAuthentication\SubApplicationAuthenticationModule.cs" />
+    <Compile Include="CustomAuthentication\CertificateAuthenticationModule.cs" />
+    <Compile Include="CustomAuthentication\CertificateAuthenticationConfiguration.cs" />
+    <Compile Include="CustomAuthentication\CustomAuthenticationModuleBase.cs" />
     <Compile Include="Mapping\PvpTokenHandling.cs" />
     <Compile Include="Properties\AssemblyInfo1.cs" />
     <Compile Include="AuthorizationHistory.cs" />
@@ -140,6 +142,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Authentication\Authentication.csproj">
+      <Project>{583BCCE8-A76B-4A9D-8468-933CC96990EF}</Project>
+      <Name>Authentication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{FBF8007D-C65A-4CC8-BE05-ADDD01DACF13}</Project>
       <Name>Core</Name>
@@ -155,8 +161,8 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Mapping\Mapping.cd" />
-    <Content Include="CertificateAuthentication\GenerateSchema.cmd" />
-    <None Include="CertificateAuthentication\CertificateAuthentication.xsd">
+    <Content Include="CustomAuthentication\GenerateSchema.cmd" />
+    <None Include="CustomAuthentication\CertificateAuthentication.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Web References\AuthorizationWebService\PvpAuthorizer.disco" />

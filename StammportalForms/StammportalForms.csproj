@@ -154,9 +154,9 @@ xcopy $(SolutionDir)formsauth\web.config $(SolutionDir)Output\$(ConfigurationNam
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>xcopy $(SolutionDir)HttpReverseProxy\web.config $(ProjectDir) /y
+    <PreBuildEvent>REM xcopy $(SolutionDir)HttpReverseProxy\web.config $(ProjectDir) /y
 xcopy $(SolutionDir)HttpReverseProxy\Mapping.xml $(ProjectDir) /y
-powershell -file $(SolutionDir)PatchConfig.ps1 $(SolutionDir)$(ProjectName)\web.config</PreBuildEvent>
+REM powershell -file $(SolutionDir)PatchConfig.ps1 $(SolutionDir)$(ProjectName)\web.config</PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

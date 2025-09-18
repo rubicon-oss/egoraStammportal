@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace Egora.Stammportal.HttpReverseProxy.CertificateAuthentication
+namespace Egora.Stammportal.HttpReverseProxy.CustomAuthentication
 {
   [XmlRoot(Namespace = "http://www.egora.at/Stammportal/CertMap/1.0")]
   public class CertificateAuthenticationConfiguration
   {
     public string HeaderName;
+    public string SecClass;
 
     [XmlArray]
     [XmlArrayItem(Type = typeof(CertificateMapping))]
@@ -23,18 +24,18 @@ namespace Egora.Stammportal.HttpReverseProxy.CertificateAuthentication
 
       return mapping;
     }
-    public virtual (string, bool) GetUsername(string certThumbprint, string certSubject, string certIssuer)
+    public virtual (string userName, bool isAdmin, string secClass) GetUserInfo(string certThumbprint, string certSubject, string certIssuer)
     {
       foreach (var mapping in Mappings)
       {
         if (mapping.Thumbprint != null && mapping.Thumbprint.Equals(certThumbprint,StringComparison.InvariantCultureIgnoreCase))
-          return (mapping.UserName, mapping.IsAdmin);
+          return (mapping.UserName, mapping.IsAdmin, mapping.SecClass ?? SecClass);
 
         if (mapping.Subject != null && mapping.Subject == certSubject && mapping.Issuer != null && mapping.Issuer == certIssuer)
-          return (mapping.UserName, mapping.IsAdmin);
+          return (mapping.UserName, mapping.IsAdmin, mapping.SecClass ?? SecClass);
       }
 
-      return (null, false);
+      return (null, false, null);
     }
   }
   public class CertificateMapping
@@ -49,5 +50,7 @@ namespace Egora.Stammportal.HttpReverseProxy.CertificateAuthentication
     public string UserName;
     [XmlAttribute]
     public bool IsAdmin;
+    [XmlAttribute]
+    public string SecClass;
   }
 }

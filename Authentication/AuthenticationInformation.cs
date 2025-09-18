@@ -1,5 +1,6 @@
 ﻿using System;
-using System.IO;
+using System.Configuration;
+using System.Diagnostics;
 using System.Text;
 using System.Web;
 using System.Web.Security;
@@ -8,38 +9,54 @@ namespace Egora.Stammportal.Authentication
 {
   public class AuthenticationInformation
   {
+    internal static TraceSource Trace = new TraceSource("AuthenticationInformation");
+
     public int SecClass;
     public string UserName;
+    public bool IsAdmin;
 
     public HttpCookie ToCookie()
     {
       var cookieValue = ToBase64String();
 
-      var httpCookie = new HttpCookie(Settings.Default.LoginCookieName, cookieValue);
+      var cookieName = GetCookieName();
+      var httpCookie = new HttpCookie(cookieName, cookieValue);
 
+      Trace.TraceInformation("Created cookie with name " + cookieName);
       return httpCookie;
     }
 
+    public static string GetCookieName()
+    {
+      string value = ConfigurationManager.AppSettings["LoginCookieName"];
+      if (string.IsNullOrEmpty(value))
+        value = "StammportalLogin";
+      return value;
+    }
     public override string ToString()
     {
-      return $"{SecClass:D1}|{UserName}";
+      return $"{SecClass:D1}|{(IsAdmin ? "1" : "0")}|{UserName}";
     }
     public string ToBase64String()
     {
       var s = Encoding.UTF8.GetBytes(ToString());
       var ticket = MachineKey.Protect(s);
-      return System.Convert.ToBase64String(ticket); 
+      return System.Convert.ToBase64String(ticket);
     }
 
-    public static AuthenticationInformation FromCookie()
+    public static AuthenticationInformation FromCookie(HttpContext context)
     {
-      var cookie = HttpContext.Current.Request?.Cookies[Settings.Default.LoginCookieName];
+      var cookieName = GetCookieName();
+      var cookie = context.Request.Cookies[cookieName];
       if (cookie != null)
       {
         var cookieValue = cookie.Value;
+        Trace.TraceInformation("Retrieving cookie with name " + cookieName + " and value " + cookieValue);
         return FromBase64String(cookieValue);
       }
 
+      Trace.TraceEvent(TraceEventType.Error, 1, "There is no cookie with name " + cookieName);
+      context.Trace.Write("There is no cookie with name " + cookieName);
       return null;
     }
 
@@ -52,34 +69,38 @@ namespace Egora.Stammportal.Authentication
         if (decryptedValue != null)
         {
           var asString = Encoding.UTF8.GetString(decryptedValue);
-          if (asString.Length > 1 && int.TryParse(asString.Substring(0, 1), out var secClass))
+          if (asString.Length > 3
+              && int.TryParse(asString.Substring(0, 1), out var secClass)
+              && int.TryParse(asString.Substring(2, 1), out var isAdmin))
           {
-            var authInfo = new AuthenticationInformation() { SecClass = secClass, UserName = asString.Remove(0, 2) };
+            var authInfo = new AuthenticationInformation()
+            {
+              SecClass = secClass,
+              IsAdmin = isAdmin == 1,
+              UserName = asString.Remove(0, 4)
+            };
             return authInfo;
           }
         }
       }
 
+      Trace.TraceEvent(TraceEventType.Error, 2, "Could not decrypt value " + base64String);
+      HttpContext.Current.Trace.Write("Could not decrypt value " + base64String);
       return null;
     }
 
     public static HttpCookie GetDeletionCookie()
     {
-      var delCookie = new HttpCookie(Settings.Default.LoginCookieName);
+      var delCookie = new HttpCookie(GetCookieName());
       delCookie.Expires = new DateTime(1900, 1, 1);
       return delCookie;
     }
 
-    public static AuthenticationInformation LoginToFormsAuthentication()
+    public static AuthenticationInformation GetAndClearAuthenticationInformation(HttpContext context)
     {
-      var authInfo = AuthenticationInformation.FromCookie();
+      var authInfo = AuthenticationInformation.FromCookie(context);
       if (authInfo != null)
       {
-        var userData = $"SecClass={authInfo.SecClass};";
-        var ticket = new FormsAuthenticationTicket(1, authInfo.UserName, DateTime.Now, DateTime.Now.Add(FormsAuthentication.Timeout), false, userData);
-        var value = FormsAuthentication.Encrypt(ticket);
-        var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, value);
-        HttpContext.Current.Response.Cookies.Add(cookie);
         HttpContext.Current.Response.Cookies.Add(AuthenticationInformation.GetDeletionCookie());
       }
       return authInfo;

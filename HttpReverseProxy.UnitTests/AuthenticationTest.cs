@@ -11,7 +11,7 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
-using Egora.Stammportal.HttpReverseProxy.CertificateAuthentication;
+using Egora.Stammportal.HttpReverseProxy.CustomAuthentication;
 using Egora.Stammportal.HttpReverseProxy.Mapping;
 using Egora.Stammportal.HttpReverseProxy.UnitTests.Properties;
 using NUnit.Framework;
@@ -49,11 +49,11 @@ namespace Egora.Stammportal.HttpReverseProxy.UnitTests
       Assert.That(config, Is.Not.Null);
       Assert.That(config.Mappings.Length, Is.EqualTo(2));
       var cert = new X509Certificate2(File.ReadAllBytes("rubicon.eu.crt"));
-      var (userName, isAdmin) = config.GetUsername(null, cert.Subject, cert.Issuer);
+      var (userName, isAdmin, secClass) = config.GetUserInfo(null, cert.Subject, cert.Issuer);
       Assert.That(userName, Is.EqualTo("DerUser"));
       Assert.That(isAdmin, Is.False);
 
-      (userName, isAdmin) = config.GetUsername(cert.Thumbprint, null, null);
+      (userName, isAdmin, secClass) = config.GetUserInfo(cert.Thumbprint, null, null);
       Assert.That(userName, Is.EqualTo("DerAdmin"));
       Assert.That(isAdmin, Is.True);
     }
