@@ -26,10 +26,10 @@ namespace Egora.Stammportal.PvpIdentityProvider
       var partner = SAMLController.Configuration.GetPartnerServiceProvider(serviceProvider);
       var samlAttributes = GetSamlAttributes(partner, userName, out var pvpVersion, out var secClass, out var authnContext);
 
-      if (secClass >= 3)
+      if (secClass >= 3 && (!SecClassHelper.SecClass.HasValue || SecClassHelper.SecClass.Value<3))
       {
         // ToDo Check 2nd factor
-        throw new AuthorizationException($"SecClass {secClass} not yet supported.");
+        throw new AuthorizationException($"SecClass {secClass} required.");
       }
 
       string assertionConsumerServiceUrl = partner.AssertionConsumerServiceUrl;

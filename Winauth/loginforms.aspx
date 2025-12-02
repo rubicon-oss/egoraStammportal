@@ -11,16 +11,34 @@
     {
         if (Request.IsAuthenticated && Request.LogonUserIdentity != null && Request.LogonUserIdentity.Name != null)
         {
-            var auth = new AuthenticationInformation() { SecClass = 2, UserName = Request.LogonUserIdentity.Name };
-            var authCookie = auth.ToCookie();
+            string userData = "SecClass2";
+            if (Request.QueryString["SecClass"] == "3")
+            {
+                if (Request.ClientCertificate.IsPresent && Request.ClientCertificate.IsValid)
+                {
+                    userData = "SecClass3";
+                }
+                else
+                {
+                    Msg.Text = "Ein Client Zertifikat ist erforderlich für SecClass 3.";
+                    return;
+                }
+            }
+            var ticket = new FormsAuthenticationTicket(4, Request.LogonUserIdentity.Name, DateTime.UtcNow, DateTime.UtcNow + FormsAuthentication.Timeout,
+                        false, userData, FormsAuthentication.FormsCookiePath);
+
+            var encryptedTicket = FormsAuthentication.Encrypt(ticket);
+            var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+            authCookie.Path = FormsAuthentication.FormsCookiePath;
+            authCookie.HttpOnly = true;
             string secure = ConfigurationManager.AppSettings["LoginCookieSecure"];
-            if (secure == "true")
+            if (secure != null && secure.Equals("true", StringComparison.InvariantCultureIgnoreCase) && Request.IsSecureConnection)
                 authCookie.Secure = true;
             Response.Cookies.Add(authCookie);
 
             var url = Request.QueryString["ReturnUrl"];
             if (string.IsNullOrEmpty(url))
-                url = "Test.aspx";
+                url = "TestForms.aspx";
 
             Response.Redirect(url, true);
         }

@@ -42,6 +42,7 @@ namespace Egora.Stammportal.HttpReverseProxy.CustomAuthentication
           context.User = GetPrincipal(ticket);
 
           var newTicket = FormsAuthentication.RenewTicketIfOld(ticket);
+          context.Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
           if (newTicket != ticket)
             SetCookie(context, newTicket);
 
@@ -59,7 +60,7 @@ namespace Egora.Stammportal.HttpReverseProxy.CustomAuthentication
 
     protected void SetPrincipalAndCookie(HttpContext context, string userName, string userData)
     {
-      var ticket = new FormsAuthenticationTicket(1, userName, DateTime.UtcNow, DateTime.UtcNow + FormsAuthentication.Timeout,
+      var ticket = new FormsAuthenticationTicket(4, userName, DateTime.UtcNow, DateTime.UtcNow + FormsAuthentication.Timeout,
         false, userData, FormsAuthentication.FormsCookiePath);
       
       context.User = GetPrincipal(ticket);
@@ -68,7 +69,10 @@ namespace Egora.Stammportal.HttpReverseProxy.CustomAuthentication
 
     protected void SetCookie(HttpContext context, FormsAuthenticationTicket ticket)
     {
-      context.Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket)));
+      var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
+      authCookie.Path = FormsAuthentication.FormsCookiePath;
+      authCookie.HttpOnly = true;
+      context.Response.Cookies.Add(authCookie);
     }
 
     protected IPrincipal GetPrincipal(FormsAuthenticationTicket ticket)

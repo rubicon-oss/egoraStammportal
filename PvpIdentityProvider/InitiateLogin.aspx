@@ -28,22 +28,24 @@
                 }
                 catch (AuthorizationException authorizationException)
                 {
-                    MessageLabel.Text = $"Sie verfügen nicht über die erforderlichen Berechtigungen. Fehler: {authorizationException.Message} "
-                                        + $" User: {PvpSamlLoginHandler.GetUserName(Request)}, Applikation: {app}, Consumer: {config.AssertionConsumerServiceUrl}";
+                    MessageLabel.Text = "Sie verfügen nicht über die erforderlichen Berechtigungen. Fehler: " + authorizationException.Message
+                                        + " User: " + PvpSamlLoginHandler.GetUserName(Request) 
+                                        + ", Applikation: " + app 
+                                        + ", Consumer: " + config.AssertionConsumerServiceUrl;
                 }
                 catch (Exception exception)
                 {
-                    MessageLabel.Text = $"Es ist folgender Fehler aufgetreten: {exception.Message}";
+                    MessageLabel.Text = "Es ist folgender Fehler aufgetreten: " + exception.Message;
                 }
             }
             else
             {
-                MessageLabel.Text = $"Die Applikation '{app}' ist nicht konfiguriert.";
+                MessageLabel.Text = "Die Applikation '" + app + "' ist nicht konfiguriert.";
             }
         }
         else
         {
-            MessageLabel.Text = $"Der Parameter 'app' muss im QueryString übergeben werden.";
+            MessageLabel.Text = "Der Parameter 'app' muss im QueryString übergeben werden.";
         }
     }
 
@@ -58,7 +60,7 @@
         if (secClass >= 3)
         {
             //ToDO 2nd factor
-            throw new ApplicationException($"SecClass {secClass} not yet supported.");
+            throw new ApplicationException("SecClass " + secClass + " not yet supported.");
         }
         string relayState = null;
         SAMLIdentityProvider.InitiateSSO(Response, userName, attributes, authnContext, relayState, spConfig.Name, spConfig.AssertionConsumerServiceUrl);

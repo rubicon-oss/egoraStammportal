@@ -81,10 +81,9 @@ namespace Egora.Stammportal.HttpReverseProxy
       }
 
       if (_authorization != null 
-          && string.Compare(_authorization.SecClass, Settings.Default.AuthenticationCheckerThreshold, StringComparison.InvariantCultureIgnoreCase) >= 0 
-          && !string.IsNullOrWhiteSpace(Settings.Default.AuthenticationCheckerStartPath))
+          && string.Compare(_authorization.SecClass, Settings.Default.AuthenticationCheckerThreshold, StringComparison.InvariantCultureIgnoreCase) >= 0)
       {
-        _authentication.EnsureAuthentication();
+        _authentication.EnsureAuthentication(_authorization.SecClass);
       }
 
       HeaderTransformer headerTransformer = new HeaderTransformer(_leftSideRequest,

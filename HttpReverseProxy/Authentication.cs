@@ -195,21 +195,38 @@ namespace Egora.Stammportal.HttpReverseProxy
       return webResponse;
     }
 
-    public void EnsureAuthentication()
+    public void EnsureAuthentication(string secClass)
     {
       var cookie = _leftSideRequest.Cookies[Settings.Default.AuthenticationCookieName];
+      if (cookie == null) 
+        cookie = _leftSideRequest.Cookies[FormsAuthentication.FormsCookieName];
       if (cookie != null)
       {
         var ticket = FormsAuthentication.Decrypt(cookie.Value);
+        // oder _leftSideRequest.RequestContext?.HttpContext.User?.Identity is FormsIdentity id; id.Ticket
         if (ticket != null && ticket.Name == UserId && !ticket.Expired)
-          return;
+        {
+          var userSecClassIndex = ticket.UserData.IndexOf("SecClass", StringComparison.InvariantCultureIgnoreCase);
+          if (userSecClassIndex >= 0 && string.Compare(ticket.UserData.Substring(userSecClassIndex+8, 1),  secClass) >= 0)
+            return;
+        }
       }
+
+      if (_leftSideRequest.ClientCertificate.IsPresent && _leftSideRequest.ClientCertificate.IsValid)
+        return;
 
       StartCheck();
     }
 
     private void StartCheck()
     {
+      if (FormsAuthentication.IsEnabled)
+      {
+        FormsAuthentication.SignOut();
+        FormsAuthentication.RedirectToLoginPage("SecClass=3");
+        _leftSideRequest.RequestContext.HttpContext.Response.End();
+      }
+
       var startPath = GetAuthenticationCheckerStartPath(_leftSideRequest);
       startPath += startPath.Contains("?") ? "&" : "?";
       startPath += "ReturnUrl=" + System.Web.HttpUtility.UrlEncode(_leftSideRequest.Url.AbsoluteUri);
@@ -248,11 +265,11 @@ namespace Egora.Stammportal.HttpReverseProxy
       string userData)
     {
       var now = DateTime.Now;
-      FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(2, userId, now, now + new TimeSpan(Settings.Default.AuthenticationCheckerValidHours, 0, 0), false, userData);
+      FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(4, userId, now, now + new TimeSpan(Settings.Default.AuthenticationCheckerValidHours, 0, 0), false, userData);
       var value = FormsAuthentication.Encrypt(ticket);
       if (value.Length > 4 * 1024)
       {
-        ticket = new FormsAuthenticationTicket(2, userId, now, now + new TimeSpan(Settings.Default.AuthenticationCheckerValidHours, 0, 0), false, "TooLong");
+        ticket = new FormsAuthenticationTicket(4, userId, now, now + new TimeSpan(Settings.Default.AuthenticationCheckerValidHours, 0, 0), false, "TooLong");
         value = FormsAuthentication.Encrypt(ticket);
       }
       var authCookie = new HttpCookie(Settings.Default.AuthenticationCookieName, value);

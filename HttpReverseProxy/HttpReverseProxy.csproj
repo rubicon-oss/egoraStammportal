@@ -100,7 +100,6 @@
     <Compile Include="Administration\Reset.aspx.designer.cs">
       <DependentUpon>Reset.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CustomAuthentication\SubApplicationAuthenticationModule.cs" />
     <Compile Include="CustomAuthentication\CertificateAuthenticationModule.cs" />
     <Compile Include="CustomAuthentication\CertificateAuthenticationConfiguration.cs" />
     <Compile Include="CustomAuthentication\CustomAuthenticationModuleBase.cs" />

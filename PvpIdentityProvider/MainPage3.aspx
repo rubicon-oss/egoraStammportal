@@ -13,13 +13,9 @@
         if (SAMLController.Configuration == null)
             SAMLController.Initialize();
         var s = new XmlSerializer(typeof(EntityConfiguration));
-        EntityConfiguration config;
-        using (var reader = File.OpenText("Entities2.xml"))
-        {
-            config = (EntityConfiguration) s.Deserialize(reader);
-        }
+        var config = (EntityConfiguration) s.Deserialize(File.OpenText("Entities3.xml"));
         var entities = config.Entities.ToList();
-
+        
         if (SAMLController.Configuration != null
             && SAMLController.Configuration.PartnerServiceProviderConfigurations != null
             && SAMLController.Configuration.PartnerServiceProviderConfigurations.Count > 0)
@@ -31,12 +27,18 @@
                 {
                     if (entity.SecClass >= 3)
                     {
-                        if (!SecClassHelper.SecClass.HasValue || SecClassHelper.SecClass < 3)
+                        if (!SecClassHelper.SecClass.HasValue )
+                        {
+                            Response.Redirect("Login3.aspx?RedirectUrl=MainPage.aspx");
+                            Response.End();
+                        }
+                            
+                        if (SecClassHelper.SecClass < 3)
                             continue;
                     }
-
+                    
                     ServiceProviderDropDown.Items.Add(new ListItem(
-                        string.IsNullOrEmpty(entity.FriendlyName) ? serviceProviderConfiguration.Name : entity.FriendlyName,
+                        string.IsNullOrEmpty(entity.FriendlyName) ? serviceProviderConfiguration.Name : entity.FriendlyName, 
                         serviceProviderConfiguration.AssertionConsumerServiceUrl));
                 }
             }
@@ -45,26 +47,10 @@
 
     protected void LoginButton_Click(object sender, EventArgs e)
     {
-        var s = new XmlSerializer(typeof(EntityConfiguration));
-        EntityConfiguration config;
-        using (var reader = File.OpenText("Entities2.xml"))
-        {
-            config = (EntityConfiguration) s.Deserialize(reader);
-        }
-        var entities = config.Entities.ToList();
-
         var spName = ServiceProviderDropDown.SelectedItem.Value;
         var spConfig = SAMLController.Configuration.PartnerServiceProviderConfigurations
             .First(sp => sp.AssertionConsumerServiceUrl.Equals(spName));
 
-        var url = entities.First(entity => entity.EntityID == spConfig.Name).SpInitiatedUrl;
-        if (!string.IsNullOrEmpty(url))
-        {
-            Response.Redirect(url);
-            Response.End();
-        }
-
-        
         try
         {
             InitiateLogin(spConfig);
@@ -83,7 +69,7 @@
         string authnContext;
         var attributes = PvpSamlLoginHandler.GetSamlAttributes(spConfig, userName, out pvpVersion, out secClass, out authnContext);
 
-        if (secClass >= 3)
+        if (secClass >= 3 && (!SecClassHelper.SecClass.HasValue || SecClassHelper.SecClass < secClass))
         {
             //ToDO 2nd factor
             throw new ApplicationException("SecClass " + secClass + "not yet supported.");

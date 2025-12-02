@@ -72,7 +72,7 @@ namespace Egora.Stammportal.HttpReverseProxy.CustomAuthentication
 
     protected virtual string EvaluateUserName(NameValueCollection headers, string userName)
     {
-      if (userName.Substring(0, 7) == "$[HTTP_" && userName.Substring(userName.Length - 1, 1) == "]")
+      if (userName.StartsWith("$[HTTP_") && userName.EndsWith("]"))
       {
         userName = headers[userName.Substring(7, userName.Length - 8)];
       }

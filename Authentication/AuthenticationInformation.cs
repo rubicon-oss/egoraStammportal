@@ -21,6 +21,7 @@ namespace Egora.Stammportal.Authentication
 
       var cookieName = GetCookieName();
       var httpCookie = new HttpCookie(cookieName, cookieValue);
+      httpCookie.HttpOnly = true;
 
       Trace.TraceInformation("Created cookie with name " + cookieName);
       return httpCookie;
